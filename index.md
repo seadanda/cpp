@@ -1,9 +1,5 @@
 ---
 title: Object Oriented Programming
-output:
-  html_document:
-    toc: true
-    toc_float: true
 ---
 
 # Object Oriented Programming
