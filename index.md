@@ -1,37 +1,51 @@
-## Object Oriented Programming
+# Object Oriented Programming
+## An alternative to Blackboard
 
-You can use the [editor on GitHub](https://github.com/seadanda/cpp/edit/master/index.md) to maintain and preview the content for your website in Markdown files.
 
-Whenever you commit to this repository, GitHub Pages will run [Jekyll](https://jekyllrb.com/) to rebuild the pages in your site, from the content in your Markdown files.
+## Weeks 1-8 {.tabset}
+### Week 1
+[Prelecture 1](http://theory.physics.manchester.ac.uk/~mccsnrw/cplusplus/PreLecture1.pdf)
+[Lecture 1](http://theory.physics.manchester.ac.uk/~mccsnrw/cplusplus/Lecture1.pdf)
+[Assignment 1](http://theory.physics.manchester.ac.uk/~mccsnrw/cplusplus/Assignment1.html)
 
-### Markdown
 
-Markdown is a lightweight and easy-to-use syntax for styling your writing. It includes conventions for
+### Week 2
+[Prelecture 2](http://theory.physics.manchester.ac.uk/~mccsnrw/cplusplus/PreLecture2.pdf)
+[Lecture 2](http://theory.physics.manchester.ac.uk/~mccsnrw/cplusplus/Lecture2.pdf)
+[Assignment 2](http://theory.physics.manchester.ac.uk/~mccsnrw/cplusplus/Assignment2.html)
 
-```markdown
-Syntax highlighted code block
 
-# Header 1
-## Header 2
-### Header 3
+### Week 3
+[Prelecture 3](http://theory.physics.manchester.ac.uk/~mccsnrw/cplusplus/PreLecture3.pdf)
+[Lecture 3](http://theory.physics.manchester.ac.uk/~mccsnrw/cplusplus/Lecture3.pdf)
+[Assignment 3](http://theory.physics.manchester.ac.uk/~mccsnrw/cplusplus/Assignment3.html)
 
-- Bulleted
-- List
 
-1. Numbered
-2. List
+### Week 4
+[Prelecture 4](http://theory.physics.manchester.ac.uk/~mccsnrw/cplusplus/PreLecture4.pdf)
+[Lecture 4](http://theory.physics.manchester.ac.uk/~mccsnrw/cplusplus/Lecture4.pdf)
+[Assignment 4](http://theory.physics.manchester.ac.uk/~mccsnrw/cplusplus/Assignment4.html)
 
-**Bold** and _Italic_ and `Code` text
 
-[Link](url) and ![Image](src)
-```
+### Week 5
+[Prelecture 5](http://theory.physics.manchester.ac.uk/~mccsnrw/cplusplus/PreLecture5.pdf)
+[Lecture 5](http://theory.physics.manchester.ac.uk/~mccsnrw/cplusplus/Lecture5.pdf)
+[Assignment 5](http://theory.physics.manchester.ac.uk/~mccsnrw/cplusplus/Assignment5.html)
 
-For more details see [GitHub Flavored Markdown](https://guides.github.com/features/mastering-markdown/).
 
-### Jekyll Themes
+### Week 6
+[Prelecture 6](http://theory.physics.manchester.ac.uk/~mccsnrw/cplusplus/PreLecture6.pdf)
+[Lecture 6](http://theory.physics.manchester.ac.uk/~mccsnrw/cplusplus/Lecture6.pdf)
+[Assignment 5](http://theory.physics.manchester.ac.uk/~mccsnrw/cplusplus/Assignment6.html)
 
-Your Pages site will use the layout and styles from the Jekyll theme you have selected in your [repository settings](https://github.com/seadanda/cpp/settings). The name of this theme is saved in the Jekyll `_config.yml` configuration file.
 
-### Support or Contact
+### Week 7
+[Prelecture 7](http://theory.physics.manchester.ac.uk/~mccsnrw/cplusplus/PreLecture7.pdf)
+[Lecture 7](http://theory.physics.manchester.ac.uk/~mccsnrw/cplusplus/Lecture7.pdf)
+[Assignment 7](http://theory.physics.manchester.ac.uk/~mccsnrw/cplusplus/Assignment7.html)
 
-Having trouble with Pages? Check out our [documentation](https://help.github.com/categories/github-pages-basics/) or [contact support](https://github.com/contact) and we’ll help you sort it out.
+
+### Week 8
+[Prelecture 8](http://theory.physics.manchester.ac.uk/~mccsnrw/cplusplus/PreLecture8.pdf)
+[Lecture 8](http://theory.physics.manchester.ac.uk/~mccsnrw/cplusplus/Lecture8.pdf)
+[Assignment 8](http://theory.physics.manchester.ac.uk/~mccsnrw/cplusplus/Assignment8.html)
