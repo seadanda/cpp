@@ -5,7 +5,7 @@
     <meta charset='utf-8'>
     <meta http-equiv="X-UA-Compatible" content="chrome=1">
     <meta name="viewport" content="width=device-width,maximum-scale=2">
-    <meta name="description" content="{{ site.title | default: "Object Oriented Programming" }} : {{ site.description | default: "No faff access to course content." }}">
+    <meta name="description" content="{{ site.title | default: "Object Oriented Programming" }} : {{ site.description | default: site.github.project_tagline }}">
 
     <link rel="stylesheet" type="text/css" media="screen" href="{{ '/assets/css/style.css?v=' | append: site.github.build_revision | relative_url }}">
 
@@ -17,11 +17,11 @@
     <!-- HEADER -->
     <div id="header_wrap" class="outer">
         <header class="inner">
-          <h1 id="project_title">{{ site.title | default: site.github.repository_name }}</h1>
-          <h2 id="project_tagline">{{ site.description | default: site.github.project_tagline }}</h2>
+          <h1 id="project_title">{{ site.title | default: "Object Oriented Programming" }}</h1>
+          <h2 id="project_tagline">{{ site.description | default: "No faff access to course content." }}</h2>
           <section id="downloads">
-            <a class="zip_download_link" href="{{ site.github.zip_url }}">Download this project as a .zip file</a>
-            <a class="tar_download_link" href="{{ site.github.tar_url }}">Download this project as a tar.gz file</a>
+            <a class="tab" href="{{ site.github.zip_url }}">Download this project as a .zip file</a>
+            <a class="tab" href="{{ /assignments.html }}">Assignments</a>
           </section>
         </header>
     </div>
