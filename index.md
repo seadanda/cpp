@@ -10,7 +10,7 @@ output:
 ## An alternative to Blackboard
 
 
-## Weeks 1-8 {.tabset}
+## Weeks 1-8
 ### Week 1
 [Prelecture 1](http://theory.physics.manchester.ac.uk/~mccsnrw/cplusplus/PreLecture1.pdf)
 [Lecture 1](http://theory.physics.manchester.ac.uk/~mccsnrw/cplusplus/Lecture1.pdf)
