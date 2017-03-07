@@ -1,26 +1,26 @@
 ## Weeks 1-8
-~~ ### Week 1
-[Prelecture 1](http://theory.physics.manchester.ac.uk/~mccsnrw/cplusplus/PreLecture1.pdf)
+### ~~Week 1~~
+~~[Prelecture 1](http://theory.physics.manchester.ac.uk/~mccsnrw/cplusplus/PreLecture1.pdf)
 [Lecture 1](http://theory.physics.manchester.ac.uk/~mccsnrw/cplusplus/Lecture1.pdf)
-[Assignment 1](http://theory.physics.manchester.ac.uk/~mccsnrw/cplusplus/Assignment1.html)
+[Assignment 1](http://theory.physics.manchester.ac.uk/~mccsnrw/cplusplus/Assignment1.html)~~
 
 
-### Week 2
-[Prelecture 2](http://theory.physics.manchester.ac.uk/~mccsnrw/cplusplus/PreLecture2.pdf)
+### ~~Week 2~~
+~~[Prelecture 2](http://theory.physics.manchester.ac.uk/~mccsnrw/cplusplus/PreLecture2.pdf)
 [Lecture 2](http://theory.physics.manchester.ac.uk/~mccsnrw/cplusplus/Lecture2.pdf)
-[Assignment 2](http://theory.physics.manchester.ac.uk/~mccsnrw/cplusplus/Assignment2.html)
+[Assignment 2](http://theory.physics.manchester.ac.uk/~mccsnrw/cplusplus/Assignment2.html)~~
 
 
-### Week 3
-[Prelecture 3](http://theory.physics.manchester.ac.uk/~mccsnrw/cplusplus/PreLecture3.pdf)
+### ~~Week 3~~
+~~[Prelecture 3](http://theory.physics.manchester.ac.uk/~mccsnrw/cplusplus/PreLecture3.pdf)
 [Lecture 3](http://theory.physics.manchester.ac.uk/~mccsnrw/cplusplus/Lecture3.pdf)
-[Assignment 3](http://theory.physics.manchester.ac.uk/~mccsnrw/cplusplus/Assignment3.html)
+[Assignment 3](http://theory.physics.manchester.ac.uk/~mccsnrw/cplusplus/Assignment3.html)~~
 
 
-### Week 4
-[Prelecture 4](http://theory.physics.manchester.ac.uk/~mccsnrw/cplusplus/PreLecture4.pdf)
+### ~~Week 4~~
+~~[Prelecture 4](http://theory.physics.manchester.ac.uk/~mccsnrw/cplusplus/PreLecture4.pdf)
 [Lecture 4](http://theory.physics.manchester.ac.uk/~mccsnrw/cplusplus/Lecture4.pdf)
-[Assignment 4](http://theory.physics.manchester.ac.uk/~mccsnrw/cplusplus/Assignment4.html) ~~
+[Assignment 4](http://theory.physics.manchester.ac.uk/~mccsnrw/cplusplus/Assignment4.html)~~
 
 
 ### Week 5
