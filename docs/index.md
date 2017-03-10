@@ -32,7 +32,7 @@
 ### Week 6
 [Prelecture 6](http://theory.physics.manchester.ac.uk/~mccsnrw/cplusplus/PreLecture6.pdf)
 [Lecture 6](http://theory.physics.manchester.ac.uk/~mccsnrw/cplusplus/Lecture6.pdf)
-[Assignment 5](http://theory.physics.manchester.ac.uk/~mccsnrw/cplusplus/Assignment6.html)
+[Assignment 6](http://theory.physics.manchester.ac.uk/~mccsnrw/cplusplus/Assignment6.html)
 
 
 ### Week 7
