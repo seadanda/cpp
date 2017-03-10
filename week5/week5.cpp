@@ -12,7 +12,7 @@ class complx // class for complex numbers
 {
   // friends of the class
   friend ostream &operator<<(ostream &outs, const complx &z);
-  friend complx operator>>(istream &ins, const complx &z);
+  friend complx operator>>(istream &ins, complx &z);
 
 private:
   // member data
@@ -129,6 +129,8 @@ complx operator>>(istream &ins, complx &z) // define istream behaviour
     ins.ignore();
   }
 
+  // a+ib a-ib
+  // a+bi a-bi
   // set value of real part
   z.set_real(re);
 
