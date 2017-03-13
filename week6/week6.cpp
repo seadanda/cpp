@@ -41,6 +41,9 @@ public:
   matrix operator+(const matrix &mat2) const; // addition
   matrix operator-(const matrix &mat2) const; // subtraction
   matrix operator*(const matrix &mat2) const; // multiplication
+
+  // assignment operator
+  matrix &operator=(const matrix &mat2);
 };
 
 // parametrised constructor
@@ -145,6 +148,28 @@ matrix matrix::operator*(const matrix &mat2) const // return product
   }
 }
 
+// overload = operator to define how matrices are assigned
+matrix &matrix::operator=(const matrix &mat2) // assignment
+{
+  // no self assignment
+  if (&mat2 == this)
+    return *this;
+
+  // delete old array and change member data
+  delete[] data;
+  m = mat2.m;
+  n = mat2.n;
+
+  // make and fill new array
+  data = new double[mat2.get_size()];
+  for (int i = 0; i < m; i++) {
+    for (int j = 0; j < n; j++) {
+      data[(j + i * n)] = mat2.data[(j + i * n)];
+    }
+  }
+  return *this;
+}
+
 // overload << operator to define how a matrix is written
 ostream &operator<<(ostream &os, const matrix &mat1) {
   // loop through the array and dump the matrix elements to the stream
@@ -235,7 +260,6 @@ int main() {
   cout << "Enter A2 as a space-separated list (" << row << "x" << col << " so "
        << row * col << " values): ";
   cin >> a1; // fill matrix
-  cout << a1;
 
   cout << "Enter the dimensions of the second matrix A2 (MxN): ";
   cin >> row;
@@ -245,29 +269,23 @@ int main() {
   cout << "Enter A2 as a space-separated list (" << row << "x" << col << " so "
        << row * col << " values): ";
   cin >> a2; // fill matrix
-  cout << a2;
+
+  // print both matrices
+  cout << "A1 =\n" << a1 << endl << "A2 =\n" << a2 << endl;
 
   // show off overloaded +-* functions
   if ((a1.get_m() == a2.get_m()) && (a1.get_n() == a2.get_n())) {
-    // matrices the same dimensions, multiplication impossible
-    // therefore do addition and subtraction first
-    cout << "A1 =\n" << a1 << endl << "A2 =\n" << a2 << endl;
-    // addition
-    cout << "A1 + A2 =\n" << (a1 + a2) << endl;
-    // subtraction
-    cout << "A1 - A2 =\n" << a1 - a2 << endl;
-    // multiplication
-    cout << "A1 * A2 =\n" << a1 * a2 << endl;
+    // matrices the same dimensions, do addition and subtraction first
+    // multiplication might be impossible
+    cout << "A1 + A2 =\n" << (a1 + a2) << endl; // addition
+    cout << "A1 - A2 =\n" << a1 - a2 << endl;   // subtraction
+    cout << "A1 * A2 =\n" << a1 * a2 << endl;   // multiplication
   } else {
     // not the same dimensions, addition and subtraction are impossible
     // therefore do multiplication first
-    cout << "A1 =\n" << a1 << endl << "A2 =\n" << a2 << endl;
-    // multiplication
-    cout << "A1 * A2 =\n" << a1 * a2 << endl;
-    // addition
-    cout << "A1 + A2 =\n" << (a1 + a2) << endl;
-    // subtraction
-    cout << "A1 - A2 =\n" << a1 - a2 << endl;
+    cout << "A1 * A2 =\n" << a1 * a2 << endl;   // multiplication
+    cout << "A1 + A2 =\n" << (a1 + a2) << endl; // addition
+    cout << "A1 - A2 =\n" << a1 - a2 << endl;   // subtraction
   }
 
   // exit
