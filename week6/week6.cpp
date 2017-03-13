@@ -32,15 +32,17 @@ public:
   }
 
   // destructor - free up memory
-  ~matrix() { delete[] data; }
+  //~matrix() { delete[] data; }
 
   // accessors
   int get_m() const { return m; }
   int get_n() const { return n; }
-  double get_element(const int i, const int j) const { return data[j + i * n]; }
+  double get_element(const int &i, const int &j) const {
+    return data[j + i * n];
+  }
 
   // modifiers
-  void set_element(const int i, const int j, const double value);
+  void set_element(const int &i, const int &j, const double &value);
 
   // overloaded operators
   matrix operator+(const matrix &mat2) const; // addition
@@ -49,7 +51,7 @@ public:
 };
 
 // set an element in the matrix
-void matrix::set_element(const int i, const int j, const double value) {
+void matrix::set_element(const int &i, const int &j, const double &value) {
   // put value into the i,j element of matrix array
   data[(j + i * n)] = value;
 }
@@ -63,8 +65,9 @@ matrix matrix::operator+(const matrix &mat2) const // return sum
     double sum;
     for (int i = 0; i < m; i++) {
       for (int j = 0; j < n; j++) {
-        sum = data[(j + i * n)] + mat2.data[(j + i * n)];
-        temp.data[(j + i * n)] = sum;
+        sum = get_element(i, j) + mat2.get_element(i, j);
+        temp.set_element(i, j, sum);
+        cout << sum << endl;
       }
     }
     return temp;
@@ -79,11 +82,12 @@ matrix matrix::operator-(const matrix &mat2) const // return difference
   if ((m == mat2.m) && (n == mat2.n)) {
     // same dimensions - perform subtraction
     matrix temp{m, n};
-    double sum;
+    double diff;
     for (int i = 0; i < m; i++) {
       for (int j = 0; j < n; j++) {
-        sum = data[(j + i * n)] - mat2.data[(j + i * n)];
-        temp.data[(j + i * n)] = sum;
+        diff = get_element(i, j) - mat2.get_element(i, j);
+        temp.set_element(i, j, diff);
+        cout << diff << endl;
       }
     }
     return temp;
@@ -168,10 +172,27 @@ istream &operator>>(istream &ins, matrix &mat1) {
 }
 
 int main() {
+  // define two matrices and add them, subtract them and then multiply them
+  matrix a1{2, 2};
+  matrix a2{2, 2};
+  cout << "enter 4 values for A1: ";
+  cin >> a1;
+  cout << "enter 4 values for A2: ";
+  cin >> a2;
+  cout << "A1 =\n"
+       << a1 << endl
+       << "A2 =\n"
+       << a2 << endl
+       << "A1 + A2 =\n"
+       << (a1 + a2) << endl
+       << "A1 - A2 =\n"
+       << a1 - a2 << endl
+       << "A1 * A2 =\n"
+       << a1 * a2 << endl;
+
   // use parametrised constructor and print out its default values
   matrix m1{3, 3};
-  cout << "Default values of parametrised constructor:\n";
-  cout << m1;
+  cout << "Default values of parametrised constructor:\n" << m1;
 
   // create matrix
   int row, col; // for reading in rows and columns
@@ -185,7 +206,6 @@ int main() {
   cout << "Enter the " << row << "x" << col
        << " matrix as a space-separated list.\n";
   cin >> m2;
-  cout << "The matrix A2:\n";
-  cout << m2;
+  cout << "The matrix A2:\n" << m2;
   return 0;
 }
