@@ -43,19 +43,62 @@ public:
   void set_element(const int i, const int j, const double value);
 
   // overloaded operators
-  matrix operator*(const matrix &mat2) const;
+  matrix operator+(const matrix &mat2) const; // addition
+  matrix operator-(const matrix &mat2) const; // subtraction
+  matrix operator*(const matrix &mat2) const; // multiplication
 };
 
+// set an element in the matrix
 void matrix::set_element(const int i, const int j, const double value) {
   // put value into the i,j element of matrix array
   data[(j + i * n)] = value;
 }
 
+// overload + operator to define matrix addition
+matrix matrix::operator+(const matrix &mat2) const // return sum
+{
+  if ((m == mat2.m) && (n == mat2.n)) {
+    // same dimensions - perform addition
+    matrix temp{m, n};
+    double sum;
+    for (int i = 0; i < m; i++) {
+      for (int j = 0; j < n; j++) {
+        sum = data[(j + i * n)] + mat2.data[(j + i * n)];
+        temp.data[(j + i * n)] = sum;
+      }
+    }
+    return temp;
+  } else {
+    cerr << "Matrix addition not possible with these two matrices.\n";
+  }
+}
+
+// overload - operator to define matrix subtraction
+matrix matrix::operator-(const matrix &mat2) const // return difference
+{
+  if ((m == mat2.m) && (n == mat2.n)) {
+    // same dimensions - perform subtraction
+    matrix temp{m, n};
+    double sum;
+    for (int i = 0; i < m; i++) {
+      for (int j = 0; j < n; j++) {
+        sum = data[(j + i * n)] - mat2.data[(j + i * n)];
+        temp.data[(j + i * n)] = sum;
+      }
+    }
+    return temp;
+  } else {
+    cerr << "Matrix subtraction not possible with these two matrices.\n";
+  }
+}
+
 // overload * operator to define matrix multiplication
-matrix matrix::operator*(const matrix &mat2) const {
+matrix matrix::operator*(const matrix &mat2) const // return product
+{
   if (n == mat2.m) {
     // matrix multiplication is possible
     matrix temp{m, mat2.n}; // creat mat1.row x mat2.col matrix
+    return temp;
   } else {
     cerr << "Matrix multiplication not possible with these two matrices.\n";
   }
@@ -66,27 +109,42 @@ ostream &operator<<(ostream &os, const matrix &mat1) {
   // loop through the array and dump the matrix elements to the stream
   for (int i = 0; i < mat1.m; i++) {
     for (int j = 0; j < mat1.n; j++) {
-      if ((i == 0) && (j == 0)) {
-        // insert top left bracket
-        os << " / " << setprecision(3) << mat1.data[j + i * mat1.n] << " ";
-      } else if ((i == 0) && (j == (mat1.n - 1))) {
-        // insert top right bracket
-        os << " " << setprecision(3) << mat1.data[j + i * mat1.n] << " \\";
-      } else if ((i == (mat1.m - 1)) && (j == 0)) {
-        // insert bottom left bracket
-        os << " \\ " << setprecision(3) << mat1.data[j + i * mat1.n] << " ";
-      } else if ((i == (mat1.m - 1)) && (j == (mat1.n - 1))) {
-        // insert bottom right bracket
-        os << " " << setprecision(3) << mat1.data[j + i * mat1.n] << " /";
-      } else if (j == 0) {
-        // insert left bracket
-        os << "|  " << setprecision(3) << mat1.data[j + i * mat1.n] << " ";
-      } else if (j == (mat1.n - 1)) {
-        // insert right bracket
-        os << " " << setprecision(3) << mat1.data[j + i * mat1.n] << "  |";
+      if (mat1.m == 1) {
+        // only one row, use normal brackets
+        if (j == 0) {
+          // insert left bracket
+          os << "( " << setprecision(3) << mat1.data[j + i * mat1.n] << " ";
+        } else if (j == (mat1.n - 1)) {
+          // insert right bracket
+          os << " " << setprecision(3) << mat1.data[j + i * mat1.n] << " )";
+        } else {
+          // no brackets
+          os << " " << setprecision(3) << mat1.data[j + i * mat1.n] << " ";
+        }
       } else {
-        // no brackets
-        os << " " << setprecision(3) << mat1.data[j + i * mat1.n] << " ";
+        // more than one row, make big brackets around the whole matrix
+        if ((i == 0) && (j == 0)) {
+          // insert top left bracket
+          os << " / " << setprecision(3) << mat1.data[j + i * mat1.n] << " ";
+        } else if ((i == 0) && (j == (mat1.n - 1))) {
+          // insert top right bracket
+          os << " " << setprecision(3) << mat1.data[j + i * mat1.n] << " \\";
+        } else if ((i == (mat1.m - 1)) && (j == 0)) {
+          // insert bottom left bracket
+          os << " \\ " << setprecision(3) << mat1.data[j + i * mat1.n] << " ";
+        } else if ((i == (mat1.m - 1)) && (j == (mat1.n - 1))) {
+          // insert bottom right bracket
+          os << " " << setprecision(3) << mat1.data[j + i * mat1.n] << " /";
+        } else if (j == 0) {
+          // insert left bracket
+          os << "|  " << setprecision(3) << mat1.data[j + i * mat1.n] << " ";
+        } else if (j == (mat1.n - 1)) {
+          // insert right bracket
+          os << " " << setprecision(3) << mat1.data[j + i * mat1.n] << "  |";
+        } else {
+          // no brackets
+          os << " " << setprecision(3) << mat1.data[j + i * mat1.n] << " ";
+        }
       }
     }
     os << endl;
