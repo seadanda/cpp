@@ -16,15 +16,17 @@ class matrix // matrix class
 
 private:
   // member data
-  int m;        // number of rows
-  int n;        // number of columns
-  double *data; // pointer to array where matrix elements are stored
+  int m;           // number of rows
+  int n;           // number of columns
+  double *data{0}; // pointer to array where matrix elements are stored
 
 public:
   // parametrised constructor
   matrix(const int row, const int col);
   // copy constructor
   matrix(const matrix &mat1);
+  // move constructor
+  matrix(matrix &&mat1);
   // destructor - free up memory
   ~matrix() { delete[] data; }
 
@@ -49,6 +51,10 @@ public:
 // parametrised constructor
 matrix::matrix(const int row, const int col) : m{row}, n{col} {
   // create matrix of the specified size and fill with zeroes
+  if (m + n < 2) {
+    cerr << "Fatal error: cannot initialise a 0 dimensional matrix\n";
+    exit(1);
+  }
   data = new double[(n + m * n)];
   for (int i = 0; i < m; i++) {
     for (int j = 0; j < n; j++) {
@@ -59,6 +65,10 @@ matrix::matrix(const int row, const int col) : m{row}, n{col} {
 
 // copy constructor
 matrix::matrix(const matrix &mat1) : m{mat1.m}, n{mat1.n} {
+  if (m + n < 2) {
+    cerr << "Fatal error: cannot initialise a 0 dimensional matrix\n";
+    exit(1);
+  }
   // create matrix of the same size and copy other array over
   data = new double[mat1.get_size()];
   for (int i = 0; i < m; i++) {
@@ -66,6 +76,18 @@ matrix::matrix(const matrix &mat1) : m{mat1.m}, n{mat1.n} {
       data[(j + i * n)] = mat1.data[(j + i * n)];
     }
   }
+}
+
+// move constructor
+matrix::matrix(matrix &&mat1) : data{mat1.data}, m{mat1.m}, n{mat1.n} {
+  if (m + n < 2) {
+    cerr << "Fatal error: cannot initialise a 0 dimensional matrix\n";
+    exit(1);
+  }
+  // reset mat1
+  mat1.data = 0;
+  mat1.m = 0;
+  mat1.n = 0;
 }
 
 // access an element in the matrix
