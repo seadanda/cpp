@@ -22,23 +22,16 @@ private:
 
 public:
   // parametrised constructor
-  matrix(const int row, const int col) : m{row}, n{col} {
-    // create matrix of the specified size and fill with zeroes
-    data = new double[(n + m * n)];
-    for (int i = 0; i < m; i++) {
-      for (int j = 0; j < n; j++) {
-        data[(j + i * n)] = 0;
-      }
-    }
-  }
-
+  matrix(const int row, const int col);
+  // copy constructor
+  matrix(const matrix &mat1);
   // destructor - free up memory
-  //~matrix() { delete[] data; } // ruins multiplication and throws lots of
-  // nasty errors
+  ~matrix() { delete[] data; }
 
   // accessors
   int get_m() const { return m; }
   int get_n() const { return n; }
+  int get_size() const { return n + n * m; }
   double get_element(const int &i, const int &j) const;
 
   // modifiers
@@ -49,6 +42,28 @@ public:
   matrix operator-(const matrix &mat2) const; // subtraction
   matrix operator*(const matrix &mat2) const; // multiplication
 };
+
+// parametrised constructor
+matrix::matrix(const int row, const int col) : m{row}, n{col} {
+  // create matrix of the specified size and fill with zeroes
+  data = new double[(n + m * n)];
+  for (int i = 0; i < m; i++) {
+    for (int j = 0; j < n; j++) {
+      data[(j + i * n)] = 0;
+    }
+  }
+}
+
+// copy constructor
+matrix::matrix(const matrix &mat1) : m{mat1.m}, n{mat1.n} {
+  // create matrix of the same size and copy other array over
+  data = new double[mat1.get_size()];
+  for (int i = 0; i < m; i++) {
+    for (int j = 0; j < n; j++) {
+      data[(j + i * n)] = mat1.data[(j + i * n)];
+    }
+  }
+}
 
 // access an element in the matrix
 double matrix::get_element(const int &i, const int &j) const {
