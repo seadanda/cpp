@@ -10,69 +10,83 @@ class matrix // matrix class
 {
   // friends of the class
   friend ostream &operator<<(ostream &os, const matrix &mat1); // ostreams
-  friend matrix operator>>(istream &ins, matrix &mat1);        // istreams
+  friend istream &operator>>(istream &ins, matrix &mat1);      // istreams
 
 private:
   // member data
-  int row;     // number of rows
-  int col;     // number of columns
+  int m;       // number of rows
+  int n;       // number of columns
   double *mat; // pointer to array where matrix is stored
 
 public:
   // default constructor
-  matrix() : row{3}, col{3} {
-    mat = new double[(col + row * row)];
-    // create 3x3 identity matrix
-    for (int i = 0; i < row; i++) {
-      for (int j = 0; j < col; j++) {
+  matrix() : m{3}, n{3} {}
+
+  // parametrised constructor
+  matrix(const int row, const int col) : m{row}, n{col} {
+    // create matrix of the specified size with a leading diagonal of 1s
+    mat = new double[(m + m * n)];
+    for (int i = 0; i < m; i++) {
+      for (int j = 0; j < n; j++) {
         if (j == i) {
-          mat[(j + i * row)] = 1;
+          // element lies on leading diagonal
+          mat[(j + i * n)] = 1;
         } else {
-          mat[(j + i * row)] = 0;
+          // element is off-diagonal
+          mat[(j + i * n)] = 0;
         }
       }
     }
   }
-  // parametrised constructor
-  // matrix(int n, int m) : row{n}, col{m} {}
-  // destructor
+
+  // destructor - free up memory
   ~matrix() { delete[] mat; }
 
   // accessors
-  int get_col() const { return col; }
-  int get_row() const { return row; }
-  int get_element(const int m, const int n) const;
+  int get_m() const { return m; }
+  int get_n() const { return n; }
+  int get_element(const int row, const int col) const;
 
   // modifiers
-  void set_col(const int m) { col = m; }
-  void set_row(const int n) { row = n; }
+  void create(const int row, const int col) {
+    mat = new double[(row + row * col)];
+    for (int i = 0; i < row; i++) {
+      for (int j = 0; j < col; j++) {
+        if (j == i) {
+          // element lies on leading diagonal
+          mat[(j + i * col)] = 1;
+        } else {
+          // element is off-diagonal
+          mat[(j + i * col)] = 0;
+        }
+      }
+    }
+  }
 
   // overloaded operators
   matrix operator*(const matrix &mat2) const;
 };
 
 // get element of matrix
-int matrix::get_element(const int m, const int n) const {
-  return mat[m + n * row];
+int matrix::get_element(const int i, const int j) const {
+  return mat[j + i * n];
 }
 
 // overload << operator to define matrix multiplication
 matrix matrix::operator*(const matrix &mat2) const {
-  if
-    row = mat2.get_col() {
-      // matrix multiplication is possible
-      matrix temp{col, mat2.get_row()};
-    }
-  else {
+  if (n == mat2.m) {
+    // matrix multiplication is possible
+    matrix temp{m, mat2.n}; // creat mat1.row x mat2.col matrix
+  } else {
     cerr << "Matrix multiplication not possible with these two matrices.\n";
   }
 }
 
 // overload << operator to define how a matrix is output
 ostream &operator<<(ostream &os, const matrix &mat1) {
-  for (int k = 0; k < mat1.row; k++) {
-    for (int l = 0; l < mat1.col; l++) {
-      os << " " << mat1.get_element(l, k) << " ";
+  for (int i = 0; i < mat1.m; i++) {
+    for (int j = 0; j < mat1.n; j++) {
+      os << " " << mat1.get_element(i, j) << " ";
     }
     os << endl;
   }
@@ -80,15 +94,38 @@ ostream &operator<<(ostream &os, const matrix &mat1) {
 }
 
 // overload << operator to define how a matrix is input
-matrix operator>>(istream &ins, matrix &mat1) {
-  stringstream buf; // buffer to store the
-  char buf;         // buffer to store the separating character
-  double element;   // the current element of the matrix
-  cin >> element >> buf
+istream &operator>>(istream &ins, matrix &mat1) {
+  int row, col; // for reading in rows and columns
+  cout << "Please enter the dimensions of the matrix in the form MxN where M "
+          "is the number of rows and N is the number of columns: ";
+  cin >> row;
+  cin.ignore();
+  cin >> col;
+  cout << "OK now enter your " << row << "x" << col
+       << " matrix as a list of numbers separated by a space and starting at "
+          "the element A_1,1 and ending at the element A_"
+       << row << "," << col << ".\n";
+
+  // todo create matrix
+
+  // loop through the number of points specified and take input
+  double element; // temporary variable to store the element
+  for (int i = 0; i < row; i++) {
+    for (int j = 0; j < col; j++) {
+      cin >> element;                    // read in the first element
+      mat1.mat[(j + i * col)] = element; // put the element in the array
+      cin.ignore();                      // ignore the space
+    }
+  }
+  return ins;
 }
 
 int main() {
   matrix m1;
+  m1.create(3, 3);
   cout << m1;
+  matrix m2;
+  cin >> m2;
+  cout << m2;
   return 0;
 }
