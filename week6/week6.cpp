@@ -67,19 +67,25 @@ ostream &operator<<(ostream &os, const matrix &mat1) {
   for (int i = 0; i < mat1.m; i++) {
     for (int j = 0; j < mat1.n; j++) {
       if ((i == 0) && (j == 0)) {
-        // first element - insert top of bracket
+        // insert top left bracket
         os << " / " << setprecision(3) << mat1.data[j + i * mat1.n] << " ";
       } else if ((i == 0) && (j == (mat1.n - 1))) {
+        // insert top right bracket
         os << " " << setprecision(3) << mat1.data[j + i * mat1.n] << " \\";
       } else if ((i == (mat1.m - 1)) && (j == 0)) {
+        // insert bottom left bracket
         os << " \\ " << setprecision(3) << mat1.data[j + i * mat1.n] << " ";
       } else if ((i == (mat1.m - 1)) && (j == (mat1.n - 1))) {
+        // insert bottom right bracket
         os << " " << setprecision(3) << mat1.data[j + i * mat1.n] << " /";
       } else if (j == 0) {
+        // insert left bracket
         os << "|  " << setprecision(3) << mat1.data[j + i * mat1.n] << " ";
       } else if (j == (mat1.n - 1)) {
+        // insert right bracket
         os << " " << setprecision(3) << mat1.data[j + i * mat1.n] << "  |";
       } else {
+        // no brackets
         os << " " << setprecision(3) << mat1.data[j + i * mat1.n] << " ";
       }
     }
