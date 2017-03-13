@@ -4,6 +4,7 @@
 #include <cmath>    // pow, sqrt
 #include <iomanip>  // setprecision
 #include <iostream> // std io
+#include <stdlib.h> // c style exit
 
 using namespace std;
 
@@ -32,14 +33,13 @@ public:
   }
 
   // destructor - free up memory
-  //~matrix() { delete[] data; }
+  //~matrix() { delete[] data; } // ruins multiplication and throws lots of
+  // nasty errors
 
   // accessors
   int get_m() const { return m; }
   int get_n() const { return n; }
-  double get_element(const int &i, const int &j) const {
-    return data[j + i * n];
-  }
+  double get_element(const int &i, const int &j) const;
 
   // modifiers
   void set_element(const int &i, const int &j, const double &value);
@@ -50,7 +50,12 @@ public:
   matrix operator*(const matrix &mat2) const; // multiplication
 };
 
-// set an element in the matrix
+// access an element in the matrix
+double matrix::get_element(const int &i, const int &j) const {
+  return data[j + i * n];
+}
+
+// modify an element in the matrix
 void matrix::set_element(const int &i, const int &j, const double &value) {
   // put value into the i,j element of matrix array
   data[(j + i * n)] = value;
@@ -67,12 +72,13 @@ matrix matrix::operator+(const matrix &mat2) const // return sum
       for (int j = 0; j < n; j++) {
         sum = get_element(i, j) + mat2.get_element(i, j);
         temp.set_element(i, j, sum);
-        cout << sum << endl;
       }
     }
     return temp;
   } else {
-    cerr << "Matrix addition not possible with these two matrices.\n";
+    cerr << "Matrix addition and subtraction not possible with these two "
+            "matrices.\n";
+    exit(1);
   }
 }
 
@@ -87,12 +93,13 @@ matrix matrix::operator-(const matrix &mat2) const // return difference
       for (int j = 0; j < n; j++) {
         diff = get_element(i, j) - mat2.get_element(i, j);
         temp.set_element(i, j, diff);
-        cout << diff << endl;
       }
     }
     return temp;
   } else {
-    cerr << "Matrix subtraction not possible with these two matrices.\n";
+    cerr << "Matrix addition and subtraction not possible with these two "
+            "matrices.\n";
+    exit(1);
   }
 }
 
@@ -102,9 +109,24 @@ matrix matrix::operator*(const matrix &mat2) const // return product
   if (n == mat2.m) {
     // matrix multiplication is possible
     matrix temp{m, mat2.n}; // creat mat1.row x mat2.col matrix
+    double element;         // total of products to make each element
+    double product;         // current product
+    for (int i = 0; i < m; i++) {
+      for (int j = 0; j < n; j++) {
+        element = 0; // reset running total
+        // multiply row by column and add to give the new element
+        for (int k = 0; k < m; k++) {
+          product = get_element(i, k) * mat2.get_element(k, j);
+          element += product;
+        }
+        // push element to temp matrix
+        temp.set_element(i, j, element);
+      }
+    }
     return temp;
   } else {
     cerr << "Matrix multiplication not possible with these two matrices.\n";
+    exit(1);
   }
 }
 
@@ -124,6 +146,18 @@ ostream &operator<<(ostream &os, const matrix &mat1) {
         } else {
           // no brackets
           os << " " << setprecision(3) << mat1.data[j + i * mat1.n] << " ";
+        }
+      } else if (mat1.n == 1) {
+        // only one column, each element has brackets on both sides
+        if (i == 0) {
+          // insert left bracket
+          os << "/ " << setprecision(3) << mat1.data[j + i * mat1.n] << " \\";
+        } else if (i == (mat1.m - 1)) {
+          // insert right bracket
+          os << "\\ " << setprecision(3) << mat1.data[j + i * mat1.n] << " /";
+        } else {
+          // no brackets
+          os << "|" << setprecision(3) << mat1.data[j + i * mat1.n] << "|";
         }
       } else {
         // more than one row, make big brackets around the whole matrix
@@ -172,40 +206,55 @@ istream &operator>>(istream &ins, matrix &mat1) {
 }
 
 int main() {
-  // define two matrices and add them, subtract them and then multiply them
-  matrix a1{2, 2};
-  matrix a2{2, 2};
-  cout << "enter 4 values for A1: ";
-  cin >> a1;
-  cout << "enter 4 values for A2: ";
-  cin >> a2;
-  cout << "A1 =\n"
-       << a1 << endl
-       << "A2 =\n"
-       << a2 << endl
-       << "A1 + A2 =\n"
-       << (a1 + a2) << endl
-       << "A1 - A2 =\n"
-       << a1 - a2 << endl
-       << "A1 * A2 =\n"
-       << a1 * a2 << endl;
-
   // use parametrised constructor and print out its default values
-  matrix m1{3, 3};
-  cout << "Default values of parametrised constructor:\n" << m1;
+  matrix m_default{3, 3};
+  cout << "3x3 default matrix - filled with zeroes:\n" << m_default;
 
-  // create matrix
-  int row, col; // for reading in rows and columns
-  cout << "Enter the dimensions of the matrix in the form RxC: ";
+  // input two matrices then add, subtract and multiply them
+  int row, col; // for reading in dimensions
+  cout << "Enter the dimensions of the first matrix A1 (MxN): ";
   cin >> row;
   cin.ignore(); // ignore the x
   cin >> col;
-  matrix m2{row, col};
+  matrix a1{row, col};
+  cout << "Enter A2 as a space-separated list (" << row << "x" << col << " so "
+       << row * col << " values): ";
+  cin >> a1; // fill matrix
+  cout << a1;
 
-  // fill matrix and print it out
-  cout << "Enter the " << row << "x" << col
-       << " matrix as a space-separated list.\n";
-  cin >> m2;
-  cout << "The matrix A2:\n" << m2;
+  cout << "Enter the dimensions of the second matrix A2 (MxN): ";
+  cin >> row;
+  cin.ignore(); // ignore the x
+  cin >> col;
+  matrix a2{row, col};
+  cout << "Enter A2 as a space-separated list (" << row << "x" << col << " so "
+       << row * col << " values): ";
+  cin >> a2; // fill matrix
+  cout << a2;
+
+  // show off overloaded +-* functions
+  if ((a1.get_m() == a2.get_m()) && (a1.get_n() == a2.get_n())) {
+    // matrices the same dimensions, multiplication impossible
+    // therefore do addition and subtraction first
+    cout << "A1 =\n" << a1 << endl << "A2 =\n" << a2 << endl;
+    // addition
+    cout << "A1 + A2 =\n" << (a1 + a2) << endl;
+    // subtraction
+    cout << "A1 - A2 =\n" << a1 - a2 << endl;
+    // multiplication
+    cout << "A1 * A2 =\n" << a1 * a2 << endl;
+  } else {
+    // not the same dimensions, addition and subtraction are impossible
+    // therefore do multiplication first
+    cout << "A1 =\n" << a1 << endl << "A2 =\n" << a2 << endl;
+    // multiplication
+    cout << "A1 * A2 =\n" << a1 * a2 << endl;
+    // addition
+    cout << "A1 + A2 =\n" << (a1 + a2) << endl;
+    // subtraction
+    cout << "A1 - A2 =\n" << a1 - a2 << endl;
+  }
+
+  // exit
   return 0;
 }
