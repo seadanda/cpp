@@ -35,6 +35,7 @@ public:
   int get_n() const { return n; }
   int get_size() const { return n + n * m; }
   double get_element(const int &i, const int &j) const;
+  matrix get_minor(const int &i, const int &j) const;
 
   // modifiers
   void set_element(const int &i, const int &j, const double &value);
@@ -47,6 +48,7 @@ public:
   // assignment operator
   matrix &operator=(const matrix &mat2);
 };
+// end of class
 
 // parametrised constructor
 matrix::matrix(const int row, const int col) : m{row}, n{col} {
@@ -93,6 +95,35 @@ matrix::matrix(matrix &&mat1) : data{mat1.data}, m{mat1.m}, n{mat1.n} {
 // access an element in the matrix
 double matrix::get_element(const int &i, const int &j) const {
   return data[j + i * n];
+}
+
+// get the i,j th minor of the matrix
+matrix matrix::get_minor(const int &i, const int &j) const {
+  if ((m == n) && (m > 2)) {
+    // matrix is bigger than 2x2 and square - minor is possible
+    matrix temp(m - 1, n - 1);
+    int kdiff{0}, ldiff; // set to one when i or j encountered to decrement k,l
+    for (int k{0}; k < m; k++) {
+      ldiff = 0; // reset ldiff value for each row
+      if (k == i) {
+        // ignore this row, decrement k
+        kdiff = 1;
+      } else {
+        for (int l{0}; l < n; l++) {
+          if (l == j) {
+            // ignore this element, decrement l
+            ldiff = 1;
+          } else {
+            temp.set_element(k - kdiff, l - ldiff, data[l + k * n]);
+          }
+        }
+      }
+    }
+    return temp;
+  } else {
+    cerr << "Error: no minors exist for this matrix.\n";
+    exit(1);
+  }
 }
 
 // modify an element in the matrix
@@ -308,6 +339,14 @@ int main() {
     cout << "A1 * A2 =\n" << a1 * a2 << endl;   // multiplication
     cout << "A1 + A2 =\n" << (a1 + a2) << endl; // addition
     cout << "A1 - A2 =\n" << a1 - a2 << endl;   // subtraction
+  }
+
+  // get minors of A1
+  for (int i{0}; i < a1.get_m(); i++) {
+    for (int j{0}; j < a1.get_n(); j++) {
+      cout << i + 1 << "," << j + 1 << " minor of A1 =" << endl
+           << a1.get_minor(i, j) << endl;
+    }
   }
 
   // exit
