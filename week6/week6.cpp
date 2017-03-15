@@ -2,6 +2,7 @@
 // Write a class to store and manipulate matrices
 
 #include <cmath>    // pow, sqrt
+#include <fstream>  // read in matrices from file
 #include <iomanip>  // setprecision
 #include <iostream> // std io
 #include <stdlib.h> // c style exit
@@ -293,6 +294,10 @@ istream &operator>>(istream &ins, matrix &mat1) {
       cin >> element;                  // read in the first element
       mat1.set_element(i, j, element); // put the element in the array
       cin.ignore();                    // ignore the space
+      if (cin.fail()) {
+        cerr << "Error: invalid input.\n";
+        exit(1);
+      }
     }
   }
   return ins;
@@ -307,8 +312,16 @@ int main() {
   int row, col; // for reading in dimensions
   cout << "Enter the dimensions of the first matrix A1 (MxN): ";
   cin >> row;
+  if (cin.fail()) {
+    cerr << "Error: invalid input.\n";
+    return 1;
+  }
   cin.ignore(); // ignore the x
   cin >> col;
+  if (cin.fail()) {
+    cerr << "Error: invalid input.\n";
+    return 1;
+  }
   matrix a1{row, col};
   cout << "Enter A2 as a space-separated list (" << row << "x" << col << " so "
        << row * col << " values): ";
@@ -316,8 +329,16 @@ int main() {
 
   cout << "Enter the dimensions of the second matrix A2 (MxN): ";
   cin >> row;
+  if (cin.fail()) {
+    cerr << "Error: invalid input.\n";
+    return 1;
+  }
   cin.ignore(); // ignore the x
   cin >> col;
+  if (cin.fail()) {
+    cerr << "Error: invalid input.\n";
+    return 1;
+  }
   matrix a2{row, col};
   cout << "Enter A2 as a space-separated list (" << row << "x" << col << " so "
        << row * col << " values): ";
@@ -330,15 +351,21 @@ int main() {
   if ((a1.get_m() == a2.get_m()) && (a1.get_n() == a2.get_n())) {
     // matrices the same dimensions, do addition and subtraction first
     // multiplication might be impossible
-    cout << "A1 + A2 =\n" << (a1 + a2) << endl; // addition
-    cout << "A1 - A2 =\n" << a1 - a2 << endl;   // subtraction
-    cout << "A1 * A2 =\n" << a1 * a2 << endl;   // multiplication
+    cout << "A1 + A2 =\n"
+         << (a1 + a2) << endl // addition
+         << "A1 - A2 =\n"
+         << a1 - a2 << endl // subtraction
+         << "A1 * A2 =\n"
+         << a1 * a2 << endl; // multiplication
   } else {
     // not the same dimensions, addition and subtraction are impossible
     // therefore do multiplication first
-    cout << "A1 * A2 =\n" << a1 * a2 << endl;   // multiplication
-    cout << "A1 + A2 =\n" << (a1 + a2) << endl; // addition
-    cout << "A1 - A2 =\n" << a1 - a2 << endl;   // subtraction
+    cout << "A1 * A2 =\n"
+         << a1 * a2 << endl // multiplication
+         << "A1 + A2 =\n"
+         << (a1 + a2) << endl // addition
+         << "A1 - A2 =\n"
+         << a1 - a2 << endl; // subtraction
   }
 
   // get minors of A1
