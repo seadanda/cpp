@@ -36,8 +36,8 @@ public:
   int get_n() const { return n; }
   int get_size() const { return n * m; }
   double get_element(const int &i, const int &j) const;
-  matrix get_minor(const int &i, const int &j) const;
-  double get_det() const;
+  double get_det2() const;                            // 2x2 determinant
+  double get_minor(const int &i, const int &j) const; // return i,j minor
 
   // modifiers
   void set_element(const int &i, const int &j, const double &value);
@@ -99,10 +99,23 @@ double matrix::get_element(const int &i, const int &j) const {
   return data[j + i * n];
 }
 
+// find the determinant of a given 2x2 matrix or submatrix
+double matrix::get_det2() const {
+  double det{0};
+  if ((m == n) && (m + n > 2)) {
+    // matrix is square
+    if (m == 2) {
+      // matrix is 2x2, get determinant
+      det += get_element(0, 0) * get_element(1, 1);
+      det -= get_element(0, 1) * get_element(1, 0);
+      return det;
+    }
+  }
+  return det;
+}
+
 // get the i,j th minor of the matrix
-matrix matrix::get_minor(const int &i, const int &j) const {
-  // this isn't what a minor is!
-  // minor is the determinant of the submatrix * element i,j
+double matrix::get_minor(const int &i, const int &j) const {
   if ((m == n) && (m > 2)) {
     // matrix is bigger than 2x2 and square - minor is possible
     matrix temp(m - 1, n - 1);
@@ -123,26 +136,11 @@ matrix matrix::get_minor(const int &i, const int &j) const {
         }
       }
     }
-    return temp;
+    return temp.get_det2();
   } else {
     cerr << "Error: no minors exist for this matrix.\n";
     exit(1);
   }
-}
-
-double matrix::get_det() const {
-  double det{0};
-  if ((m == n) && (m + n > 2)) {
-    // matrix is square
-    if (m == 2) {
-      // matrix is 2x2, get determinant
-      det += get_element(0, 0) * get_element(1, 1);
-      det -= get_element(0, 1) * get_element(1, 0);
-      return det;
-    } else {
-    }
-  }
-  return det;
 }
 
 // modify an element in the matrix
@@ -152,8 +150,7 @@ void matrix::set_element(const int &i, const int &j, const double &value) {
 }
 
 // overload + operator to define matrix addition
-matrix matrix::operator+(const matrix &mat2) const // return sum
-{
+matrix matrix::operator+(const matrix &mat2) const {
   if ((m == mat2.m) && (n == mat2.n)) {
     // same dimensions - perform addition
     matrix temp{m, n};
@@ -173,8 +170,7 @@ matrix matrix::operator+(const matrix &mat2) const // return sum
 }
 
 // overload - operator to define matrix subtraction
-matrix matrix::operator-(const matrix &mat2) const // return difference
-{
+matrix matrix::operator-(const matrix &mat2) const {
   if ((m == mat2.m) && (n == mat2.n)) {
     // same dimensions - perform subtraction
     matrix temp{m, n};
@@ -194,8 +190,7 @@ matrix matrix::operator-(const matrix &mat2) const // return difference
 }
 
 // overload * operator to define matrix multiplication
-matrix matrix::operator*(const matrix &mat2) const // return product
-{
+matrix matrix::operator*(const matrix &mat2) const {
   if (n == mat2.m) {
     // matrix multiplication is possible
     matrix temp{m, mat2.n}; // creat mat1.row x mat2.col matrix
@@ -220,9 +215,8 @@ matrix matrix::operator*(const matrix &mat2) const // return product
   }
 }
 
-// overload = operator to define how matrices are assigned
-matrix &matrix::operator=(const matrix &mat2) // assignment
-{
+// assignment operator
+matrix &matrix::operator=(const matrix &mat2) {
   // no self assignment
   if (&mat2 == this)
     return *this;
@@ -389,8 +383,8 @@ int main() {
   // get minors of A1
   for (int i{0}; i < a1.get_m(); i++) {
     for (int j{0}; j < a1.get_n(); j++) {
-      cout << i + 1 << "," << j + 1 << " minor of A1 =" << endl
-           << a1.get_minor(i, j) << endl;
+      cout << i + 1 << "," << j + 1 << " minor of A1 =" << a1.get_minor(i, j)
+           << endl;
     }
   }
 
