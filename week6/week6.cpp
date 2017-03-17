@@ -30,13 +30,15 @@ public:
   matrix(matrix &&mat1);
   // destructor - free up memory
   ~matrix() { delete[] data; }
+  // assignment operator
+  matrix &operator=(const matrix &mat2);
 
   // accessors
   int get_m() const { return m; }
   int get_n() const { return n; }
-  int get_size() const { return n * m; }
+  int get_size() const { return n * m; } // return length of array
   double get_element(const int &i, const int &j) const;
-  double get_det2() const;                            // 2x2 determinant
+  double get_det() const;                             // determinant
   double get_minor(const int &i, const int &j) const; // return i,j minor
 
   // modifiers
@@ -46,9 +48,6 @@ public:
   matrix operator+(const matrix &mat2) const; // addition
   matrix operator-(const matrix &mat2) const; // subtraction
   matrix operator*(const matrix &mat2) const; // multiplication
-
-  // assignment operator
-  matrix &operator=(const matrix &mat2);
 };
 // end of class
 
@@ -94,13 +93,34 @@ matrix::matrix(matrix &&mat1) : data{mat1.data}, m{mat1.m}, n{mat1.n} {
   mat1.n = 0;
 }
 
+// assignment operator
+matrix &matrix::operator=(const matrix &mat2) {
+  // no self assignment
+  if (&mat2 == this)
+    return *this;
+
+  // delete old array and change member data
+  delete[] data;
+  m = mat2.m;
+  n = mat2.n;
+
+  // make and fill new array
+  data = new double[mat2.get_size()];
+  for (int i = 0; i < m; i++) {
+    for (int j = 0; j < n; j++) {
+      data[(j + i * n)] = mat2.data[(j + i * n)];
+    }
+  }
+  return *this;
+}
+
 // access an element in the matrix
 double matrix::get_element(const int &i, const int &j) const {
   return data[j + i * n];
 }
 
-// find the determinant of a given 2x2 matrix or submatrix
-double matrix::get_det2() const {
+// find the determinant of a matrix or submatrix
+double matrix::get_det() const {
   double det{0};
   if ((m == n) && (m + n > 2)) {
     // matrix is square
@@ -108,8 +128,9 @@ double matrix::get_det2() const {
       // matrix is 2x2, get determinant
       det += get_element(0, 0) * get_element(1, 1);
       det -= get_element(0, 1) * get_element(1, 0);
-      return det;
     }
+  } else {
+    // iterate
   }
   return det;
 }
@@ -136,9 +157,9 @@ double matrix::get_minor(const int &i, const int &j) const {
         }
       }
     }
-    return temp.get_det2();
+    return temp.get_det();
   } else {
-    cerr << "Error: no minors exist for this matrix.\n";
+    cerr << "Error: cannot find minors for this matrix.\n";
     exit(1);
   }
 }
@@ -213,27 +234,6 @@ matrix matrix::operator*(const matrix &mat2) const {
     cerr << "Matrix multiplication not possible with these two matrices.\n";
     exit(1);
   }
-}
-
-// assignment operator
-matrix &matrix::operator=(const matrix &mat2) {
-  // no self assignment
-  if (&mat2 == this)
-    return *this;
-
-  // delete old array and change member data
-  delete[] data;
-  m = mat2.m;
-  n = mat2.n;
-
-  // make and fill new array
-  data = new double[mat2.get_size()];
-  for (int i = 0; i < m; i++) {
-    for (int j = 0; j < n; j++) {
-      data[(j + i * n)] = mat2.data[(j + i * n)];
-    }
-  }
-  return *this;
 }
 
 // overload << operator to define how a matrix is written
