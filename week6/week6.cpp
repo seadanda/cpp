@@ -34,9 +34,10 @@ public:
   // accessors
   int get_m() const { return m; }
   int get_n() const { return n; }
-  int get_size() const { return n + n * m; }
+  int get_size() const { return n * m; }
   double get_element(const int &i, const int &j) const;
   matrix get_minor(const int &i, const int &j) const;
+  double get_det() const;
 
   // modifiers
   void set_element(const int &i, const int &j, const double &value);
@@ -58,7 +59,7 @@ matrix::matrix(const int row, const int col) : m{row}, n{col} {
     cerr << "Fatal error: cannot initialise a 0 dimensional matrix\n";
     exit(1);
   }
-  data = new double[(n + m * n)];
+  data = new double[(m * n)];
   for (int i = 0; i < m; i++) {
     for (int j = 0; j < n; j++) {
       data[(j + i * n)] = 0;
@@ -100,6 +101,8 @@ double matrix::get_element(const int &i, const int &j) const {
 
 // get the i,j th minor of the matrix
 matrix matrix::get_minor(const int &i, const int &j) const {
+  // this isn't what a minor is!
+  // minor is the determinant of the submatrix * element i,j
   if ((m == n) && (m > 2)) {
     // matrix is bigger than 2x2 and square - minor is possible
     matrix temp(m - 1, n - 1);
@@ -125,6 +128,21 @@ matrix matrix::get_minor(const int &i, const int &j) const {
     cerr << "Error: no minors exist for this matrix.\n";
     exit(1);
   }
+}
+
+double matrix::get_det() const {
+  double det{0};
+  if ((m == n) && (m + n > 2)) {
+    // matrix is square
+    if (m == 2) {
+      // matrix is 2x2, get determinant
+      det += get_element(0, 0) * get_element(1, 1);
+      det -= get_element(0, 1) * get_element(1, 0);
+      return det;
+    } else {
+    }
+  }
+  return det;
 }
 
 // modify an element in the matrix
