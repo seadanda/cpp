@@ -84,6 +84,48 @@ Cartesian::Cartesian(Cartesian &&vect1)
   vect1.dim_ct = 0;
 }
 
+// assignment operator
+Cartesian &Cartesian::operator=(const Cartesian &vect1) {
+  // no self assignment
+  if (&vect1 == this)
+    return *this;
+
+  // delete old array and change member data
+  delete[] data;
+  dim_ct = vect1.dim_ct;
+
+  // make and fill new array
+  data = new double[vect1.dim_ct];
+  for (int i = 0; i < dim_ct; i++) {
+    data[i] = vect1.data[i];
+  }
+
+  return *this;
+}
+
+// move assignment operator
+Cartesian &Cartesian::operator=(Cartesian &&vect1) {
+  // no self assignment
+  if (&vect1 == this)
+    return *this;
+
+  // delete old array and change member data
+  delete[] data;
+  dim_ct = vect1.dim_ct;
+
+  // make and fill new array
+  data = new double[vect1.dim_ct];
+  for (int i = 0; i < dim_ct; i++) {
+    data[i] = vect1.data[i];
+  }
+
+  // reset rvalue vector
+  vect1.dim_ct = 0;
+  vect1.data = 0;
+
+  return *this;
+}
+
 // define ostream behaviour
 ostream &operator<<(ostream &os, Cartesian &vect1) {
   os << "(";
