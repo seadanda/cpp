@@ -4,10 +4,7 @@
 // Date:	20/03/2017
 
 #include <cmath>    // pow, sqrt
-#include <fstream>  // read in matrices from file
-#include <iomanip>  // setprecision
 #include <iostream> // std io
-#include <stdlib.h> // c style exit
 
 using namespace std;
 
@@ -71,11 +68,20 @@ Cartesian::Cartesian(const int &dim) : dim_ct{dim} {
 }
 
 // copy constructor
-Cartesian::Cartesian(const Cartesian &vect1) : dim_ct{vect1.get_dim_ct()} {
+Cartesian::Cartesian(const Cartesian &vect1) : dim_ct{vect1.dim_ct} {
   data = new double[dim_ct];
+  // copy data element by element
   for (int i{0}; i < dim_ct; i++) {
     data[i] = vect1.data[i];
   }
+}
+
+// move constructor
+Cartesian::Cartesian(Cartesian &&vect1)
+    : data{vect1.data}, dim_ct{vect1.dim_ct} {
+  // reset vect1
+  vect1.data = 0;
+  vect1.dim_ct = 0;
 }
 
 // define ostream behaviour
