@@ -22,7 +22,7 @@ class Cartesian // Cartesian class
 
 private:
   // member data
-  int dimensions;  // number of dimensions
+  int dim_ct;      // number of dimensions
   double *data{0}; // pointer to array where Cartesian elements are stored
 
 public:
@@ -32,21 +32,17 @@ public:
   Cartesian(const int &dim);
   // destructor - free up memory
   ~Cartesian() { delete[] data; }
-  // copy constructor for deep copy
-  Cartesian(const Cartesian &vect);
+  // copy constructor
+  Cartesian(const Cartesian &vect1);
   // move constructor
   Cartesian(Cartesian &&vect1);
-  // assignment operator for deep copy
+  // assignment operator
   Cartesian &operator=(const Cartesian &vect1);
   // move assignment operator
   Cartesian &operator=(Cartesian &&vect1);
 
   // accessors
-  int get_dimensions() const { return dimensions; } // no of dimensions
-  double get_element(const int &i) const { return data[i]; };
-
-  // modifiers
-  void set_element(const int &i, const double &value);
+  int get_dim_ct() const { return dim_ct; } // no of dimensions
 
   // overloaded operators
   Cartesian operator+(const Cartesian &vect1) const; // addition
@@ -57,28 +53,36 @@ public:
 // end of class
 
 // default constructor
-Cartesian::Cartesian() : dimensions{3} {
+Cartesian::Cartesian() : dim_ct{3} {
   // create 3d vector and fill with zeroes
-  data = new double[dimensions];
-  for (int i = 0; i < dimensions; i++) {
+  data = new double[dim_ct];
+  for (int i = 0; i < dim_ct; i++) {
     data[i] = 0;
   }
 }
 
 // parametrised constructor
-Cartesian::Cartesian(const int &dim) : dimensions{dim} {
+Cartesian::Cartesian(const int &dim) : dim_ct{dim} {
   // create 3d vector and fill with zeroes
-  data = new double[dimensions];
-  for (int i = 0; i < dimensions; i++) {
+  data = new double[dim_ct];
+  for (int i = 0; i < dim_ct; i++) {
     data[i] = 0;
+  }
+}
+
+// copy constructor
+Cartesian::Cartesian(const Cartesian &vect1) : dim_ct{vect1.get_dim_ct()} {
+  data = new double[dim_ct];
+  for (int i{0}; i < dim_ct; i++) {
+    data[i] = vect1.data[i];
   }
 }
 
 // define ostream behaviour
 ostream &operator<<(ostream &os, Cartesian &vect1) {
   os << "(";
-  for (int i{0}; i < vect1.get_dimensions(); i++) {
-    if (i == vect1.get_dimensions() - 1) {
+  for (int i{0}; i < vect1.get_dim_ct(); i++) {
+    if (i == vect1.get_dim_ct() - 1) {
       os << vect1[i] << ")";
     } else {
       os << vect1[i] << ", ";
@@ -87,8 +91,9 @@ ostream &operator<<(ostream &os, Cartesian &vect1) {
   return os;
 }
 
+// define istream behaviour
 istream &operator>>(istream &is, Cartesian &vect1) {
-  for (int i{0}; i < vect1.get_dimensions(); i++) {
+  for (int i{0}; i < vect1.get_dim_ct(); i++) {
     is >> vect1[i];
     is.ignore(); // ignore the space
   }
