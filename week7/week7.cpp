@@ -1,4 +1,4 @@
-// week7.cpp : Cartesian manipulator
+// week7.cpp : Vector manipulator
 // Classes to store and manipulate n-dim vectors, 4vectors and particles
 // Author:  Dónal Murray
 // Date:	20/03/2017
@@ -9,45 +9,45 @@
 
 using namespace std;
 
-// Cartesian class which defines addition, subtraction, multiplication
-class Cartesian // Cartesian class
+// Vector class which defines addition, subtraction, multiplication
+class Vector // Vector class
 {
   // friend functions to overload input and output operator
-  friend ostream &operator<<(ostream &os, Cartesian &vect1);  // ostreams
-  friend istream &operator>>(istream &ins, Cartesian &vect1); // istreams
+  friend ostream &operator<<(ostream &os, Vector &vect1);  // ostreams
+  friend istream &operator>>(istream &ins, Vector &vect1); // istreams
 
 protected:
   // member data
   int dimensions;  // number of dimensions
-  double *data{0}; // pointer to array where Cartesian elements are stored
+  double *data{0}; // pointer to array where Vector elements are stored
 
 public:
   // default constructor
-  Cartesian();
+  Vector();
   // parametrised constructor
-  Cartesian(const int &dim);
+  Vector(const int &dim);
   // destructor - free up memory
-  ~Cartesian() { delete[] data; }
+  ~Vector() { delete[] data; }
   // copy constructor
-  Cartesian(const Cartesian &vect2);
+  Vector(const Vector &vect2);
   // move constructor
-  Cartesian(Cartesian &&vect2);
+  Vector(Vector &&vect2);
   // assignment operator
-  Cartesian &operator=(const Cartesian &vect2);
+  Vector &operator=(const Vector &vect2);
   // move assignment operator
-  Cartesian &operator=(Cartesian &&vect2);
+  Vector &operator=(Vector &&vect2);
 
   // accessors
   double &operator[](const int i) { return data[i]; } // access element
   int get_dimensions() const { return dimensions; }   // no of dimensions
 
   // member functions
-  double dot_product(const Cartesian &vect2) const; // calc dot product
+  double dot_product(const Vector &vect2) const; // calc dot product
 };
 // end of class
 
 // default constructor
-Cartesian::Cartesian() : dimensions{3} {
+Vector::Vector() : dimensions{3} {
   // create 3d vector and fill with zeroes
   data = new double[dimensions];
   for (int i = 0; i < dimensions; i++) {
@@ -56,7 +56,7 @@ Cartesian::Cartesian() : dimensions{3} {
 }
 
 // parametrised constructor
-Cartesian::Cartesian(const int &dim) : dimensions{dim} {
+Vector::Vector(const int &dim) : dimensions{dim} {
   // create 3d vector and fill with zeroes
   data = new double[dimensions];
   for (int i = 0; i < dimensions; i++) {
@@ -65,7 +65,7 @@ Cartesian::Cartesian(const int &dim) : dimensions{dim} {
 }
 
 // copy constructor
-Cartesian::Cartesian(const Cartesian &vect2) : dimensions{vect2.dimensions} {
+Vector::Vector(const Vector &vect2) : dimensions{vect2.dimensions} {
   data = new double[dimensions];
   // copy data element by element
   for (int i{0}; i < dimensions; i++) {
@@ -74,7 +74,7 @@ Cartesian::Cartesian(const Cartesian &vect2) : dimensions{vect2.dimensions} {
 }
 
 // move constructor
-Cartesian::Cartesian(Cartesian &&vect2)
+Vector::Vector(Vector &&vect2)
     : data{vect2.data}, dimensions{vect2.dimensions} {
   // reset vect2
   vect2.data = 0;
@@ -82,7 +82,7 @@ Cartesian::Cartesian(Cartesian &&vect2)
 }
 
 // copy assignment operator
-Cartesian &Cartesian::operator=(const Cartesian &vect2) {
+Vector &Vector::operator=(const Vector &vect2) {
   // no self assignment
   if (&vect2 == this)
     return *this;
@@ -101,7 +101,7 @@ Cartesian &Cartesian::operator=(const Cartesian &vect2) {
 }
 
 // move assignment operator
-Cartesian &Cartesian::operator=(Cartesian &&vect2) {
+Vector &Vector::operator=(Vector &&vect2) {
   // no self assignment
   if (&vect2 == this)
     return *this;
@@ -124,7 +124,7 @@ Cartesian &Cartesian::operator=(Cartesian &&vect2) {
 }
 
 // calc dot product
-double Cartesian::dot_product(const Cartesian &vect2) const {
+double Vector::dot_product(const Vector &vect2) const {
   double result{0};
   if (dimensions != vect2.dimensions) {
     cout << "Error: vectors must be same length.\n";
@@ -136,8 +136,8 @@ double Cartesian::dot_product(const Cartesian &vect2) const {
   return result;
 }
 
-// define ostream behaviour for Cartesian
-ostream &operator<<(ostream &os, Cartesian &vect1) {
+// define ostream behaviour for Vector
+ostream &operator<<(ostream &os, Vector &vect1) {
   os << "(";
   for (int i{0}; i < vect1.get_dimensions(); i++) {
     if (i == vect1.get_dimensions() - 1) {
@@ -149,8 +149,8 @@ ostream &operator<<(ostream &os, Cartesian &vect1) {
   return os;
 }
 
-// define istream behaviour for Cartesian
-istream &operator>>(istream &is, Cartesian &vect1) {
+// define istream behaviour for Vector
+istream &operator>>(istream &is, Vector &vect1) {
   for (int i{0}; i < vect1.get_dimensions(); i++) {
     is >> vect1[i];
     is.ignore(); // ignore the space
@@ -158,9 +158,9 @@ istream &operator>>(istream &is, Cartesian &vect1) {
   return is;
 }
 
-// class for 4-vectors - inherits from Cartesian
+// class for 4-vectors - inherits from Vector
 // (ct,x,y,z)
-class Fourvector : public Cartesian // 4-vector class
+class Fourvector : public Vector // 4-vector class
 {
   // friend functions to overload input and output operator
   friend ostream &operator<<(ostream &os, Fourvector &fvect1);  // ostreams
@@ -172,34 +172,34 @@ public:
   // parametrised constructors
   Fourvector(const double &t, const double &x, const double &y,
              const double &z);
-  Fourvector(const double &t, Cartesian &r);
+  Fourvector(const double &t, Vector &r);
   // copy constructor
   Fourvector(const Fourvector &fvect2);
   // move constructor
   Fourvector(Fourvector &&fvect2);
 
-  using Cartesian::operator=;
-  using Cartesian::operator[];
+  using Vector::operator=;
+  using Vector::operator[];
 
   // 4vector dot product
   double dot_product(const Fourvector &fvect2) const;
 };
 
 // default constructor
-Fourvector::Fourvector() : Cartesian(4) {}
+Fourvector::Fourvector() : Vector(4) {}
 
 // parametrised constructor with 4 doubles
 Fourvector::Fourvector(const double &t, const double &x, const double &y,
                        const double &z)
-    : Cartesian(4) {
+    : Vector(4) {
   data[0] = t;
   data[1] = x;
   data[2] = y;
   data[3] = z;
 }
 
-// parametrised constructor with a double and a cartesian vector
-Fourvector::Fourvector(const double &t, Cartesian &r) : Cartesian(4) {
+// parametrised constructor with a double and a Vector vector
+Fourvector::Fourvector(const double &t, Vector &r) : Vector(4) {
   data[0] = t;
   data[1] = r[0];
   data[2] = r[1];
@@ -207,10 +207,10 @@ Fourvector::Fourvector(const double &t, Cartesian &r) : Cartesian(4) {
 }
 
 // copy constructor
-Fourvector::Fourvector(const Fourvector &fvect2) : Cartesian(fvect2) {}
+Fourvector::Fourvector(const Fourvector &fvect2) : Vector(fvect2) {}
 
 // move constructor
-Fourvector::Fourvector(Fourvector &&fvect2) : Cartesian(fvect2) {
+Fourvector::Fourvector(Fourvector &&fvect2) : Vector(fvect2) {
   // reset fvect2
   fvect2.data = 0;
 }
@@ -251,16 +251,16 @@ istream &operator>>(istream &is, Fourvector &fvect1) {
 }
 
 int main() {
-  //---show off cartesian class---
+  //---show off Vector class---
   // default constructor
-  Cartesian v1;
+  Vector v1;
   cout << "Default constructor: v1 = " << v1 << endl;
   cout << "Enter a 3-vector to fill v1 (comma separated): ";
   cin >> v1;
   cout << v1 << endl;
   // parametrised constructor
-  Cartesian v2{4};
-  Cartesian v3{4};
+  Vector v2{4};
+  Vector v3{4};
   cout << "Parametrised constructor: v2 = " << v2 << endl
        << "Enter 2 4d vectors v2 and v3 (comma separated):\nv2: ";
   cin >> v2;
