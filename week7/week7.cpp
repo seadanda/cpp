@@ -177,12 +177,19 @@ public:
   Fourvector(const Fourvector &fvect2);
   // move constructor
   Fourvector(Fourvector &&fvect2);
+  // copy assignment operator for Fourvector
+  Fourvector &operator=(const Fourvector &fvect2);
+  // move assignment operator for Fourvector
+  Fourvector &operator=(Fourvector &&fvect2);
 
-  using Vector::operator=;
+  // use subscript overload from Vector class
   using Vector::operator[];
 
-  // 4vector dot product
+  // Fourvector dot product
   double dot_product(const Fourvector &fvect2) const;
+
+  // lorentz boost
+  Fourvector lorentz_boost(Vector &beta);
 };
 
 // default constructor
@@ -215,6 +222,26 @@ Fourvector::Fourvector(Fourvector &&fvect2) : Vector(fvect2) {
   fvect2.data = 0;
 }
 
+// copy assignment operator
+Fourvector &Fourvector::operator=(const Fourvector &fvect2) {
+  // use Vector assignment operator to do heavy lifting
+  Vector::operator=(fvect2);
+
+  return *this;
+}
+
+// move assignment operator
+Fourvector &Fourvector::operator=(Fourvector &&fvect2) {
+  // use Vector assignment operator to do heavy lifting
+  Vector::operator=(fvect2);
+
+  // reset rvalue vector
+  fvect2.data = 0;
+
+  return *this;
+}
+
+// define dot product for four vectors (ie in minkowski spacetime)
 double Fourvector::dot_product(const Fourvector &fvect2) const {
   double result{0};
   if ((dimensions != 4) || (fvect2.dimensions != 4)) {
@@ -224,6 +251,49 @@ double Fourvector::dot_product(const Fourvector &fvect2) const {
   result += data[0] * fvect2.data[0]; // add square of timelike
   for (int i{1}; i < dimensions; i++) {
     result -= data[i] * fvect2.data[i]; // subtract square of spacelike
+  }
+  return result;
+}
+
+// lorentz boost
+Fourvector Fourvector::lorentz_boost(Vector &beta) {
+  // make sure input is valid
+  if (beta.get_dimensions() != 3) {
+    cerr << "Error: beta must be a 3 dimensional vector.\n";
+    exit(1);
+  }
+
+  // declare necessary variables
+  Fourvector result; // boosted fourvector
+  Vector r{3};       // position 3vector
+  double gamma;      // lorentz factor
+
+  // get position 3vector from the 4vector
+  for (int i{0}; i < 3; i++) {
+    r[i] = this->data[i + 1];
+  }
+
+  // save space with two definitions
+  double beta_sq{beta.dot_product(beta)}; // beta squared
+  double beta_r{beta.dot_product(r)};     // dot product of beta and r
+
+  // make sure beta is physical ie no comps > 1 and the square not > 1
+  if ((beta_sq >= 1) || (beta[0] >= 1) || (beta[1] >= 1) || (beta[2] >= 1)) {
+    cerr << "Error: beta is unphysical (v >= c).\n";
+    exit(1);
+  }
+
+  // calculate lorentz factor
+  gamma = 1 / sqrt(1 - beta_sq);
+
+  // calculate boosted timelike component
+  result[0] = gamma * (this->data[0] - beta_r);
+
+  // calculate boosted spacelike components
+  for (int i{0}; i < 0; i++) {
+    result[i] =
+        r[i] +
+        ((gamma - 1) * beta_r / beta_sq - gamma * this->data[0]) * beta[i];
   }
   return result;
 }
@@ -285,6 +355,13 @@ int main() {
        << "4-vector3 = " << f3 << endl
        << endl
        << "f2 . f3 = " << f2.dot_product(f3) << endl;
+
+  // lorentz boost f3
+  Vector beta1{3};
+  cout << "Enter beta (3-vector): ";
+  cin >> beta1;
+  Fourvector f4{f3.lorentz_boost(beta1)};
+  cout << "lorentz boost of f3 by " << beta1 << " = " << f4 << endl;
 
   //---show off particle class---
   //-----------------------------
