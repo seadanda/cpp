@@ -1,7 +1,7 @@
 // week7.cpp : Vector manipulator
 // Classes to store and manipulate n-dim vectors, 4vectors and particles
 // Author:  Dónal Murray
-// Date:	20/03/2017
+// Date:    20/03/2017
 
 #include <cmath>    // pow, sqrt
 #include <iostream> // std io
