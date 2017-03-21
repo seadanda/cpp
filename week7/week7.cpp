@@ -320,6 +320,67 @@ istream &operator>>(istream &is, Fourvector &fvect1) {
   return is;
 }
 
+// particle class
+class Particle // class for particles
+{
+  // friends of the class
+  friend ostream &operator<<(ostream &os, Particle &part1);
+  friend istream &operator>>(istream &is, Particle &part1);
+
+private:
+  Fourvector position;
+  double mass;
+  Vector beta{3};
+
+public:
+  // parametrised constructor
+  Particle(const Fourvector &r, const double &m, const Vector &B);
+  // function to calculate the lorentz factor
+  double get_gamma() const;
+  // function to return total energy of the particle
+  double get_energy();
+  // function to return the momentum of the particle
+  Vector get_momentum();
+};
+
+// parametrised constructor
+Particle::Particle(const Fourvector &r, const double &m, const Vector &B)
+    : position{r}, mass{m}, beta{B} {}
+// function to calculate the lorentz factor
+double Particle::get_gamma() const { return sqrt(1 - beta.dot_product(beta)); }
+// function to return total energy of the particle
+double Particle::get_energy() {
+  double energy;
+  double mom_sq{(get_momentum()).dot_product(get_momentum())};
+  energy = sqrt(pow(mass, 2) + mom_sq);
+  return energy;
+}
+// function to return the momentum of the particle
+Vector Particle::get_momentum() {
+  Vector momentum{3};
+  for (int i{0}; i < 3; i++) {
+    momentum[i] = get_gamma() * mass * beta[i];
+  }
+  return momentum;
+}
+
+// define ostream behaviour for particle class
+ostream &operator<<(ostream &os, Particle &part1) {
+  os << "r = " << part1.position << ", m = " << part1.mass
+     << ", B = " << part1.beta;
+  return os;
+}
+
+// define istream behaviour for particle class
+istream &operator>>(istream &is, Particle &part1) {
+  is >> part1.position; // read in position vector
+  is.ignore();          // ignore separating character
+  is >> part1.mass;     // read in mass
+  is.ignore();          // ignore separating character
+  is >> part1.beta;     // read in beta
+  return is;
+}
+
 int main() {
   //---show off Vector class---
   // default constructor
@@ -365,6 +426,17 @@ int main() {
 
   //---show off particle class---
   //-----------------------------
+  Fourvector r;
+  double m;
+  Vector B;
+
+  cin >> r;
+  cin >> m;
+  cin >> B;
+
+  Particle p1{r, m, B};
+
+  cout << p1 << endl;
 
   // exit
   return 0;
