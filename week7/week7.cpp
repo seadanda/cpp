@@ -173,8 +173,6 @@ public:
   Fourvector(const double &t, const double &x, const double &y,
              const double &z);
   Fourvector(const double &t, Cartesian &r);
-  // destructor
-  //~Fourvector();
   // copy constructor
   Fourvector(const Fourvector &fvect2);
   // move constructor
@@ -182,6 +180,9 @@ public:
 
   using Cartesian::operator=;
   using Cartesian::operator[];
+
+  // 4vector dot product
+  double dot_product(const Fourvector &fvect2) const;
 };
 
 // default constructor
@@ -205,13 +206,6 @@ Fourvector::Fourvector(const double &t, Cartesian &r) : Cartesian(4) {
   data[3] = r[2];
 }
 
-/*
-// destructor
-Fourvector::~Fourvector() {
-  cout << "fourdel\n";
-  delete[] data;
-}
-*/
 // copy constructor
 Fourvector::Fourvector(const Fourvector &fvect2) : Cartesian(fvect2) {}
 
@@ -219,6 +213,19 @@ Fourvector::Fourvector(const Fourvector &fvect2) : Cartesian(fvect2) {}
 Fourvector::Fourvector(Fourvector &&fvect2) : Cartesian(fvect2) {
   // reset fvect2
   fvect2.data = 0;
+}
+
+double Fourvector::dot_product(const Fourvector &fvect2) const {
+  double result{0};
+  if ((dimensions != 4) || (fvect2.dimensions != 4)) {
+    cout << "Error: not a 4-vector.\n";
+    exit(1);
+  }
+  result += data[0] * fvect2.data[0]; // add square of timelike
+  for (int i{1}; i < dimensions; i++) {
+    result -= data[i] * fvect2.data[i]; // subtract square of spacelike
+  }
+  return result;
 }
 
 // define ostream behaviour
@@ -263,6 +270,7 @@ int main() {
   // dot product member function
   cout << "v2 = " << v2 << endl
        << "v3 = " << v3 << endl
+       << endl
        << "(v2 . v3) = " << v2.dot_product(v3) << endl;
   //------------------------------
 
@@ -274,7 +282,10 @@ int main() {
 
   cout << "4-vector1 = " << f1 << endl
        << "4-vector2 = " << f2 << endl
-       << "4-vector3 = " << f3 << endl;
+       << "4-vector3 = " << f3 << endl
+       << endl
+       << "f2 . f3 = " << f2.dot_product(f3) << endl;
+
   //---show off particle class---
   //-----------------------------
 
