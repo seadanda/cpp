@@ -13,8 +13,8 @@ using namespace std;
 class Vector // Vector class
 {
   // friend functions to overload input and output operator
-  friend ostream &operator<<(ostream &os, Vector &vect1);  // ostreams
-  friend istream &operator>>(istream &ins, Vector &vect1); // istreams
+  friend ostream &operator<<(ostream &os, const Vector &vect1); // ostreams
+  friend istream &operator>>(istream &ins, Vector &vect1);      // istreams
 
 protected:
   // member data
@@ -137,13 +137,13 @@ double Vector::dot_product(const Vector &vect2) const {
 }
 
 // define ostream behaviour for Vector
-ostream &operator<<(ostream &os, Vector &vect1) {
+ostream &operator<<(ostream &os, const Vector &vect1) {
   os << "(";
   for (int i{0}; i < vect1.get_dimensions(); i++) {
     if (i == vect1.get_dimensions() - 1) {
-      os << vect1[i] << ")";
+      os << vect1.data[i] << ")";
     } else {
-      os << vect1[i] << ", ";
+      os << vect1.data[i] << ", ";
     }
   }
   return os;
@@ -346,8 +346,10 @@ public:
 // parametrised constructor
 Particle::Particle(const Fourvector &r, const double &m, const Vector &B)
     : position{r}, mass{m}, beta{B} {}
+
 // function to calculate the lorentz factor
 double Particle::get_gamma() const { return sqrt(1 - beta.dot_product(beta)); }
+
 // function to return total energy of the particle
 double Particle::get_energy() {
   double energy;
@@ -359,6 +361,7 @@ double Particle::get_energy() {
 Vector Particle::get_momentum() {
   Vector momentum{3};
   for (int i{0}; i < 3; i++) {
+    // p = g m B
     momentum[i] = get_gamma() * mass * beta[i];
   }
   return momentum;
@@ -366,8 +369,10 @@ Vector Particle::get_momentum() {
 
 // define ostream behaviour for particle class
 ostream &operator<<(ostream &os, Particle &part1) {
-  os << "r = " << part1.position << ", m = " << part1.mass
-     << ", B = " << part1.beta;
+  os << endl
+     << "r = " << part1.position << endl
+     << "m = " << part1.mass << endl
+     << "B = " << part1.beta << endl;
   return os;
 }
 
@@ -383,60 +388,83 @@ istream &operator>>(istream &is, Particle &part1) {
 
 int main() {
   //---show off Vector class---
+  cout << "---Vector class---\n";
   // default constructor
   Vector v1;
-  cout << "Default constructor: v1 = " << v1 << endl;
-  cout << "Enter a 3-vector to fill v1 (comma separated): ";
-  cin >> v1;
-  cout << v1 << endl;
+  cout << "Default constructor:\n3-vector v1 = " << v1 << endl << endl;
   // parametrised constructor
-  Vector v2{4};
-  Vector v3{4};
-  cout << "Parametrised constructor: v2 = " << v2 << endl
-       << "Enter 2 4d vectors v2 and v3 (comma separated):\nv2: ";
+  Vector v2{3};
+  cout << "Parametrised constructor:\n3-vector v2 = " << v2 << endl
+       << endl
+       << "Enter two 3d vectors v2 and v3 (comma separated):\nv2: ";
   cin >> v2;
+  Vector v3{3};
   cout << "v3: ";
   cin >> v3;
 
-  // dot product member function
-  cout << "v2 = " << v2 << endl
-       << "v3 = " << v3 << endl
+  cout << "3-vector v2 = " << v2 << endl
+       << "3-vector v3 = " << v3 << endl
        << endl
+       // dot product member function
+       << "Dot product of two vectors:\n"
        << "(v2 . v3) = " << v2.dot_product(v3) << endl;
   //------------------------------
 
   //---show off 4-vector class---
-  //-----------------------------
+  cout << endl << endl << "---4-vector class---\n";
+  // default constructor
   Fourvector f1;
+  // parametrised constructor with 4 doubles
   Fourvector f2{1.0, 2.0, 3.0, 4.0};
-  Fourvector f3{1.0, v1};
+  // parametrised constructor with a double and a 3-vector
+  Vector v4{3};
+  v4[0] = 3;
+  v4[1] = 6;
+  v4[2] = 8;
+  Fourvector f3{1.0, v4};
 
-  cout << "4-vector1 = " << f1 << endl
-       << "4-vector2 = " << f2 << endl
-       << "4-vector3 = " << f3 << endl
+  // print out constructors
+  cout << "Default constructor:\n"
+       << "4-vector f1 = " << f1 << endl // default
        << endl
-       << "f2 . f3 = " << f2.dot_product(f3) << endl;
+       << "Parametrised constructor (ct, x, y, z):\n"
+       << "4-vector f2 = " << f2 << endl // parametrised all doubles
+       << endl
+       << "3-vector v4 = " << v4 << endl // 3-vector for next step
+       << "Parametrised constructor (ct, v4):\n"
+       << "4-vector f3 = " << f3 << endl // parametrised with vector
+       << endl
+       // dot product operator
+       << "Dot product of two 4-vectors:\n"
+       << "f2 . f3 = " << f2.dot_product(f3) << endl
+       << endl;
 
   // lorentz boost f3
   Vector beta1{3};
-  cout << "Enter beta (3-vector): ";
+  cout << "Enter beta (3-vector) for lorentz boost: ";
   cin >> beta1;
-  Fourvector f4{f3.lorentz_boost(beta1)};
-  cout << "lorentz boost of f3 by " << beta1 << " = " << f4 << endl;
+  cout << "lorentz boost 4-vector f3 = " << f3 << " by B = " << beta1 << ":\n"
+       << "f3' = " << f3.lorentz_boost(beta1) << endl;
+  //-----------------------------
 
   //---show off particle class---
+  cout << endl << endl << "---Particle class---\n";
+  Fourvector r{3, 4, 5, 6}; // make a position vector
+  double m{0.512e9};        // electron mass in eV
+  Vector B{3};              // declare a 3d vector
+  B[0] = 0.999;             // set B = (0.999,0,0)
+  // parametrised constructor
+  Particle p1{r, m, B}; // declare particle with parametrised constructor
+  cout << "Parametrised constructor:\n"
+       << "Particle p1: " << p1 << endl // print it out
+       // lorentz factor (gamma)
+       << "has:\n"
+       << "Lorentz factor = " << p1.get_gamma() << endl
+       // total energy
+       << "Total energy   = " << p1.get_energy() << endl
+       // momentum
+       << "Momentum       = " << p1.get_momentum() << endl;
   //-----------------------------
-  Fourvector r;
-  double m;
-  Vector B;
-
-  cin >> r;
-  cin >> m;
-  cin >> B;
-
-  Particle p1{r, m, B};
-
-  cout << p1 << endl;
 
   // exit
   return 0;
