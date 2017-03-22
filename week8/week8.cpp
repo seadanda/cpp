@@ -13,6 +13,8 @@ using namespace std;
 // Interface class for all shapes
 class Shape // abstract base class
 {
+  friend class Prism;
+
 protected:
   // member data
   int dimensions;  // number of lengths required to specify shape
@@ -21,7 +23,6 @@ protected:
 public:
   Shape(const int &dim) { lengths = new double[dim]; } // constructor
   virtual ~Shape() { delete[] lengths; };              // destructor
-  double get_length(const int &i) { return lengths[i]; }
   // pure virtual member functions
   virtual double area() = 0;   // calculate area
   virtual double volume() = 0; // calculate volume
@@ -228,19 +229,26 @@ public:
 // prism class
 class Prism : public ThreeD // class for prisms
 {
+private:
+  double face_area;
+
 public:
   // parametrised constructor
-  Prism(const double &depth, Shape *face);
+  Prism(const double &depth, Shape *face_in);
 
   // member functions
   double volume(); // volume of prism
+  double area() { return 0; }
 };
+
 // parametrised constructor
-Prism::Prism(const double &depth, Shape *face)
-    : ThreeD(depth, face->get_length(0), face->get_length(1)) {}
+Prism::Prism(const double &depth, Shape *face_in)
+    : ThreeD(depth, face_in->lengths[0], face_in->lengths[1]) {
+  face_area = face_in->area();
+}
 
 // volume of prism
-double Prism::volume() {}
+double Prism::volume() { return lengths[0] * face_area; }
 // end of prism class
 
 // main program
@@ -261,8 +269,7 @@ int main() {
   // make a table of areas (/surface areas) and volumes
   cout << "\nTable of areas (/surface areas) and volumes of all shapes:\n"
        << "  rectangle  square  ellipse  circle  cuboid  cube  ellipsoid  "
-          "sphere\n"
-       << "area  : ";
+          "sphere\narea  : ";
 
   // iterate through vector and get the area of each shape
   for (auto shape_it = shapes.begin(); shape_it != shapes.end(); shape_it++) {
@@ -277,14 +284,34 @@ int main() {
   }
 
   // new line after table
-  cout << endl;
+  cout << endl << endl << "Prism class (all depths set to 2 for clarity):\n";
+
+  // create prisms vector of base pointers
+  vector<Shape *> prisms;
+
+  // create iterator to get 2d shapes from shapes vector
+  auto face_it = shapes.begin();
+
+  // create prisms with this 2d face and push them onto the prisms vector
+  for (int i{0}; i < 4; i++) {
+    prisms.push_back(new Prism{2, *face_it++});
+  }
+
+  // output table of prism volumes denoted by face
+  cout << "Table of volumes of all prisms (denoted by face):\n"
+       << "      rectangle  square  ellipse  circle\nvolume: ";
+
+  // iterate through vector and get the volume of each shape
+  for (auto prism_it = prisms.begin(); prism_it != prisms.end(); prism_it++) {
+    cout << setprecision(2) << fixed << (*prism_it)->volume() << "    ";
+  }
+
+  cout << endl; // newline after the table
 
   // iterate through vector and free up memory
   for (auto shape_it = shapes.begin(); shape_it != shapes.end(); shape_it++) {
     delete *shape_it;
   }
-
-  // print out volume of prisms for each of the 2D shapes
 
   // reset vector
   shapes.clear();
