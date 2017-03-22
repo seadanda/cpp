@@ -5,7 +5,7 @@
 
 #include <cmath>    // M_PI, sqrt, pow
 #include <iomanip>  // setprecision
-#include <iostream> // std io
+#include <iostream> // std io, fixed
 #include <vector>   // polymorphic vector
 
 using namespace std;
@@ -21,6 +21,7 @@ protected:
 public:
   Shape(const int &dim) { lengths = new double[dim]; } // constructor
   virtual ~Shape() { delete[] lengths; };              // destructor
+  double get_length(const int &i) { return lengths[i]; }
   // pure virtual member functions
   virtual double area() = 0;   // calculate area
   virtual double volume() = 0; // calculate volume
@@ -224,6 +225,24 @@ public:
 };
 // end of sphere class
 
+// prism class
+class Prism : public ThreeD // class for prisms
+{
+public:
+  // parametrised constructor
+  Prism(const double &depth, Shape *face);
+
+  // member functions
+  double volume(); // volume of prism
+};
+// parametrised constructor
+Prism::Prism(const double &depth, Shape *face)
+    : ThreeD(depth, face->get_length(0), face->get_length(1)) {}
+
+// volume of prism
+double Prism::volume() {}
+// end of prism class
+
 // main program
 int main() {
   // declare polymorphic vector to store shapes
@@ -264,6 +283,8 @@ int main() {
   for (auto shape_it = shapes.begin(); shape_it != shapes.end(); shape_it++) {
     delete *shape_it;
   }
+
+  // print out volume of prisms for each of the 2D shapes
 
   // reset vector
   shapes.clear();
