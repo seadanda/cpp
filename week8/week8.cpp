@@ -8,111 +8,221 @@
 
 using namespace std;
 
+// Interface class for all shapes
 class Shape // abstract base class
 {
-
 protected:
-  int side_ct;
-  double *sides;
+  // member data
+  int dimensions;  // number of lengths required to specify shape
+  double *lengths; // array to store these lengths in
 
 public:
-  Shape(const int &dim) { sides = new double[dim]; } // constructor
-  virtual ~Shape() { delete[] sides; };              // destructor
-  virtual double area() = 0;                         // calculate area
-  virtual double volume() = 0;                       // calculate volume
+  Shape(const int &dim) { lengths = new double[dim]; } // constructor
+  virtual ~Shape() { delete[] lengths; };              // destructor
+  // pure virtual member functions
+  virtual double area() = 0;   // calculate area
+  virtual double volume() = 0; // calculate volume
 };
+// end of interface for all shapes
 
 // 2D shapes
 class TwoD : public Shape // abstract derived class for 2d shapes
 {
 public:
-  // default constructor
-  TwoD() : Shape(2) {
-    sides[0] = 0;
-    sides[1] = 0;
-  }
-  // parametrised constructor
-  TwoD(const double &length, const double &width) : Shape(2) {
-    sides[0] = length;
-    sides[1] = width;
-  }
-  double volume() { return 0; }
+  TwoD();                                          // default constructor
+  TwoD(const double &length, const double &width); // parametrised constructor
+
+  // member functions
+  double volume() { return 0; } // volume of 2d shapes is always zero
 };
 
+// default constructor for 2d shapes
+TwoD::TwoD() : Shape(2) {
+  lengths[0] = 0;
+  lengths[1] = 0;
+}
+
+// parametrised constructor for 2d shapes
+TwoD::TwoD(const double &length, const double &width) : Shape(2) {
+  lengths[0] = length;
+  lengths[1] = width;
+}
+// end of 2d abstract derived class
+
+// rectangle class
 class Rectangle : public TwoD // derived class for rectangles
 {
 public:
-  Rectangle(const double &length, const double &width) : TwoD(length, width) {}
-  double area() { return sides[0] * sides[1]; }
+  // default constructor
+  Rectangle() : TwoD() {}
+  // parametrised constructor
+  Rectangle(const double &length, const double &width);
+
+  // member functions
+  double area();
 };
 
+// parametrised constructor for rectangle
+Rectangle::Rectangle(const double &length, const double &width)
+    : TwoD(length, width) {}
+
+// area of rectangle
+double Rectangle::area() { return lengths[0] * lengths[1]; }
+// end of rectangle class
+
+// square class
 class Square : public Rectangle // specialisation of Rectangle for squares
 {
 public:
+  // default constructor
+  Square() : Rectangle() {}
+  // parametrised constructor
   Square(const double &length) : Rectangle(length, length) {}
 };
+// end of square class
 
+// ellipse class
 class Ellipse : public TwoD // derived class for ellipses
 {
 public:
-  Ellipse(const double &major, const double &minor) : TwoD(major, minor) {}
-  double area() { return M_PI * sides[0] * sides[1]; }
-};
+  // default constructor
+  Ellipse() : TwoD() {}
+  // parametrised constructor
+  Ellipse(const double &major, const double &minor);
 
+  // member functions
+  double area(); // area
+};
+// parametrised constructor for ellipse
+Ellipse::Ellipse(const double &major, const double &minor)
+    : TwoD(major, minor) {}
+
+// area of ellipse
+double Ellipse::area() { return M_PI * lengths[0] * lengths[1]; }
+// end of ellipse class
+
+// circle class
 class Circle : public Ellipse // specialisation of Ellipse for circles
 {
 public:
+  // default constructor
+  Circle() : Ellipse() {}
+  // parametrised constructor
   Circle(const double &radius) : Ellipse(radius, radius) {}
 };
+// end of circle class
 
+//
 // 3D shapes
+//
 class ThreeD : public Shape // abstract derived class for 3d shapes
 {
 public:
   // default constructor
-  ThreeD() : Shape(3) {
-    sides[0] = 0;
-    sides[1] = 0;
-    sides[2] = 0;
-  }
+  ThreeD();
   // parametrised constructor
-  ThreeD(const double &length, const double &width, const double &height)
-      : Shape(3) {
-    sides[0] = length;
-    sides[1] = width;
-    sides[2] = height;
-  }
-  double area() { return 0; }
+  ThreeD(const double &length, const double &width, const double &height);
 };
 
+// default constructor
+ThreeD::ThreeD() : Shape(3) {
+  lengths[0] = 0;
+  lengths[1] = 0;
+  lengths[2] = 0;
+}
+// parametrised constructor
+ThreeD::ThreeD(const double &length, const double &width, const double &height)
+    : Shape(3) {
+  lengths[0] = length;
+  lengths[1] = width;
+  lengths[2] = height;
+}
+// end of 3d abstract derived class
+
+// cuboid class
 class Cuboid : public ThreeD // derived class for cuboids
 {
 public:
-  Cuboid(const double &length, const double &width, const double &height)
-      : ThreeD(length, width, height) {}
-  double volume() { return sides[0] * sides[1] * sides[2]; }
+  // default constructor
+  Cuboid() : ThreeD() {}
+  // parametrised constructor
+  Cuboid(const double &length, const double &width, const double &height);
+
+  // member functions
+  double volume(); // volume
+  double area();   // surface area
 };
 
+// parametrised constructor for cuboid
+Cuboid::Cuboid(const double &length, const double &width, const double &height)
+    : ThreeD(length, width, height) {}
+
+// volume of cuboid
+double Cuboid::volume() { return lengths[0] * lengths[1] * lengths[2]; }
+
+// surface area of cuboid
+double Cuboid::area() {
+  return 4 * lengths[0] * lengths[1] + 2 * lengths[1] * lengths[2];
+}
+// end of cuboid class
+
+// cube class
 class Cube : public Cuboid // specialisation of Cuboid for cubes
 {
 public:
+  // default constructor
+  Cube() : Cuboid() {}
+  // parametrised constructor
   Cube(const double &length) : Cuboid(length, length, length) {}
 };
+// end of cube class
 
+// ellipsoid class
 class Ellipsoid : public ThreeD // derived class for ellipsoids
 {
 public:
-  Ellipsoid(const double &major, const double &minor, const double &semi)
-      : ThreeD(major, minor, semi) {}
-  double volume() { return 4 / 3 * M_PI * sides[0] * sides[1]; }
+  // default constructor
+  Ellipsoid() : ThreeD() {}
+  // parametrised constructor
+  Ellipsoid(const double &major, const double &minor, const double &semi);
+
+  // member functions
+  double volume(); // volume
+  double area();   // surface area (assuming prolate)
 };
 
+// parametrised constructor for ellipsoid
+Ellipsoid::Ellipsoid(const double &major, const double &minor,
+                     const double &semi)
+    : ThreeD(major, minor, semi) {}
+
+// volume of ellipsoid
+double Ellipsoid::volume() { return 4 / 3 * M_PI * lengths[0] * lengths[1]; }
+
+// surface area of ellipsoid using Knud Thomsen's formula obtained from
+// http://www.web-formulas.com/Math_Formulas/Geometry_Surface_of_Ellipsoid.aspx
+double Ellipsoid::area() {
+  double a{lengths[0]};   // semi major
+  double b{lengths[1]};   // semi minor
+  double c{lengths[2]};   // z
+  const double p{1.6075}; // knud thomsen const
+  return 4 * M_PI *
+         pow((pow(a * b, p) + pow(a * c, p) + pow(b * c, p)) / 3, 1 / p);
+}
+// end of ellipsoid class
+
+// Sphere class
 class Sphere : public Ellipsoid // specialisation of Ellipsoid for spheres
 {
 public:
+  // default constructor
+  Sphere() : Ellipsoid() {}
+  // parametrised constructor
   Sphere(const double &radius) : Ellipsoid(radius, radius, radius) {}
 };
+// end of sphere class
 
+// main program
 int main() {
   //---2D Shapes---
   cout << "---------------\n---2D shapes---\n";
@@ -141,15 +251,13 @@ int main() {
   Ellipsoid ellip1{2, 3, 4};
   Sphere spher1{3};
   // print out surface areas
-  /*
-    cout << "cuboid surface area      = " << cuboi1.area() << endl
-         << "cube surface area        = " << cuube1.area() << endl
-         << "ellipsoid surface area   = " << ellip1.area() << endl
-         << "sphere surface area      = " << spher1.area() << endl
-         << endl;
-         */
-  // volumes
-  cout << "cuboid volume    = " << cuboi1.volume() << endl
+  cout << "cuboid surface area      = " << cuboi1.area() << endl
+       << "cube surface area        = " << cuube1.area() << endl
+       << "ellipsoid surface area   = " << ellip1.area() << endl
+       << "sphere surface area      = " << spher1.area() << endl
+       << endl
+       // volumes
+       << "cuboid volume    = " << cuboi1.volume() << endl
        << "cube volume      = " << cuube1.volume() << endl
        << "ellipsoid volume = " << ellip1.volume() << endl
        << "sphere volume    = " << spher1.volume() << endl
