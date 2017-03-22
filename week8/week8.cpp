@@ -3,8 +3,10 @@
 // Author:  Dónal Murray
 // Date:    21/03/2017
 
-#include <cmath>    //M_PI
+#include <cmath>    // M_PI, sqrt, pow
+#include <iomanip>  // setprecision
 #include <iostream> // std io
+#include <vector>   // polymorphic vector
 
 using namespace std;
 
@@ -224,45 +226,45 @@ public:
 
 // main program
 int main() {
-  //---2D Shapes---
-  cout << "---------------\n---2D shapes---\n";
-  Rectangle rect1{2, 3};
-  Square squa1{3};
-  Ellipse elli1{2, 3};
-  Circle circ1{3};
-  // print out areas
-  cout << "rectangle area = " << rect1.area() << endl
-       << "square area    = " << squa1.area() << endl
-       << "ellipse area   = " << elli1.area() << endl
-       << "circle area    = " << circ1.area() << endl
-       << endl
-       // volumes
-       << "rectangle volume = " << rect1.volume() << endl
-       << "square volume    = " << squa1.volume() << endl
-       << "ellipse volume   = " << elli1.volume() << endl
-       << "circle volume    = " << circ1.volume() << endl
-       << "---------------\n";
-  //---------------
+  // declare polymorphic vector to store shapes
+  vector<Shape *> shapes;
 
-  //---3D Shapes---
-  cout << "\n---3D shapes---\n";
-  Cuboid cuboi1{2, 3, 4};
-  Cube cuube1{3};
-  Ellipsoid ellip1{2, 3, 4};
-  Sphere spher1{3};
-  // print out surface areas
-  cout << "cuboid surface area      = " << cuboi1.area() << endl
-       << "cube surface area        = " << cuube1.area() << endl
-       << "ellipsoid surface area   = " << ellip1.area() << endl
-       << "sphere surface area      = " << spher1.area() << endl
-       << endl
-       // volumes
-       << "cuboid volume    = " << cuboi1.volume() << endl
-       << "cube volume      = " << cuube1.volume() << endl
-       << "ellipsoid volume = " << ellip1.volume() << endl
-       << "sphere volume    = " << spher1.volume() << endl
-       << "---------------\n";
-  //---------------
+  // fill vector with one of each shape
+  shapes.push_back(new Rectangle{2, 3});
+  shapes.push_back(new Square{3});
+  shapes.push_back(new Ellipse{2, 3});
+  shapes.push_back(new Circle{3});
+  shapes.push_back(new Cuboid{2, 3, 4});
+  shapes.push_back(new Cube{3});
+  shapes.push_back(new Ellipsoid{2, 3, 4});
+  shapes.push_back(new Sphere{3});
+
+  cout << "\nTable of areas and volumes of all shapes:\n"
+       << "  rectangle  square  ellipse  circle  cuboid  cube  ellipsoid  "
+          "sphere\n"
+       << "area  : ";
+
+  // iterate through vector and get the area of each shape
+  for (auto shape_it = shapes.begin(); shape_it != shapes.end(); shape_it++) {
+    cout << setprecision(2) << fixed << (*shape_it)->area() << "   ";
+  }
+
+  cout << endl << "volume:  ";
+
+  // iterate through vector and get the volume of each shape
+  for (auto shape_it = shapes.begin(); shape_it != shapes.end(); shape_it++) {
+    cout << setprecision(2) << fixed << (*shape_it)->volume() << "   ";
+  }
+
+  cout << endl;
+
+  // iterate through vector and free up memory
+  for (auto shape_it = shapes.begin(); shape_it != shapes.end(); shape_it++) {
+    delete *shape_it;
+  }
+
+  // reset vector
+  shapes.clear();
 
   // exit
   return 0;
