@@ -239,7 +239,8 @@ int main() {
   shapes.push_back(new Ellipsoid{2, 3, 4});
   shapes.push_back(new Sphere{3});
 
-  cout << "\nTable of areas and volumes of all shapes:\n"
+  // make a table of areas (/surface areas) and volumes
+  cout << "\nTable of areas (/surface areas) and volumes of all shapes:\n"
        << "  rectangle  square  ellipse  circle  cuboid  cube  ellipsoid  "
           "sphere\n"
        << "area  : ";
@@ -256,6 +257,7 @@ int main() {
     cout << setprecision(2) << fixed << (*shape_it)->volume() << "   ";
   }
 
+  // new line after table
   cout << endl;
 
   // iterate through vector and free up memory
