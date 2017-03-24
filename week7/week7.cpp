@@ -14,7 +14,6 @@ class Vector // Vector class
 {
   // friend functions to overload input and output operator
   friend ostream &operator<<(ostream &os, const Vector &vect1); // ostreams
-  friend istream &operator>>(istream &ins, Vector &vect1);      // istreams
 
 protected:
   // member data
@@ -38,8 +37,8 @@ public:
   Vector &operator=(Vector &&vect2);
 
   // accessors
-  double &operator[](const int i) { return data[i]; } // access element
-  int get_dimensions() const { return dimensions; }   // no of dimensions
+  double &operator[](const int i);                  // access element
+  int get_dimensions() const { return dimensions; } // no of dimensions
 
   // member functions
   double dot_product(const Vector &vect2) const; // calc dot product
@@ -123,6 +122,15 @@ Vector &Vector::operator=(Vector &&vect2) {
   return *this;
 }
 
+// overload subscript operator for accessing elements of Vector
+double &Vector::operator[](const int i) {
+  if ((i < 0) || (i > dimensions)) {
+    cerr << "Error: element lies outside array.\n";
+    exit(1);
+  }
+  return data[i];
+}
+
 // calc dot product
 double Vector::dot_product(const Vector &vect2) const {
   double result{0};
@@ -138,7 +146,11 @@ double Vector::dot_product(const Vector &vect2) const {
 
 // define ostream behaviour for Vector
 ostream &operator<<(ostream &os, const Vector &vect1) {
-  os << "(";
+  if (vect1.get_dimensions() > 1) {
+    os << "(";
+  } else {
+    os << "empty";
+  }
   for (int i{0}; i < vect1.get_dimensions(); i++) {
     if (i == vect1.get_dimensions() - 1) {
       os << vect1.data[i] << ")";
@@ -149,22 +161,12 @@ ostream &operator<<(ostream &os, const Vector &vect1) {
   return os;
 }
 
-// define istream behaviour for Vector
-istream &operator>>(istream &is, Vector &vect1) {
-  for (int i{0}; i < vect1.get_dimensions(); i++) {
-    is >> vect1[i];
-    is.ignore(); // ignore the space
-  }
-  return is;
-}
-
 // class for 4-vectors - inherits from Vector
 // (ct,x,y,z)
 class Fourvector : public Vector // 4-vector class
 {
   // friend functions to overload input and output operator
-  friend ostream &operator<<(ostream &os, Fourvector &fvect1);  // ostreams
-  friend istream &operator>>(istream &ins, Fourvector &fvect1); // istreams
+  friend ostream &operator<<(ostream &os, Fourvector &fvect1); // ostreams
 
 public:
   // default constructor
@@ -217,27 +219,19 @@ Fourvector::Fourvector(const double &t, Vector &r) : Vector(4) {
 Fourvector::Fourvector(const Fourvector &fvect2) : Vector(fvect2) {}
 
 // move constructor
-Fourvector::Fourvector(Fourvector &&fvect2) : Vector(fvect2) {
-  // reset fvect2
-  fvect2.data = 0;
-}
+Fourvector::Fourvector(Fourvector &&fvect2) : Vector(move(fvect2)) {}
 
 // copy assignment operator
 Fourvector &Fourvector::operator=(const Fourvector &fvect2) {
   // use Vector assignment operator to do heavy lifting
   Vector::operator=(fvect2);
-
   return *this;
 }
 
 // move assignment operator
 Fourvector &Fourvector::operator=(Fourvector &&fvect2) {
   // use Vector assignment operator to do heavy lifting
-  Vector::operator=(fvect2);
-
-  // reset rvalue vector
-  fvect2.data = 0;
-
+  Vector::operator=(move(fvect2));
   return *this;
 }
 
@@ -300,7 +294,11 @@ Fourvector Fourvector::lorentz_boost(Vector &beta) {
 
 // define ostream behaviour
 ostream &operator<<(ostream &os, Fourvector &fvect1) {
-  os << "(";
+  if (fvect1.get_dimensions() > 1) {
+    os << "(";
+  } else {
+    os << "empty";
+  }
   for (int i{0}; i < fvect1.get_dimensions(); i++) {
     if (i == fvect1.get_dimensions() - 1) {
       os << fvect1[i] << ")";
@@ -311,21 +309,11 @@ ostream &operator<<(ostream &os, Fourvector &fvect1) {
   return os;
 }
 
-// define istream behaviour
-istream &operator>>(istream &is, Fourvector &fvect1) {
-  for (int i{0}; i < fvect1.get_dimensions(); i++) {
-    is >> fvect1[i];
-    is.ignore(); // ignore the space
-  }
-  return is;
-}
-
 // particle class
 class Particle // class for particles
 {
   // friends of the class
   friend ostream &operator<<(ostream &os, Particle &part1);
-  friend istream &operator>>(istream &is, Particle &part1);
 
 private:
   Fourvector position;
@@ -376,73 +364,153 @@ ostream &operator<<(ostream &os, Particle &part1) {
   return os;
 }
 
-// define istream behaviour for particle class
-istream &operator>>(istream &is, Particle &part1) {
-  is >> part1.position; // read in position vector
-  is.ignore();          // ignore separating character
-  is >> part1.mass;     // read in mass
-  is.ignore();          // ignore separating character
-  is >> part1.beta;     // read in beta
-  return is;
-}
-
 int main() {
+  for (int i{0}; i < 20; i++)
+    cout << endl; // clear screen for testing TODO remove before submission
   //---show off Vector class---
   cout << "---Vector class---\n";
   // default constructor
   Vector v1;
-  cout << "Default constructor:\n3-vector v1 = " << v1 << endl << endl;
-  // parametrised constructor
-  Vector v2{3};
-  cout << "Parametrised constructor:\n3-vector v2 = " << v2 << endl
-       << endl
-       << "Enter two 3d vectors v2 and v3 (comma separated):\nv2: ";
-  cin >> v2;
-  Vector v3{3};
-  cout << "v3: ";
-  cin >> v3;
+  cout << "Default constructor: v1 = " << v1 << endl;
 
-  cout << "3-vector v2 = " << v2 << endl
-       << "3-vector v3 = " << v3 << endl
-       << endl
-       // dot product member function
-       << "Dot product of two vectors:\n"
-       << "(v2 . v3) = " << v2.dot_product(v3) << endl;
+  // parametrised constructor
+  Vector v2{5};
+  cout << "Parametrised constructor with an argument of 5: v2 = " << v2 << endl;
+
+  // copy constructor
+  Vector v3{3};
+  for (int i{0}; i < 3; i++) {
+    v3[i] = 1;
+  }
+  cout << "\ncopy constructor demo\n";
+  cout << "vector v3 = " << v3 << endl;
+  Vector v4{v3};
+  cout << "vector v4 = " << v4 << endl;
+  cout << "vector v3 = " << v3 << " is unchanged.\n";
+  cout << "change vector v3 to (2, 2, 2) and show that v4 is unchanged.\n";
+  for (int i{0}; i < 3; i++) {
+    v3[i] = 2;
+  }
+  cout << "vector v3 = " << v3 << endl;
+  cout << "vector v4 = " << v4 << endl;
+
+  // copy assignment operator
+  cout << "\ncopy assignment demo\n";
+  Vector v5;
+  v5 = v3;
+  cout << "vector v5 = " << v5 << endl;
+  cout << "vector v3 = " << v3 << " is unchanged.\n";
+  cout << "change vector v3 to (3, 3, 3) and show that v5 is unchanged.\n";
+  for (int i{0}; i < 3; i++) {
+    v3[i] = 3;
+  }
+  cout << "vector v3 = " << v3 << endl;
+  cout << "vector v5 = " << v5 << endl;
+
+  // move constructor
+  cout << "\nmove constructor\n";
+  cout << "vector v5 = " << v5 << endl;
+  cout << "move v5 into a new vector v6, show v5 is empty\n";
+  Vector v6{move(v5)};
+  cout << "vector v6 = " << v6 << endl;
+  cout << "vector v5 = " << v5 << endl;
+
+  // move assignment operator
+  cout << "\nmove assignment demo\n";
+  Vector v7;
+  cout << "vector v7 = " << v7 << endl;
+  cout << "vector v6 = " << v6 << endl;
+  cout << "set vector v7 equal to v6, show v6 is empty\n";
+  v7 = move(v6);
+  cout << "vector v7 = " << v7 << endl;
+  cout << "vector v6 = " << v6 << endl;
+
+  // accessor
+  cout << "\naccessor: v7[1] = " << v7[1] << endl;
+
+  // dot product
+  cout << "Dot product of two vectors:\n"
+       << "v7 = " << v7 << endl
+       << "v4 = " << v4 << endl
+       << "(v7 . v4) = " << v7.dot_product(v4) << endl;
+
   //------------------------------
 
   //---show off 4-vector class---
   cout << endl << endl << "---4-vector class---\n";
-  // default constructor
-  Fourvector f1;
-  // parametrised constructor with 4 doubles
-  Fourvector f2{1.0, 2.0, 3.0, 4.0};
-  // parametrised constructor with a double and a 3-vector
-  Vector v4{3};
-  v4[0] = 3;
-  v4[1] = 6;
-  v4[2] = 8;
-  Fourvector f3{1.0, v4};
+  // parametrised constructor 1 (4 doubles)
+  cout << "parametrised constructor with 4 doubles as arguments\n";
+  cout << "ct = 2, x = 2, y = 2, z = 2\n";
+  Fourvector f1{2, 2, 2, 2};
+  cout << "f1 = " << f1 << endl;
 
-  // print out constructors
-  cout << "Default constructor:\n"
-       << "4-vector f1 = " << f1 << endl // default
-       << endl
-       << "Parametrised constructor (ct, x, y, z):\n"
-       << "4-vector f2 = " << f2 << endl // parametrised all doubles
-       << endl
-       << "3-vector v4 = " << v4 << endl // 3-vector for next step
-       << "Parametrised constructor (ct, v4):\n"
-       << "4-vector f3 = " << f3 << endl // parametrised with vector
-       << endl
-       // dot product operator
-       << "Dot product of two 4-vectors:\n"
-       << "f2 . f3 = " << f2.dot_product(f3) << endl
-       << endl;
+  // parametrised constructor 2 (double and 3-vector)
+  cout << "parametrised constructor with a double and a 3-vector as "
+          "arguments\n";
+  cout << "ct = 1, 3-vector = " << v7 << endl;
+  Fourvector f2{1, v7};
+  cout << "f2 = " << f2 << endl;
+
+  // copy constructor
+  Fourvector f3{3, 3, 3, 3};
+  cout << "\ncopy constructor demo\n";
+  cout << "Fourvector f3 = " << f3 << endl;
+  Fourvector f4{f3};
+  cout << "Fourvector f4 = " << f4 << endl;
+  cout << "Fourvector f3 = " << f3 << " is unchanged.\n";
+  cout << "change Fourvector f3 to (4, 4, 4, 4) and show that f4 is "
+          "unchanged.\n";
+  for (int i{0}; i < 4; i++) {
+    f3[i] = 4;
+  }
+  cout << "Fourvector f3 = " << f3 << endl;
+  cout << "Fourvector f4 = " << f4 << endl;
+
+  // copy assignment operator
+  cout << "\ncopy assignment demo\n";
+  Fourvector f5;
+  f5 = f3;
+  cout << "Fourvector f5 = " << f5 << endl;
+  cout << "Fourvector f3 = " << f3 << " is unchanged.\n";
+  cout << "change Fourvector f3 to (5, 5, 5, 5) and show that f5 is "
+          "unchanged.\n";
+  for (int i{0}; i < 4; i++) {
+    f3[i] = 5;
+  }
+  cout << "Fourvector f3 = " << f3 << endl;
+  cout << "Fourvector f5 = " << f5 << endl;
+
+  // move constructor
+  cout << "\nmove constructor\n";
+  cout << "Fourvector f5 = " << f5 << endl;
+  cout << "move f5 into a new Fourvector f6, show f5 is empty\n";
+  Fourvector f6{move(f5)};
+  cout << "Fourvector f6 = " << f6 << endl;
+  cout << "Fourvector f5 = " << f5 << endl;
+
+  // move assignment operator
+  cout << "\nmove assignment demo\n";
+  Fourvector f7;
+  cout << "Fourvector f7 = " << f7 << endl;
+  cout << "Fourvector f6 = " << f6 << endl;
+  cout << "set Fourvector f7 equal to f6, show f6 is empty\n";
+  f7 = move(f6);
+  cout << "Fourvector f7 = " << f7 << endl;
+  cout << "Fourvector f6 = " << f6 << endl;
+
+  // accessor
+  cout << "\naccessor: f7[1] = " << v7[1] << endl;
+
+  // dot product
+  cout << "\nDot product of two Fourvectors:\n"
+       << "f7 = " << f7 << endl
+       << "f4 = " << f4 << endl
+       << "(f7 . f4) = " << f7.dot_product(f4) << endl;
 
   // lorentz boost f3
+  cout << "\nlorentz boost\n";
   Vector beta1{3};
-  cout << "Enter beta (3-vector) for lorentz boost: ";
-  cin >> beta1;
+  beta1[0] = 0.99; // set beta = (0.99,0,0)
   cout << "lorentz boost 4-vector f3 = " << f3 << " by B = " << beta1 << ":\n"
        << "f3' = " << f3.lorentz_boost(beta1) << endl;
   //-----------------------------
@@ -455,15 +523,16 @@ int main() {
   B[0] = 0.999;             // set B = (0.999,0,0)
   // parametrised constructor
   Particle p1{r, m, B}; // declare particle with parametrised constructor
-  cout << "Parametrised constructor:\n"
+  cout << "Parametrised constructor\n"
        << "Particle p1: " << p1 << endl // print it out
        // lorentz factor (gamma)
-       << "has:\n"
+       << "p1 has:\n"
        << "Lorentz factor = " << p1.get_gamma() << endl
        // total energy
        << "Total energy   = " << p1.get_energy() << endl
        // momentum
        << "Momentum       = " << p1.get_momentum() << endl;
+
   //-----------------------------
 
   // exit
