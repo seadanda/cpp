@@ -1,6 +1,6 @@
 CXX=g++
 CXXFLAGS= -std=c++11
-OBJ=main.o component.o resistor.o capacitor.o inductor.o complex.o circuit.o
+OBJ=main.o circuit.o resistor.o capacitor.o inductor.o component.o complex.o
 
 all: output
 
