@@ -5,6 +5,12 @@
 
 #include <iostream> // std io
 
+#include "capacitor.h" // capacitor class
+#include "circuit.h"   // circuit class
+#include "component.h" // component base class
+#include "inductor.h"  // inductor class
+#include "resistor.h"  // resistor class
+
 using namespace std;
 
 int main() {

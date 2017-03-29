@@ -1,5 +1,5 @@
 /* complex.cpp
- * Implementation of Complex class to store and manipulate capacitors
+ * Implementation of Complex class to store and manipulate complex numbers
  *  Interface:      complex.h
  *  Author:         Dónal Murray
  *  Date:           29/03/17
