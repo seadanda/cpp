@@ -1,6 +1,17 @@
-*makefile
-*output
+#ignore makefiles (except final project) and reference files
+week1/makefile
+week2/makefile
+week3/makefile
+week4/makefile
+week5/makefile
+week6/makefile
+week7/makefile
+week8/makefile
 *temp*
-
-/ref
 *ref*
+
+#ignore compiled programs
+*output
+
+#ignore object files
+*.o
