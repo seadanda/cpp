@@ -9,4 +9,6 @@
 #ifndef INDUCTOR_H
 #define INDUCTOR_H
 
+class Inductor : public Component {};
+
 #endif

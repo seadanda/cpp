@@ -9,4 +9,6 @@
 #ifndef RESISTOR_H
 #define RESISTOR_H
 
+class Resistor : public Component {};
+
 #endif

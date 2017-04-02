@@ -1,4 +1,4 @@
-// final_project.cpp: AC Circuit Manipulator
+// main.cpp: AC Circuit Manipulator main function
 //
 // Author:  Dónal Murray
 // Date:    22/03/2017

@@ -9,4 +9,6 @@
 #ifndef CAPACITOR_H
 #define CAPACITOR_H
 
+class Capacitor : public Component {};
+
 #endif
