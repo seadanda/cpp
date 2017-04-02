@@ -14,9 +14,23 @@
 
 class Resistor : public Component {
 public:
-  // constructors
+  // default constructor
   Resistor();
-  Resistor(const double &, const Complex &, const double &);
+  // not in circuit (no frequency)
+  Resistor(const double &);
+  // in circuit (freq specified)
+  Resistor(const double &, const double &);
+
+  // set frequency of component (frequency)
+  void set_frequency(const double &);
+  // return frequency of component
+  double get_frequency() const;
+  // return phase difference of component
+  double get_phase_difference() const;
+  // calculate impedence of component
+  Complex get_impedance() const;
+  // calculate the magnitude of the impedence
+  double get_mag_impedance() const;
 };
 
 #endif
