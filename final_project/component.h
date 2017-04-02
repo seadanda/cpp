@@ -12,34 +12,32 @@
 
 class Component {
 protected:
+  double phase_difference; // phase difference
+  double value;            // resistance/capacitance/inductance
   double frequency;        // frequency of circuit
   Complex impedence;       // impedence of component
-  double phase_difference; // phase difference of impedence
 
 public:
-  // constructors and virtual destructor
+  // default constructor
   Component();
-  Component(const double &, const Complex &, const double &);
+  // parametrised constructor (phase)
+  Component(const double &); // never use this one TODO
+  // parametrised constructor (phase, value)
+  Component(const double &, const double &);
+  // parametrised constructor (phase, value, frequency)
+  Component(const double &, const double &, const double &);
   // destructor
   virtual ~Component() {}
 
-  // modifiers
-  // set frequency of component
+  // set frequency of component (frequency)
   virtual void set_frequency(const double &) = 0;
-  // set impedence of component
-  virtual void set_impedence(const Complex &) = 0;
-  // set phase difference of component
-  virtual void set_phase_difference(const double &) = 0;
-
-  // accessors
   // return frequency of component
   virtual double get_frequency() const = 0;
-  // return impedence of component
-  virtual Complex get_impedance() const = 0;
   // return phase difference of component
   virtual double get_phase_difference() const = 0;
-
-  // calculate the magnitude of the components impedence
+  // calculate impedence of component
+  virtual Complex get_impedance() const = 0;
+  // calculate the magnitude of the impedence
   virtual double get_mag_impedance() const = 0;
 };
 

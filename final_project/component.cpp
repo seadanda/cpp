@@ -10,8 +10,12 @@
 #include "complex.h"
 
 // default constructor
-Component::Component() : frequency{0}, impedence{0}, phase_difference{0} {}
+Component::Component() : phase_difference{0}, value{0}, frequency{0} {}
 
-// parametrised constructor
-Component::Component(const double &freq, const Complex &Z, const double &phase)
-    : frequency{freq}, impedence{Z}, phase_difference{phase} {}
+// parametrised constructor (phase, value) - not in circuit
+Component::Component(const double &phase, const double &val)
+    : phase_difference{phase}, value{val}, frequency{0} {}
+
+// parametrised constructor (phase, value, frequency) - in circuit
+Component::Component(const double &phase, const double &val, const double &freq)
+    : phase_difference{phase}, value{val}, frequency{freq} {}
