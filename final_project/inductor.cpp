@@ -8,7 +8,12 @@
 #include "inductor.h"  // Inductor class interface
 #include "component.h" // component base class
 
-Inductor::Inductor() : Component() {}
+// default constructor
+Inductor::Inductor() : Component(90, 0) {}
 
-Inductor::Inductor(const double &freq, const Complex &Z, const double &phase)
-    : Component(freq, Z, phase) {}
+// not in circuit (no frequency)
+Inductor::Inductor(const double &L) : Component(90, L) {}
+
+// in circuit (freq specified)
+Inductor::Inductor(const double &L, const double &freq)
+    : Component(90, L, freq) {}

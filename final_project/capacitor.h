@@ -14,9 +14,12 @@
 
 class Capacitor : public Component {
 public:
-  // constructors
+  // default constructor
   Capacitor();
-  Capacitor(const double &, const Complex &, const double &);
+  // not in circuit (no frequency)
+  Capacitor(const double &);
+  // in circuit (freq specified)
+  Capacitor(const double &, const double &);
 };
 
 #endif

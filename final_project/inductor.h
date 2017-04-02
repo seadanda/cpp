@@ -14,9 +14,12 @@
 
 class Inductor : public Component {
 public:
-  // constructors
+  // default constructor
   Inductor();
-  Inductor(const double &, const Complex &, const double &);
+  // not in circuit (no frequency)
+  Inductor(const double &);
+  // in circuit (freq specified)
+  Inductor(const double &, const double &);
 };
 
 #endif

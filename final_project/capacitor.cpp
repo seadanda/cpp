@@ -8,7 +8,12 @@
 #include "capacitor.h" // capacitor class interface
 #include "component.h" // component base class
 
-Capacitor::Capacitor() : Component() {}
+// default constructor
+Capacitor::Capacitor() : Component(-90, 0) {}
 
-Capacitor::Capacitor(const double &freq, const Complex &Z, const double &phase)
-    : Component(freq, Z, phase) {}
+// not in circuit (no frequency)
+Capacitor::Capacitor(const double &C) : Component(-90, C) {}
+
+// in circuit (freq specified)
+Capacitor::Capacitor(const double &C, const double &freq)
+    : Component(-90, C, freq) {}
