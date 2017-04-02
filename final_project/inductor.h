@@ -9,6 +9,14 @@
 #ifndef INDUCTOR_H
 #define INDUCTOR_H
 
-class Inductor : public Component {};
+#include "complex.h"
+#include "component.h"
+
+class Inductor : public Component {
+public:
+  // constructors
+  Inductor();
+  Inductor(const double &, const Complex &, const double &);
+};
 
 #endif

@@ -9,6 +9,14 @@
 #ifndef CAPACITOR_H
 #define CAPACITOR_H
 
-class Capacitor : public Component {};
+#include "complex.h"
+#include "component.h"
+
+class Capacitor : public Component {
+public:
+  // constructors
+  Capacitor();
+  Capacitor(const double &, const Complex &, const double &);
+};
 
 #endif

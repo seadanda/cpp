@@ -9,6 +9,14 @@
 #ifndef RESISTOR_H
 #define RESISTOR_H
 
-class Resistor : public Component {};
+#include "complex.h"
+#include "component.h"
+
+class Resistor : public Component {
+public:
+  // constructors
+  Resistor();
+  Resistor(const double &, const Complex &, const double &);
+};
 
 #endif
