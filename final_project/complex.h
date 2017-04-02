@@ -26,7 +26,8 @@ private:
 public:
   // default constructor
   Complex();
-  // parametrised constructor
+  // parametrised constructors
+  Complex(double re);
   Complex(double re, double im);
   // destructor
   ~Complex();

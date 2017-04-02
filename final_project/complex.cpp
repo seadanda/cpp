@@ -14,7 +14,8 @@
 // default constructor
 Complex::Complex() : real{0}, imaginary{0} {}
 
-// parametrised constructor
+// parametrised constructors
+Complex::Complex(double re) : real{re}, imaginary{0} {}
 Complex::Complex(double re, double im) : real{re}, imaginary{im} {}
 
 // destructor
