@@ -1,7 +1,8 @@
-// main.cpp: AC Circuit Manipulator main function
-//
-// Author:  Dónal Murray
-// Date:    22/03/2017
+/* main.cpp: AC Circuit Manipulator main function
+ *
+ *  Author:          Dónal Murray
+ *  Date:            29/03/17
+ */
 
 #include <iostream> // std io
 
