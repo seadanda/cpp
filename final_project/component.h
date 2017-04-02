@@ -20,7 +20,8 @@ public:
   // constructors and virtual destructor
   Component();
   Component(const double &, const Complex &, const double &);
-  virtual ~Component();
+  // destructor
+  virtual ~Component() {}
 
   // modifiers
   // set frequency of component
