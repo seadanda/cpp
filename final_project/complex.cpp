@@ -81,36 +81,36 @@ Complex Complex::operator/(const Complex &z2) const // return quotient
 }
 
 // define how complex numbers are inserted into an ostream
-ostream &operator<<(ostream &outs, const Complex &z) // define ostream behaviour
+ostream &operator<<(ostream &os, const Complex &z) // define ostream behaviour
 {
   if (z.imaginary < 0) {
     // negative, minus already included in double
-    outs << z.real << z.imaginary << "i";
+    os << z.real << z.imaginary << "i";
   } else {
     // positive or zero, insert + sign
-    outs << z.real << "+" << z.imaginary << "i";
+    os << z.real << "+" << z.imaginary << "i";
   }
-  return outs;
+  return os;
 }
 
 // define how complex numbers are read from an istream
-istream &operator>>(istream &ins, Complex &z) // define istream behaviour
+istream &operator>>(istream &is, Complex &z) // define istream behaviour
 {
   double re; // real part
   double im; // imaginary part
   char sign; // sign of imaginary part (+/-)
 
-  ins >> re   // read first number
+  is >> re    // read first number
       >> sign // read sign of imaginary part
       >> im;  // read second number
-  if (ins.fail()) {
+  if (is.fail()) {
     // i is before the imaginary part, ignore it and read in the imaginary part
-    ins.clear();  // clear the fail bit
-    ins.ignore(); // ignore the i
-    ins >> im;    // read second number
+    is.clear();  // clear the fail bit
+    is.ignore(); // ignore the i
+    is >> im;    // read second number
   } else {
     // i is after imaginary part. ignore it to clear the stream
-    ins.ignore();
+    is.ignore();
   }
 
   // a+ib a-ib
@@ -127,5 +127,5 @@ istream &operator>>(istream &ins, Complex &z) // define istream behaviour
     z.set_imaginary(-1 * im);
   }
 
-  return ins;
+  return is;
 }

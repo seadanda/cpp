@@ -8,13 +8,15 @@
 #ifndef COMPLEX_H
 #define COMPLEX_H
 
+#include <iostream> // i/ostream types
+
 using namespace std;
 
 class Complex // class for complex numbers
 {
   // friend functions to overload << and >> to define iostream behaviour
-  friend ostream &operator<<(ostream &outs, const Complex &z); // ostreams
-  friend istream &operator>>(istream &ins, Complex &z);        // istreams
+  friend ostream &operator<<(ostream &os, const Complex &z); // ostreams
+  friend istream &operator>>(istream &is, Complex &z);       // istreams
 
 private:
   // member data
