@@ -15,6 +15,18 @@
 
 using namespace std;
 
+void handle_error(const int &err) {
+  cerr << "Error: ";
+  switch (err) {
+  case 1:
+    cerr << "not a valid input.\n";
+    break;
+  default:
+    cerr << "an error occurred\n";
+    break;
+  }
+}
+
 int main() {
   // create polymorphic vector of base class pointers
   vector<Component *> components;
@@ -34,6 +46,16 @@ int main() {
          << (*it)->get_impedance() << endl
          << (*it)->get_mag_impedance() << endl;
   }
+
+  Circuit rc_circuit{159.15};
+  rc_circuit.add_component(new Resistor{100});
+  rc_circuit.add_component(new Capacitor{10e-6});
+  try {
+    rc_circuit.connect('f');
+  } catch (int &err) {
+    handle_error(err);
+  }
+  rc_circuit.connect('s');
 
   // exit
   return 0;
