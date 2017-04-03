@@ -15,3 +15,7 @@ week8/makefile
 
 #ignore object files
 *.o
+
+#latex
+*.latex*
+*.synctex.gz
