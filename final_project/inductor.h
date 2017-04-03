@@ -20,6 +20,17 @@ public:
   Inductor(const double &);
   // in circuit (freq specified)
   Inductor(const double &, const double &);
+
+  // set frequency of component (frequency)
+  void set_frequency(const double &);
+  // return frequency of component
+  double get_frequency() const;
+  // return phase difference of component
+  double get_phase_difference() const;
+  // calculate impedence of component
+  Complex get_impedance() const;
+  // calculate the magnitude of the impedence
+  double get_mag_impedance() const;
 };
 
 #endif

@@ -17,3 +17,26 @@ Capacitor::Capacitor(const double &C) : Component(-90, C) {}
 // in circuit (freq specified)
 Capacitor::Capacitor(const double &C, const double &freq)
     : Component(-90, C, freq) {}
+
+// set frequency of component (frequency)
+void Capacitor::set_frequency(const double &freq) { frequency = freq; }
+
+// return frequency of component
+double Capacitor::get_frequency() const { return frequency; }
+
+// return phase difference of component
+double Capacitor::get_phase_difference() const { return phase_difference; }
+
+// calculate impedence of component
+Complex Capacitor::get_impedance() const {
+  // TODO
+  Complex result;
+  result.set_real(1);
+  result.set_imaginary(2);
+  return result;
+}
+
+// calculate the magnitude of the impedence
+double Capacitor::get_mag_impedance() const {
+  return (get_impedance()).modulus();
+}

@@ -17,3 +17,26 @@ Inductor::Inductor(const double &L) : Component(90, L) {}
 // in circuit (freq specified)
 Inductor::Inductor(const double &L, const double &freq)
     : Component(90, L, freq) {}
+
+// set frequency of component (frequency)
+void Inductor::set_frequency(const double &freq) { frequency = freq; }
+
+// return frequency of component
+double Inductor::get_frequency() const { return frequency; }
+
+// return phase difference of component
+double Inductor::get_phase_difference() const { return phase_difference; }
+
+// calculate impedence of component
+Complex Inductor::get_impedance() const {
+  // TODO
+  Complex result;
+  result.set_real(1);
+  result.set_imaginary(2);
+  return result;
+}
+
+// calculate the magnitude of the impedence
+double Inductor::get_mag_impedance() const {
+  return (get_impedance()).modulus();
+}

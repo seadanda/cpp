@@ -20,7 +20,12 @@ int main() {
   vector<Component *> components;
 
   // push components on
+  components.push_back(new Resistor{200});
   components.push_back(new Resistor{100, 10});
+  components.push_back(new Inductor{100});
+  components.push_back(new Inductor{100, 159.15});
+  components.push_back(new Capacitor{100});
+  components.push_back(new Capacitor{10e-6, 300});
 
   // go through and test each function
   for (auto it = components.begin(); it != components.end(); it++) {
