@@ -5,6 +5,7 @@
  */
 
 #include <iostream> // std io
+#include <vector>   // vector container
 
 #include "capacitor.h" // capacitor class
 #include "circuit.h"   // circuit class
@@ -15,6 +16,20 @@
 using namespace std;
 
 int main() {
-  cout << "Abandon all hope, ye who enter here.\n";
+  // create polymorphic vector of base class pointers
+  vector<Component *> components;
+
+  // push components on
+  components.push_back(new Resistor{100, 10});
+
+  // go through and test each function
+  for (auto it = components.begin(); it != components.end(); it++) {
+    cout << (*it)->get_phase_difference() << endl
+         << (*it)->get_frequency() << endl
+         << (*it)->get_impedance() << endl
+         << (*it)->get_mag_impedance() << endl;
+  }
+
+  // exit
   return 0;
 }
