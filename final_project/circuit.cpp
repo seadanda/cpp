@@ -23,11 +23,8 @@ Circuit::Circuit(const double &freq) : frequency(freq) {}
 
 // destructor
 Circuit::~Circuit() {
-  // interate through components vector and free up memory
-  for (auto c_it = components.begin(); c_it != components.end(); c_it++) {
-    delete *c_it;
-  }
-  // delete the components container
+  // delete the components container - memory for components will be freed when
+  // the component library is freed up
   components.clear();
   // interate through subcircuits vector and free up memory
   for (auto s_it = subcircuits.begin(); s_it != subcircuits.end(); s_it++) {
@@ -61,7 +58,7 @@ void Circuit::connect(const char &type) {
   connection_type = type;
   if (connection_type == 's') {
     // connect in series
-    cout << "woo\n";
+    cout << "Series circuit\n";
   } else if (connection_type == 'p') {
     // connect in parallel
   } else {
