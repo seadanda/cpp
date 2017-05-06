@@ -24,8 +24,6 @@ public:
   // in circuit (freq specified)
   Resistor(const double &, const double &);
 
-  // get resistance of component
-  double get_resistance() const;
   // set frequency of component (frequency)
   void set_frequency(const double &);
   // return frequency of component
@@ -36,6 +34,8 @@ public:
   Complex get_impedance() const;
   // calculate the magnitude of the impedence
   double get_mag_impedance() const;
+  // get resistance of component
+  double get_value() const;
 };
 
 #endif

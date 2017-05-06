@@ -9,14 +9,14 @@
 #include "component.h" // component base class
 
 // default constructor
-Inductor::Inductor() : Component(90, 0) {}
+Inductor::Inductor() : Component(90, 0, "L"), inductance{0} {}
 
 // not in circuit (no frequency)
-Inductor::Inductor(const double &L) : Component(90, L) {}
+Inductor::Inductor(const double &L) : Component(90, L, "L"), inductance{L} {}
 
 // in circuit (freq specified)
 Inductor::Inductor(const double &L, const double &freq)
-    : Component(90, L, freq) {}
+    : Component(90, L, freq, "L"), inductance{L} {}
 
 // set frequency of component (frequency)
 void Inductor::set_frequency(const double &freq) { frequency = freq; }
@@ -40,3 +40,5 @@ Complex Inductor::get_impedance() const {
 double Inductor::get_mag_impedance() const {
   return (get_impedance()).modulus();
 }
+
+double Inductor::get_value() const { return inductance; }

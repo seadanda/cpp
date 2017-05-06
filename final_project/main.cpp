@@ -29,6 +29,29 @@ void error(const int &err) {
 }
 
 // outstream function template
+ostream &operator<<(ostream &os, Component &comp) {
+  os << "  " << comp.label << "      ";
+  if (comp.label[0] == 'R') {
+    os << "Resistor   " << comp.get_value() << " \u03A9";
+  } else if (comp.label[0] == 'C') {
+    os << "Capacitor  " << comp.get_value() << " F";
+  } else if (comp.label[0] == 'L') {
+    os << "Inductor   " << comp.get_value() << " H";
+  } else {
+    os << "Undefined  N/A";
+  }
+  return os;
+}
+
+// function to iterate through component library and and print the components
+void print_library(const vector<Component *> &lib) {
+  cout << "-------Component library-------\n";
+  cout << "| Label   Component   Value   |\n-------------------------------\n";
+  for (auto it = lib.begin(); it != lib.end(); it++) {
+    cout << **it << endl;
+  }
+  cout << "-------------------------------\n";
+}
 
 int main() {
   // create polymorphic vector of base class pointers
@@ -42,14 +65,8 @@ int main() {
   component_library.push_back(new Capacitor{100});
   component_library.push_back(new Capacitor{10e-6, 300});
 
-  // go through and test each function
-  for (auto it = component_library.begin(); it != component_library.end();
-       it++) {
-    cout << (*it)->get_phase_difference() << endl
-         << (*it)->get_frequency() << endl
-         << (*it)->get_impedance() << endl
-         << (*it)->get_mag_impedance() << endl;
-  }
+  // print out library
+  print_library(component_library);
 
   Circuit rc_circuit{159.15};
   rc_circuit.add_component(new Resistor{100});

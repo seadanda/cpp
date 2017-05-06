@@ -13,6 +13,9 @@
 #include "component.h"
 
 class Capacitor : public Component {
+private:
+  double capacitance;
+
 public:
   // default constructor
   Capacitor();
@@ -31,6 +34,8 @@ public:
   Complex get_impedance() const;
   // calculate the magnitude of the impedence
   double get_mag_impedance() const;
+
+  double get_value() const;
 };
 
 #endif

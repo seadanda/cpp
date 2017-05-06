@@ -33,7 +33,7 @@ public:
   // destructor
   virtual ~Component() {}
 
-  virtual double get_resistance() const = 0;
+  virtual double get_value() const = 0;
   // set frequency of component (frequency)
   virtual void set_frequency(const double &) = 0;
   // return frequency of component

@@ -13,6 +13,9 @@
 #include "component.h"
 
 class Inductor : public Component {
+private:
+  double inductance;
+
 public:
   // default constructor
   Inductor();
@@ -31,6 +34,8 @@ public:
   Complex get_impedance() const;
   // calculate the magnitude of the impedence
   double get_mag_impedance() const;
+
+  double get_value() const;
 };
 
 #endif
