@@ -1,5 +1,5 @@
 namespace libs {
 // create polymorphic vector of base class pointers for component library
-vector<Component *> component_library;
-vector<Circuit *> circuit_library;
+vector<Component *> component_lib;
+vector<Circuit *> circuit_lib;
 } // namespace libs

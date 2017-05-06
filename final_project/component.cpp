@@ -8,6 +8,7 @@
 
 #include "component.h"
 #include "complex.h"
+#include <iostream>
 #include <string>
 
 // default constructor
@@ -21,3 +22,18 @@ Component::Component(const double &phase, const double &val, const string &lab)
 Component::Component(const double &phase, const double &val, const double &freq,
                      const string &lab)
     : phase_difference{phase}, value{val}, frequency{freq}, label{lab} {}
+
+// overload ostream operator for components
+ostream &operator<<(ostream &os, Component &comp) {
+  os << "  " << comp.label << "      ";
+  if (comp.label[0] == 'R') {
+    os << "Resistor   " << comp.get_value() << " \u03A9";
+  } else if (comp.label[0] == 'C') {
+    os << "Capacitor  " << comp.get_value() << " \u00B5F";
+  } else if (comp.label[0] == 'L') {
+    os << "Inductor   " << comp.get_value() << " \u00B5H";
+  } else {
+    os << "Undefined  N/A";
+  }
+  return os;
+}
