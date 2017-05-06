@@ -9,13 +9,17 @@
 #define COMPONENT_H
 
 #include "complex.h"
+#include <string>
 
 class Component {
+  friend ostream &operator<<(ostream &, Component &);
+
 protected:
   double phase_difference; // phase difference
   double value;            // resistance/capacitance/inductance
   double frequency;        // frequency of circuit
   Complex impedence;       // impedence of component
+  string label;
 
 public:
   // default constructor
@@ -23,12 +27,13 @@ public:
   // parametrised constructor (phase)
   Component(const double &); // never use this one TODO
   // parametrised constructor (phase, value)
-  Component(const double &, const double &);
+  Component(const double &, const double &, const string &);
   // parametrised constructor (phase, value, frequency)
-  Component(const double &, const double &, const double &);
+  Component(const double &, const double &, const double &, const string &);
   // destructor
   virtual ~Component() {}
 
+  virtual double get_resistance() const = 0;
   // set frequency of component (frequency)
   virtual void set_frequency(const double &) = 0;
   // return frequency of component
