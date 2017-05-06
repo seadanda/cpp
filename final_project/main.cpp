@@ -45,19 +45,55 @@ ostream &operator<<(ostream &os, Component &comp) {
 
 // function to iterate through component library and and print the components
 void print_library(const vector<Component *> &lib) {
-  cout << "-------Component library-------\n";
-  cout << "| Label   Component   Value   |\n-------------------------------\n";
+  cout << "-------Component Library-------\n"
+       << "| Label   Component   Value   |\n"
+       << "-------------------------------\n";
   for (auto it = lib.begin(); it != lib.end(); it++) {
+    // print out each component's label, type and value
     cout << **it << endl;
   }
   cout << "-------------------------------\n";
 }
 
 int main() {
-  // create polymorphic vector of base class pointers
+  // create polymorphic vector of base class pointers for component library
   vector<Component *> component_library;
 
-  // push component_library on
+  // draw main menu
+  cout << "-----------Main Menu-----------\n"
+       << "Option   Details\n"
+       << "-------------------------------\n"
+       << "1     Print component library\n"
+       << "2     Add component\n"
+       << "3     Edit component\n"
+       << "4     Delete component\n"
+       << "5     Create circuit\n"
+       << "-------------------------------\n"
+       << "Option: ";
+  int main_choice;
+  cin >> main_choice;
+  switch (main_choice) {
+  case 1:
+    cout << "Print component library\n";
+    break;
+  case 2:
+    cout << "Add component\n";
+    break;
+  case 3:
+    cout << "Edit component\n";
+    break;
+  case 4:
+    cout << "Delete component\n";
+    break;
+  case 5:
+    cout << "Create circuit\n";
+    break;
+  default:
+    cout << "Please choose a valid option\n";
+    break;
+  }
+
+  // add a few sample components to library
   component_library.push_back(new Resistor{200});
   component_library.push_back(new Resistor{100, 10});
   component_library.push_back(new Inductor{100});
