@@ -7,16 +7,20 @@
 
 #include "resistor.h"  // resistor class interface
 #include "component.h" // component base class
+#include <string>
 
 // default constructor
-Resistor::Resistor() : Component(0, 0) {}
+Resistor::Resistor() : Component(0, 0, "R"), resistance{0} {}
 
 // not in circuit (no frequency)
-Resistor::Resistor(const double &R) : Component(0, R) {}
+Resistor::Resistor(const double &R) : Component(0, R, "R"), resistance{R} {}
 
 // in circuit (freq specified)
 Resistor::Resistor(const double &R, const double &freq)
-    : Component(0, R, freq) {}
+    : Component(0, R, freq, "R") {}
+
+// get resistance of component
+double Resistor::get_resistance() const { return resistance; }
 
 // set frequency of component (frequency)
 void Resistor::set_frequency(const double &freq) { frequency = freq; }

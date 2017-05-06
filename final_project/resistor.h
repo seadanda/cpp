@@ -13,6 +13,9 @@
 #include "component.h"
 
 class Resistor : public Component {
+private:
+  double resistance;
+
 public:
   // default constructor
   Resistor();
@@ -21,6 +24,8 @@ public:
   // in circuit (freq specified)
   Resistor(const double &, const double &);
 
+  // get resistance of component
+  double get_resistance() const;
   // set frequency of component (frequency)
   void set_frequency(const double &);
   // return frequency of component
