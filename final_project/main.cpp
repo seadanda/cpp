@@ -15,7 +15,8 @@
 
 using namespace std;
 
-void handle_error(const int &err) {
+// exception handling
+void error(const int &err) {
   cerr << "Error: ";
   switch (err) {
   case 1:
@@ -27,20 +28,23 @@ void handle_error(const int &err) {
   }
 }
 
+// outstream function template
+
 int main() {
   // create polymorphic vector of base class pointers
-  vector<Component *> components;
+  vector<Component *> component_library;
 
-  // push components on
-  components.push_back(new Resistor{200});
-  components.push_back(new Resistor{100, 10});
-  components.push_back(new Inductor{100});
-  components.push_back(new Inductor{100, 159.15});
-  components.push_back(new Capacitor{100});
-  components.push_back(new Capacitor{10e-6, 300});
+  // push component_library on
+  component_library.push_back(new Resistor{200});
+  component_library.push_back(new Resistor{100, 10});
+  component_library.push_back(new Inductor{100});
+  component_library.push_back(new Inductor{100, 159.15});
+  component_library.push_back(new Capacitor{100});
+  component_library.push_back(new Capacitor{10e-6, 300});
 
   // go through and test each function
-  for (auto it = components.begin(); it != components.end(); it++) {
+  for (auto it = component_library.begin(); it != component_library.end();
+       it++) {
     cout << (*it)->get_phase_difference() << endl
          << (*it)->get_frequency() << endl
          << (*it)->get_impedance() << endl
@@ -50,12 +54,34 @@ int main() {
   Circuit rc_circuit{159.15};
   rc_circuit.add_component(new Resistor{100});
   rc_circuit.add_component(new Capacitor{10e-6});
+
+  // incorrect input
   try {
     rc_circuit.connect('f');
   } catch (int &err) {
-    handle_error(err);
+    error(err);
   }
-  rc_circuit.connect('s');
+
+  try {
+    rc_circuit.connect('s');
+  } catch (int &err) {
+    error(err);
+  }
+
+  try {
+    rc_circuit.connect('p');
+  } catch (int &err) {
+    error(err);
+  }
+
+  // iterate through vector and free up memory
+  for (auto comp_it = component_library.begin();
+       comp_it != component_library.end(); comp_it++) {
+    delete *comp_it;
+  }
+
+  // reset vector
+  component_library.clear();
 
   // exit
   return 0;
