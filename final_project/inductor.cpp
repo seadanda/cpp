@@ -7,23 +7,37 @@
 
 #include "inductor.h"  // Inductor class interface
 #include "component.h" // component base class
+#include <sstream>     // stringstream
+#include <string>      // label
 
 int Inductor::inductor_count{0}; // initialise static data member
 
 // default constructor
 Inductor::Inductor() : Component(90, 0, "L"), inductance{0} {
   inductor_count++;
+  // add inductor number to label
+  stringstream comp_label;
+  comp_label << label << inductor_count;
+  label = comp_label.str();
 }
 
 // not in circuit (no frequency)
 Inductor::Inductor(const double &L) : Component(90, L, "L"), inductance{L} {
   inductor_count++;
+  // add inductor number to label
+  stringstream comp_label;
+  comp_label << label << inductor_count;
+  label = comp_label.str();
 }
 
 // in circuit (freq specified)
 Inductor::Inductor(const double &L, const double &freq)
     : Component(90, L, freq, "L"), inductance{L} {
   inductor_count++;
+  // add inductor number to label
+  stringstream comp_label;
+  comp_label << label << inductor_count;
+  label = comp_label.str();
 }
 
 // destructor

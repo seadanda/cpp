@@ -7,22 +7,37 @@
 
 #include "resistor.h"  // resistor class interface
 #include "component.h" // component base class
-#include <string>
+#include <sstream>     // stringstream
+#include <string>      // label
 
 int Resistor::resistor_count{0}; // initialise static data member
 
 // default constructor
-Resistor::Resistor() : Component(0, 0, "R"), resistance{0} { resistor_count++; }
+Resistor::Resistor() : Component(0, 0, "R"), resistance{0} {
+  resistor_count++;
+  // add resistor number to label
+  stringstream comp_label;
+  comp_label << label << resistor_count;
+  label = comp_label.str();
+}
 
 // not in circuit (no frequency)
 Resistor::Resistor(const double &R) : Component(0, R, "R"), resistance{R} {
   resistor_count++;
+  // add resistor number to label
+  stringstream comp_label;
+  comp_label << label << resistor_count;
+  label = comp_label.str();
 }
 
 // in circuit (freq specified)
 Resistor::Resistor(const double &R, const double &freq)
     : Component(0, R, freq, "R") {
   resistor_count++;
+  // add resistor number to label
+  stringstream comp_label;
+  comp_label << label << resistor_count;
+  label = comp_label.str();
 }
 
 // destructor
