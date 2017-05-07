@@ -8,8 +8,6 @@
 #ifndef CIRCUIT_H
 #define CIRCUIT_H
 
-#include <vector>
-
 #include "capacitor.h" // capacitor class
 #include "component.h" // component base class
 #include "inductor.h"  // inductor class
