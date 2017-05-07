@@ -20,17 +20,11 @@ private:
 public:
   // default constructor
   Capacitor();
-  // not in circuit (no frequency)
+  // parametrised constructor (capacitance in micro farads)
   Capacitor(const double &);
-  // in circuit (freq specified)
-  Capacitor(const double &, const double &);
   // destructor
   ~Capacitor();
 
-  // set frequency of component (frequency)
-  void set_frequency(const double &);
-  // return frequency of component
-  double get_frequency() const;
   // return phase difference of component
   double get_phase_difference() const;
   // calculate impedence of component

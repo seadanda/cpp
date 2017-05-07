@@ -20,17 +20,11 @@ private:
 public:
   // default constructor
   Resistor();
-  // not in circuit (no frequency)
+  // parametrised constructor (resistance)
   Resistor(const double &);
-  // in circuit (freq specified)
-  Resistor(const double &, const double &);
   // destructor
   ~Resistor();
 
-  // set frequency of component (frequency)
-  void set_frequency(const double &);
-  // return frequency of component
-  double get_frequency() const;
   // return phase difference of component
   double get_phase_difference() const;
   // calculate impedence of component

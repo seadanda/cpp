@@ -20,17 +20,11 @@ private:
 public:
   // default constructor
   Inductor();
-  // not in circuit (no frequency)
+  // parametrised constructor (inductance)
   Inductor(const double &);
-  // in circuit (freq specified)
-  Inductor(const double &, const double &);
   // destructor
   ~Inductor();
 
-  // set frequency of component (frequency)
-  void set_frequency(const double &);
-  // return frequency of component
-  double get_frequency() const;
   // return phase difference of component
   double get_phase_difference() const;
   // calculate impedence of component

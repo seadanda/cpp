@@ -12,16 +12,11 @@
 #include <string>
 
 // default constructor
-Component::Component() : phase_difference{0}, value{0}, frequency{0} {}
+Component::Component() : phase_difference{0}, value{0} {}
 
-// parametrised constructor (phase, value) - not in circuit
+// parametrised constructor (phase, value, label)
 Component::Component(const double &phase, const double &val, const string &lab)
-    : phase_difference{phase}, value{val}, frequency{0}, label{lab} {}
-
-// parametrised constructor (phase, value, frequency) - in circuit
-Component::Component(const double &phase, const double &val, const double &freq,
-                     const string &lab)
-    : phase_difference{phase}, value{val}, frequency{freq}, label{lab} {}
+    : phase_difference{phase}, value{val}, label{lab} {}
 
 // overload ostream operator for components
 ostream &operator<<(ostream &os, Component &comp) {

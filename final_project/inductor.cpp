@@ -21,18 +21,8 @@ Inductor::Inductor() : Component(90, 0, "L"), inductance{0} {
   label = comp_label.str();
 }
 
-// not in circuit (no frequency)
+// parametrised constructor
 Inductor::Inductor(const double &L) : Component(90, L, "L"), inductance{L} {
-  inductor_count++;
-  // add inductor number to label
-  stringstream comp_label;
-  comp_label << label << inductor_count;
-  label = comp_label.str();
-}
-
-// in circuit (freq specified)
-Inductor::Inductor(const double &L, const double &freq)
-    : Component(90, L, freq, "L"), inductance{L} {
   inductor_count++;
   // add inductor number to label
   stringstream comp_label;
@@ -42,12 +32,6 @@ Inductor::Inductor(const double &L, const double &freq)
 
 // destructor
 Inductor::~Inductor() { inductor_count--; }
-
-// set frequency of component (frequency)
-void Inductor::set_frequency(const double &freq) { frequency = freq; }
-
-// return frequency of component
-double Inductor::get_frequency() const { return frequency; }
 
 // return phase difference of component
 double Inductor::get_phase_difference() const { return phase_difference; }

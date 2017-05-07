@@ -5,6 +5,7 @@
  *  Date:           29/03/17
  */
 
+#include <iostream>
 #include <vector>
 
 #include "circuit.h" // class interface
@@ -38,10 +39,6 @@ Circuit::~Circuit() {
 void Circuit::set_frequency(const double &freq) {
   // change frequency of circuit
   frequency = freq;
-  // change frequency of all components
-  for (auto it = components.begin(); it != components.end(); it++) {
-    (*it)->set_frequency(freq);
-  }
   // change frequency of all subcircuits
   for (auto it = subcircuits.begin(); it != subcircuits.end(); it++) {
     (*it)->set_frequency(freq);
@@ -64,4 +61,10 @@ void Circuit::connect(const char &type) {
   } else {
     throw(1);
   }
+}
+
+// overload ostream operator for circuits
+ostream &operator<<(ostream &os, Circuit &comp) {
+  os << "circuit";
+  return os;
 }
