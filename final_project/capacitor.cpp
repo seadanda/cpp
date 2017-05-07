@@ -8,16 +8,25 @@
 #include "capacitor.h" // capacitor class interface
 #include "component.h" // component base class
 
+int Capacitor::capacitor_count{0}; // define static data member
+
 // default constructor
-Capacitor::Capacitor() : Component(-90, 0, "C"), capacitance{0} {}
+Capacitor::Capacitor() : Component(-90, 0, "C"), capacitance{0} {
+  capacitor_count++;
+}
 
 // not in circuit (no frequency)
-Capacitor::Capacitor(const double &C)
-    : Component(-90, C, "C"), capacitance{C} {}
+Capacitor::Capacitor(const double &C) : Component(-90, C, "C"), capacitance{C} {
+  capacitor_count++;
+}
 
 // in circuit (freq specified)
 Capacitor::Capacitor(const double &C, const double &freq)
-    : Component(-90, C, freq, "C"), capacitance{C} {}
+    : Component(-90, C, freq, "C"), capacitance{C} {
+  capacitor_count++;
+}
+
+Capacitor::~Capacitor() { capacitor_count--; }
 
 // set frequency of component (frequency)
 void Capacitor::set_frequency(const double &freq) { frequency = freq; }

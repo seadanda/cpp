@@ -15,6 +15,7 @@
 class Capacitor : public Component {
 private:
   double capacitance;
+  static int capacitor_count;
 
 public:
   // default constructor
@@ -23,6 +24,8 @@ public:
   Capacitor(const double &);
   // in circuit (freq specified)
   Capacitor(const double &, const double &);
+  // destructor
+  ~Capacitor();
 
   // set frequency of component (frequency)
   void set_frequency(const double &);
