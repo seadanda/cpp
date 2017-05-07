@@ -193,13 +193,22 @@ void error(const int &err) {
   }
 }
 
-void print_circuit_lib() { cout << "libsfkuvsndkjvab\n"; }
+void print_circuit_lib() {
+  using namespace libs;
+  cout << "--------Circuit Library--------\n"
+       << "| Label   impedence            |\n"
+       << "-------------------------------\n";
+  for (auto it = circuit_lib.begin(); it != circuit_lib.end(); it++) {
+    // print out each component's label, type and value
+    cout << **it << endl;
+  }
+}
 
 // function to iterate through component library and and print the components
 void print_component_lib() {
   using namespace libs;
-  cout << "--------Circuit Library--------\n"
-       << "| Label   Impedance           |\n"
+  cout << "-------Component Library-------\n"
+       << "| Label   Component  Value     |\n"
        << "-------------------------------\n";
   for (auto it = component_lib.begin(); it != component_lib.end(); it++) {
     // print out each component's label, type and value
