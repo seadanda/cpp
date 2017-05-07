@@ -1,6 +1,7 @@
 namespace libs {
 // create polymorphic vector of base class pointers for component library
 vector<Component *> component_lib;
+// create vector of circuits for circuit library
 vector<Circuit *> circuit_lib;
 } // namespace libs
 
@@ -19,5 +20,8 @@ void error(const int &err);
 ostream &operator<<(ostream &os, Component &comp);
 // function to iterate through component library and and print the components
 void print_component_lib();
+// function to iterate through circuit library and and print the impedance of
+// each circuit
+void print_circuit_lib();
 // function to create a circuit
 void create_circuit(const vector<Component *> &lib);
