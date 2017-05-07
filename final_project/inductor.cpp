@@ -8,15 +8,26 @@
 #include "inductor.h"  // Inductor class interface
 #include "component.h" // component base class
 
+int Inductor::inductor_count{0}; // initialise static data member
+
 // default constructor
-Inductor::Inductor() : Component(90, 0, "L"), inductance{0} {}
+Inductor::Inductor() : Component(90, 0, "L"), inductance{0} {
+  inductor_count++;
+}
 
 // not in circuit (no frequency)
-Inductor::Inductor(const double &L) : Component(90, L, "L"), inductance{L} {}
+Inductor::Inductor(const double &L) : Component(90, L, "L"), inductance{L} {
+  inductor_count++;
+}
 
 // in circuit (freq specified)
 Inductor::Inductor(const double &L, const double &freq)
-    : Component(90, L, freq, "L"), inductance{L} {}
+    : Component(90, L, freq, "L"), inductance{L} {
+  inductor_count++;
+}
+
+// destructor
+Inductor::~Inductor() { inductor_count--; }
 
 // set frequency of component (frequency)
 void Inductor::set_frequency(const double &freq) { frequency = freq; }

@@ -15,6 +15,7 @@
 class Inductor : public Component {
 private:
   double inductance;
+  static int inductor_count;
 
 public:
   // default constructor
@@ -23,6 +24,8 @@ public:
   Inductor(const double &);
   // in circuit (freq specified)
   Inductor(const double &, const double &);
+  // destructor
+  ~Inductor();
 
   // set frequency of component (frequency)
   void set_frequency(const double &);
