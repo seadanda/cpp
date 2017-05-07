@@ -15,6 +15,7 @@
 class Resistor : public Component {
 private:
   double resistance;
+  static int resistor_count;
 
 public:
   // default constructor
@@ -23,6 +24,8 @@ public:
   Resistor(const double &);
   // in circuit (freq specified)
   Resistor(const double &, const double &);
+  // destructor
+  ~Resistor();
 
   // set frequency of component (frequency)
   void set_frequency(const double &);

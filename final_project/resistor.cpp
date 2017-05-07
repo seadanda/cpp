@@ -9,15 +9,24 @@
 #include "component.h" // component base class
 #include <string>
 
+int Resistor::resistor_count{0}; // initialise static data member
+
 // default constructor
-Resistor::Resistor() : Component(0, 0, "R"), resistance{0} {}
+Resistor::Resistor() : Component(0, 0, "R"), resistance{0} { resistor_count++; }
 
 // not in circuit (no frequency)
-Resistor::Resistor(const double &R) : Component(0, R, "R"), resistance{R} {}
+Resistor::Resistor(const double &R) : Component(0, R, "R"), resistance{R} {
+  resistor_count++;
+}
 
 // in circuit (freq specified)
 Resistor::Resistor(const double &R, const double &freq)
-    : Component(0, R, freq, "R") {}
+    : Component(0, R, freq, "R") {
+  resistor_count++;
+}
+
+// destructor
+Resistor::~Resistor() { resistor_count--; }
 
 // set frequency of component (frequency)
 void Resistor::set_frequency(const double &freq) { frequency = freq; }
