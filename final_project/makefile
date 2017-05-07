@@ -7,7 +7,7 @@ all: output
 output: $(OBJ)
 	$(CXX) $(CXXFLAGS) -o $@ $^
 
-main.o: main.cpp component.h resistor.h capacitor.h inductor.h complex.h circuit.h
+main.o: main.cpp main.h component.h resistor.h capacitor.h inductor.h complex.h circuit.h
 	$(CXX) $(CXXFLAGS) -c $<
 
 circuit.o: circuit.cpp component.h resistor.h capacitor.h inductor.h complex.h circuit.h
