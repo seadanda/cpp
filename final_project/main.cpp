@@ -15,24 +15,6 @@
 #include "resistor.h"  // resistor class
 
 using namespace std;
-using namespace libs;
-
-// main menu
-void main_menu();
-// component menu
-void comp_menu();
-// circuit menu
-void circ_menu();
-// garbage collection
-void clean_up();
-// exception handling
-void error(const int &err);
-// overload ostream operator for components
-ostream &operator<<(ostream &os, Component &comp);
-// function to iterate through component library and and print the components
-void print_component_lib();
-// function to create a circuit
-void create_circuit(const vector<Component *> &lib);
 
 // main function
 int main() {
@@ -44,6 +26,7 @@ int main() {
   return 0;
 }
 
+//---functions---
 void main_menu() {
   // draw main menu
   bool quit_main{false};
@@ -76,6 +59,7 @@ void main_menu() {
 }
 
 void comp_menu() {
+  using namespace libs;
   bool quit_comp{false};
   int comp_choice;
   while (!quit_comp) {
@@ -114,6 +98,7 @@ void comp_menu() {
 }
 
 void circ_menu() {
+  using namespace libs;
   cout << "--------Circuit menu--------\n"
        << "Select an option:\n"
        << "1     Component menu\n"
@@ -128,6 +113,7 @@ void circ_menu() {
 }
 
 void clean_up() {
+  using namespace libs;
   // iterate through vectors and free up memory
   for (auto it = component_lib.begin(); it != component_lib.end(); it++) {
     delete *it;
@@ -155,6 +141,7 @@ void error(const int &err) {
 
 // function to iterate through component library and and print the components
 void print_component_lib() {
+  using namespace libs;
   cout << "-------Component Library-------\n"
        << "| Label   Component   Value   |\n"
        << "-------------------------------\n";
