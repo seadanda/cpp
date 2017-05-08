@@ -99,7 +99,7 @@ void main_menu() {
          << "0     Quit\n"
          << "-------------------------------\n"
          << "Option: ";
-    main_choice = take_input({1, 2, 0});
+    main_choice = take_input({0, 1, 2});
     switch (main_choice) {
     case 0:
       cout << "Exit\n";
