@@ -5,7 +5,11 @@
  */
 
 #include <algorithm>        // sort
+#include <chrono>           // time for save file
+#include <ctime>            // date for save file
+#include <fstream>          // file io
 #include <initializer_list> // initializer_list for unknown numbers of params
+#include <iomanip>          // put_time
 #include <iostream>         // std io
 #include <limits>           // streamsize
 #include <type_traits>      // is_same - function templates
@@ -39,7 +43,41 @@ int main() {
 //---functions for load/save
 //-----------------------------------------------------------------------------
 // function to save components and circuits to file
-void save_project() {}
+void save_project() {
+  using namespace libs;
+  // open file and check that it opened properly
+  cout << "Enter a filename to save to: ";
+  string user_filename;
+  cin >> user_filename;
+  ofstream save_file(user_filename.c_str());
+  if (!save_file.good()) {
+    cerr << "Error: could not open input file.\n";
+  } else {
+    cout << user_filename << " created successfully.\n";
+  }
+
+  // save project
+  save_file << "#SaveFile ";
+  auto now = chrono::system_clock::now();
+  auto in_time_t = chrono::system_clock::to_time_t(now);
+
+  save_file << put_time(localtime(&in_time_t), "%d-%m-%Y %X") << endl;
+
+  save_file << "[Components]\n";
+  for (auto it : component_lib) {
+    save_file << *it << endl;
+  }
+
+  save_file << "[Circuits]\n";
+  for (auto it : circuit_lib) {
+    save_file << *it << endl;
+  }
+
+  save_file << "[End]\n";
+
+  save_file.close();
+  cout << "Project saved succesfully";
+}
 
 // function to load a previous session
 void load_project() {}
@@ -110,6 +148,7 @@ template <class T> void clean_up(vector<T *> &lib) {
 // main menu
 void main_menu() {
   int main_choice;
+  string print_choice; // user inputs which circuit to print
   bool quit_main{false};
   bool valid_print;
   while (!quit_main) {
@@ -125,7 +164,7 @@ void main_menu() {
          << "0     Quit\n"
          << endl
          << "Option: ";
-    main_choice = take_input({0, 1, 2, 3, 4, 5, 6});
+    main_choice = take_input({0, 1, 2, 3, 4, 5, 6, 7, 8});
     bool quit_add{false};
     switch (main_choice) {
     case 0:
@@ -175,7 +214,6 @@ void main_menu() {
       // print specific circuit
       print_circuit_lib();
       cout << "Select a circuit to print using its label: ";
-      string print_choice;
       cin >> print_choice;
       valid_print = false;
       try {
