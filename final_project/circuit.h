@@ -50,8 +50,6 @@ public:
 };
 
 class Series : public Circuit {
-  friend class Parallel;
-
 public:
   Series(const double &);
   // set frequency of component (frequency)
@@ -70,8 +68,6 @@ public:
 };
 
 class Parallel : public Circuit {
-  friend class Series;
-
 public:
   Parallel(const double &);
   // set frequency of component (frequency)
