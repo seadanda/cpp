@@ -20,7 +20,7 @@ Component::Component(const double &phase, const double &val, const string &lab)
 
 // overload ostream operator for components
 ostream &operator<<(ostream &os, const Component &comp) {
-  os << "  " << comp.label << "      ";
+  os << "  " << comp.label << "  ";
   if (comp.label[0] == 'R') {
     os << "Resistor   " << comp.get_value() << "\u03A9";
   } else if (comp.label[0] == 'C') {

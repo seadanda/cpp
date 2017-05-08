@@ -6,7 +6,7 @@
  */
 
 #include <sstream> // stringstream
-#include <string>  // label
+#include <string>  // labels
 
 #include "capacitor.h" // capacitor class interface
 #include "circuit.h"   // circuit class

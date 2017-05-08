@@ -4,10 +4,11 @@
  *  Date:            29/03/17
  */
 
-#include <initializer_list> // initializer_list
+#include <algorithm>        // sort
+#include <initializer_list> // initializer_list for unknown numbers of params
 #include <iostream>         // std io
 #include <limits>           // streamsize
-#include <type_traits>      // for is_same - function templates
+#include <type_traits>      // is_same - function templates
 #include <vector>           // vector container
 
 #include "capacitor.h" // capacitor class
@@ -35,10 +36,17 @@ int main() {
 }
 
 //-----------------------------------------------------------------------------
-//---functions
+//---functions for load/save
 //-----------------------------------------------------------------------------
+// function to save components and circuits to file
+void save_project() {}
 
-//---housekeeping
+// function to load a previous session
+void load_project() {}
+
+//-----------------------------------------------------------------------------
+//---functions for housekeeping
+//-----------------------------------------------------------------------------
 // exception handling
 void error(const int &err) {
   cerr << "Error: ";
@@ -52,7 +60,8 @@ void error(const int &err) {
   }
 }
 
-// function to take input and make sure it is an allowed value (in parameters)
+// function to take input and make sure it is an allowed value (in
+// parameters)
 template <class T> T take_input(initializer_list<T> allowed) {
   T temp;
   cin >> temp; // take input
@@ -60,7 +69,8 @@ template <class T> T take_input(initializer_list<T> allowed) {
     // lambda to check for disallowed inputs not caught by a fail flag
     bool invalid_input{true};
     for (auto it : allowed) {
-      // iterate through input parameters and check that the input is allowed
+      // iterate through input parameters and check that the input is
+      // allowed
       if (temp == it) {
         // if the input is in the list, return false
         invalid_input = false;
@@ -79,20 +89,24 @@ template <class T> T take_input(initializer_list<T> allowed) {
     cerr << "Please choose a valid option: ";
     cin >> temp;
   }
-  // clear rest of stream, in case there is anything else there
+  // clear rest of stream in case there is anything else there
   cin.ignore(numeric_limits<streamsize>::max(), '\n');
   return temp;
 }
 
 // template function to clean up memory at end of program
 template <class T> void clean_up(vector<T *> &lib) {
+  // iterate through lib vector and free up each element's memory
   for (auto it = lib.begin(); it != lib.end(); it++) {
     delete *it;
   }
+  // clear the vector to give a vector of size 0
   lib.clear();
 }
 
-//---menu screens
+//------------------------------------------------------------------------------
+//---functions for UI
+//------------------------------------------------------------------------------
 // main menu
 void main_menu() {
   int main_choice;
@@ -106,6 +120,8 @@ void main_menu() {
          << "4     Create parallel circuit\n"
          << "5     Print circuit library\n"
          << "6     Print a circuit\n"
+         << "7     Save project to file\n"
+         << "8     Load a project from file\n"
          << "0     Quit\n"
          << endl
          << "Option: ";
@@ -119,13 +135,11 @@ void main_menu() {
     case 1:
       cout << "\nEnter q to stop adding components.\n";
       while (!quit_add) {
-        cout << "Add resistor(r), capacitor(c) or inductor(i)?: ";
+        cout << "Add resistor(r), capacitor(c) or inductor(l)?: ";
         char add_choice;
-        add_choice = take_input({'q', 'r', 'c', 'i'});
+        add_choice = take_input({'q', 'r', 'c', 'l'});
         switch (add_choice) {
         case 'q':
-          // sort library by component label
-
           // go back to component menu
           quit_add = true;
           break;
@@ -135,7 +149,7 @@ void main_menu() {
         case 'c':
           add_component<Capacitor>();
           break;
-        case 'i':
+        case 'l':
           add_component<Inductor>();
           break;
         }
@@ -179,10 +193,21 @@ void main_menu() {
         error(err);
       }
       break;
+    case 7:
+      // print circuit library
+      save_project();
+      break;
+    case 8:
+      // print circuit library
+      load_project();
+      break;
     }
   }
 }
 
+//------------------------------------------------------------------------------
+//---functions to add components/circuits
+//------------------------------------------------------------------------------
 // template function to add a component to the component library
 template <class T> void add_component() {
   double temp_val;
@@ -204,20 +229,21 @@ template <class T> void add_component() {
 // function to create a circuit - type - series or parallel
 template <class T> void add_circuit() {
   using namespace libs;
-  cout << "Enter the frequency of the circuit: ";
+  cout << "Enter the frequency of the circuit in Hz: ";
   double freq_add;
   freq_add = take_input<double>({});
   if (is_same<T, Series>::value) {
     cout << "\nSeries circuit with frequency " << freq_add << "Hz created\n\n";
     circuit_lib.push_back(new Series{freq_add});
   } else {
-    cout << "Parallel circuit with frequency " << freq_add << "Hz created\n\n";
+    cout << "\nParallel circuit with frequency " << freq_add
+         << "Hz created\n\n";
     circuit_lib.push_back(new Parallel{freq_add});
   }
   print_component_lib();
   print_circuit_lib();
-  bool quit_create{false};
-  string s_comp_to_add;
+  bool quit_create{false}; // loop while false
+  string s_comp_to_add;    // user choice of component to add
   cout << "Enter q to create circuit and return to previous menu.\n"
        << "Add components/subcircuits by entering their labels separated by "
           "spaces\n";
@@ -226,6 +252,9 @@ template <class T> void add_circuit() {
       cin >> s_comp_to_add;
       if (s_comp_to_add[0] == 'q') {
         // user wants to quit
+        // print the circuit
+        (*(libs::circuit_lib.end() - 1))->print_circuit();
+        // go back to previous menu
         quit_create = true;
       } else {
         // iterate through component list to see if the label is a component
@@ -257,13 +286,22 @@ template <class T> void add_circuit() {
   }
 }
 
-// function to iterate through component library and and print the components
+//------------------------------------------------------------------------------
+//---functions to print libraries
+//------------------------------------------------------------------------------
+// function to iterate through component library and and print the
+// components
 void print_component_lib() {
   using namespace libs;
   cout << "-------Component Library-------\n"
-       << "| Label   Component  Value    |\n"
+       << "| ID  Type       Value        |\n"
        << "-------------------------------\n";
   int i{0};
+  // sort library by component label
+  sort(component_lib.begin(), component_lib.end(),
+       [](const Component *lhs, const Component *rhs) -> bool {
+         return (lhs->get_label() < rhs->get_label());
+       });
   for (auto it = component_lib.begin(); it != component_lib.end(); it++) {
     // print out each component's label, type and value
     i++;
@@ -275,10 +313,11 @@ void print_component_lib() {
   cout << endl;
 }
 
+// function to iterate through circuit library and and print the components
 void print_circuit_lib() {
   using namespace libs;
   cout << "--------Circuit Library-------------------\n"
-       << "| Label  Freq  Impedence  Component list |\n"
+       << "| ID  Freq  Impedence  Component list     |\n"
        << "------------------------------------------\n";
   int i{0};
   for (auto it = circuit_lib.begin(); it != circuit_lib.end(); it++) {

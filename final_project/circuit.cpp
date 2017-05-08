@@ -84,20 +84,6 @@ int General_circ::get_no_components() const {
   return components.size() + subcircuits.size();
 }
 
-// overload ostream operator for circuits
-ostream &operator<<(ostream &os, const Circuit &circ) {
-  os << "  " << circ.label << "    " << circ.frequency << "Hz  "
-     << circ.get_impedance() << "   ( ";
-  for (auto it : circ.components) {
-    os << it->get_label() << " ";
-  }
-  for (auto it : circ.subcircuits) {
-    os << it->label << " ";
-  }
-  os << ")";
-  return os;
-}
-
 void Series::print_circuit() {
   // series circuit, just print in line
   cout << "Printing circuit " << label
@@ -155,10 +141,10 @@ void Parallel::print_circuit() {
   // draw placeholders for any subcircuits
   for (auto it : subcircuits) {
     // print subcircuits
-    cout << "       |  "
-         << "     .-+-."
-         << "-----+" << it->get_label() << " +"
-         << "     '-+-'";
+    cout << "|       |\n"
+         << "|     .-+-.\n"
+         << "|     |" << label << " |\n"
+         << "|     '-+-' |Z|=" << get_mag_impedance() << "\u03A9\n";
   }
 
   // draw second line
@@ -240,7 +226,7 @@ void Parallel::print_subcircuit() {
 }
 
 // get label
-string General_circ::get_label() { return label; }
+string General_circ::get_label() const { return label; }
 
 //---Series
 Series::Series(const double &freq) : General_circ(freq, "S") {}
@@ -270,4 +256,18 @@ Complex Parallel::get_impedance() const {
                       ((*it)->get_impedance()).modulus();
   }
   return temp;
+}
+
+// overload ostream operator for circuits
+ostream &operator<<(ostream &os, const Circuit &circ) {
+  os << "  " << circ.label << "  " << circ.frequency << "Hz  "
+     << circ.get_mag_impedance() << "   ( ";
+  for (auto it : circ.components) {
+    os << it->get_label() << " ";
+  }
+  for (auto it : circ.subcircuits) {
+    os << it->label << " ";
+  }
+  os << ")";
+  return os;
 }

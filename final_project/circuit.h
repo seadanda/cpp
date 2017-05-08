@@ -25,7 +25,7 @@ protected:
   string label;                   // circuit label
   vector<Component *> components; // polymorphic vector to add components
   vector<Circuit *> subcircuits;  // for nesting series/parallel circuits
-  static int circuit_count;
+  static int circuit_count;       // to make sure circuit IDs are unique
 
 public:
   // default constructor
@@ -48,7 +48,7 @@ public:
   // calculate the magnitude of the impedance of the circuit
   virtual double get_mag_impedance() const = 0;
   // get label
-  virtual string get_label() = 0;
+  virtual string get_label() const = 0;
   // print circuit graphically
   virtual void print_circuit() = 0;
   // print subcircuits graphically
@@ -72,7 +72,7 @@ public:
   // calculate the magnitude of the impedance of the circuit
   double get_mag_impedance() const;
   // get label
-  string get_label();
+  string get_label() const;
   // get total number of components and subcircuits
   int get_no_components() const;
 };

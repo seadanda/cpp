@@ -15,6 +15,9 @@
 #include "circuit.h"
 #include <vector>
 
+//-----------------------------------------------------------------------------
+//---function prototypes
+//-----------------------------------------------------------------------------
 //---housekeeping
 // exception handling
 void error(const int &);
@@ -23,18 +26,22 @@ template <class T> void clean_up(vector<T *> &);
 // template function to take input
 template <class T> T take_input(initializer_list<T>);
 
-//---main menu
+//---load and save
+void save_project();
+void load_project();
+
+//---menu
 void main_menu();
 
-//---component menu
+//---add functions
 // template function to add component
 template <class T> void add_component();
-// function to iterate through component library and and print the components
-void print_component_lib();
-
-//---circuit menu
 // function to create a circuit
 template <class T> void add_circuit();
+
+//---print functions
+// function to iterate through component library and and print the components
+void print_component_lib();
 // function to iterate through circuit library and and print the impedance of
 // each circuit
 void print_circuit_lib();
@@ -42,7 +49,6 @@ void print_circuit_lib();
 //-----------------------------------------------------------------------------
 //---libs namespace to allow access to libraries from any function
 //-----------------------------------------------------------------------------
-
 namespace libs {
 // create polymorphic vector of base class pointers for component library
 vector<Component *> component_lib;
