@@ -38,7 +38,7 @@ void print_component_lib();
 // draw menu
 void circ_menu();
 // function to create a circuit
-void create_circuit();
+template <class T> void create_circuit();
 // function to iterate through circuit library and and print the impedance of
 // each circuit
 void print_circuit_lib();

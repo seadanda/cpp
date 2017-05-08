@@ -12,7 +12,7 @@
 #include <string>
 
 class Component {
-  friend ostream &operator<<(ostream &, Component &);
+  friend ostream &operator<<(ostream &, const Component &);
 
 protected:
   double phase_difference; // phase difference

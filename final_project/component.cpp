@@ -19,7 +19,7 @@ Component::Component(const double &phase, const double &val, const string &lab)
     : phase_difference{phase}, value{val}, label{lab} {}
 
 // overload ostream operator for components
-ostream &operator<<(ostream &os, Component &comp) {
+ostream &operator<<(ostream &os, const Component &comp) {
   os << "  " << comp.label << "      ";
   if (comp.label[0] == 'R') {
     os << "Resistor   " << comp.get_value() << "\u03A9";

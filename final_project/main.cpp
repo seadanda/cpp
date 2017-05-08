@@ -204,17 +204,15 @@ void print_component_lib() {
 }
 
 void circ_menu() {
-  using namespace libs;
-
   bool quit_circ{false};
   int circ_choice;
   while (!quit_circ) {
     cout << "--------Circuit menu--------\n"
          << "Select an option:\n"
-         << "1     Create new circuit\n"
-         << "2     Edit a circuit\n"
-         << "3     Print a circuit\n"
-         << "4     Print circuit library\n"
+         << "1     Create series circuit\n"
+         << "2     Create parallel circuit\n"
+         << "3     Print circuit library\n"
+         << "4     Print a circuit\n"
          << "0     Back to main menu\n"
          << "-------------------------------\n"
          << "Option: ";
@@ -224,16 +222,13 @@ void circ_menu() {
       quit_circ = true;
       break;
     case 1:
-      cout << "Create circuit\n";
-      circuit_lib.push_back(new Circuit{159.15});
-      (*(circuit_lib.begin()))->add_component(new Resistor{100});
-      (*(circuit_lib.begin()))->add_component(new Capacitor{10});
+      create_circuit<Series>();
       break;
     case 2:
-      print_component_lib();
+      create_circuit<Parallel>();
       break;
     case 3:
-      cout << "print_circuit()\n";
+      print_circuit_lib();
       break;
     case 4:
       print_circuit_lib();
@@ -242,8 +237,49 @@ void circ_menu() {
   }
 }
 
-// function to create a circuit
-void create_circuit() { cout << "--------Circuit Creator--------\n"; }
+// function to create a circuit - type - series or parallel
+template <class T> void create_circuit() {
+  using namespace libs;
+  cout << "Enter the frequency of the circuit: ";
+  double freq_add;
+  cin >> freq_add;
+  if (is_same<T, Series>::value) {
+    circuit_lib.push_back(new Series{freq_add});
+  } else {
+    circuit_lib.push_back(new Parallel{freq_add});
+  }
+  print_component_lib();
+  bool quit_create{false};
+  string s_comp_to_add;
+  cout << "Enter q to create circuit and return to previous menu.\n"
+       << "Enter components to add by entering their labels separated by "
+          "spaces\n";
+  while (!quit_create) {
+    try {
+      cin >> s_comp_to_add;
+
+      if (s_comp_to_add[0] == 'q') {
+        quit_create = true;
+      } else {
+        // iterate through component list to find the component
+        bool found{false};
+        for (auto it : component_lib) {
+          if (it->get_label() == s_comp_to_add) {
+            // add this component to the circuit
+            auto last = circuit_lib.end() - 1;
+            (*last)->add_component(it);
+            found = true;
+          }
+        }
+        if (!found) {
+          throw(1);
+        }
+      }
+    } catch (int &err) {
+      error(err);
+    }
+  }
+}
 
 void print_circuit_lib() {
   using namespace libs;
@@ -251,7 +287,6 @@ void print_circuit_lib() {
        << "| Label   Impedence           |\n"
        << "-------------------------------\n";
   for (auto it = circuit_lib.begin(); it != circuit_lib.end(); it++) {
-    // print out each component's label, type and value
     cout << **it << endl;
   }
 }
