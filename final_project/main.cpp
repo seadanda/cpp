@@ -99,26 +99,16 @@ void main_menu() {
          << "0     Quit\n"
          << "-------------------------------\n"
          << "Option: ";
-    cin >> main_choice;
-    while (cin.fail() ||
-           !((main_choice == 0) || (main_choice == 1) || (main_choice == 2))) {
-      cerr << "Please choose a valid option: ";
-      cin.clear();
-      cin.ignore(numeric_limits<streamsize>::max(), '\n');
-      cin >> main_choice;
-    }
+    main_choice = take_input({1, 2, 0});
     switch (main_choice) {
     case 0:
-      cin.ignore(numeric_limits<streamsize>::max(), '\n');
       cout << "Exit\n";
       quit_main = true;
       break;
     case 1:
-      cin.ignore(numeric_limits<streamsize>::max(), '\n');
       comp_menu();
       break;
     case 2:
-      cin.ignore(numeric_limits<streamsize>::max(), '\n');
       circ_menu();
       break;
     }
