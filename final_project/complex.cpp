@@ -50,8 +50,8 @@ Complex Complex::conjugate() const // return complex conjugate
 // define the addition of two complex numbers
 Complex Complex::operator+(const Complex &z2) const // return sum
 {
-  Complex tempz{real + z2.real, imaginary + z2.imaginary};
-  return tempz;
+  Complex temp{real + z2.real, imaginary + z2.imaginary};
+  return temp;
 }
 
 // define the subtraction of two complex numbers

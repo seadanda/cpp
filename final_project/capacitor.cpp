@@ -5,10 +5,12 @@
  *  Date:           29/03/17
  */
 
+#include <sstream> // stringstream
+#include <string>  // label
+
 #include "capacitor.h" // capacitor class interface
+#include "circuit.h"   // circuit class
 #include "component.h" // component base class
-#include <sstream>     // stringstream
-#include <string>      // label
 
 int Capacitor::capacitor_count{0}; // define static data member
 
@@ -32,23 +34,27 @@ Capacitor::Capacitor(const double &C) : Component(-90, C, "C"), capacitance{C} {
 }
 
 // destructor
-Capacitor::~Capacitor() { capacitor_count--; }
+Capacitor::~Capacitor() { // capacitor_count--;
+}
 
 // return phase difference of component
 double Capacitor::get_phase_difference() const { return phase_difference; }
 
-// calculate impedence of component
-Complex Capacitor::get_impedance() const {
-  // TODO
-  Complex result;
-  result.set_real(1);
-  result.set_imaginary(2);
-  return result;
+// calculate impedence of capacitor
+Complex Capacitor::get_impedance(const double &freq) const {
+  Complex result; // use complex class
+  // Z = 1/jwC
+  result.set_real(0);
+  result.set_imaginary(freq * capacitance);
+  return result.conjugate() / result.modulus();
 }
 
 // calculate the magnitude of the impedence
-double Capacitor::get_mag_impedance() const {
-  return (get_impedance()).modulus();
+double Capacitor::get_mag_impedance(const double &freq) const {
+  return (get_impedance(freq)).modulus();
 }
 
 double Capacitor::get_value() const { return capacitance; }
+
+// return label
+string Capacitor::get_label() const { return label; }

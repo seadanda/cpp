@@ -31,24 +31,28 @@ Resistor::Resistor(const double &R) : Component(0, R, "R"), resistance{R} {
 }
 
 // destructor
-Resistor::~Resistor() { resistor_count--; }
+Resistor::~Resistor() { // resistor_count--;
+}
 
 // return phase difference of component
 double Resistor::get_phase_difference() const { return phase_difference; }
 
 // calculate impedence of component
-Complex Resistor::get_impedance() const {
-  Complex result;
-
-  result.set_real(1);
-  result.set_imaginary(2);
+Complex Resistor::get_impedance(const double &freq) const {
+  Complex result; // use complex class
+  // Z = R
+  result.set_real(resistance);
+  result.set_imaginary(0);
   return result;
 }
 
 // calculate the magnitude of the impedence
-double Resistor::get_mag_impedance() const {
-  return (get_impedance()).modulus();
+double Resistor::get_mag_impedance(const double &freq) const {
+  return (get_impedance(freq)).modulus();
 }
 
 // get resistance of component
 double Resistor::get_value() const { return resistance; }
+
+// get label
+string Resistor::get_label() const { return label; }

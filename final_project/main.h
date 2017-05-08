@@ -9,6 +9,11 @@
 //-----------------------------------------------------------------------------
 //---function prototypes
 //-----------------------------------------------------------------------------
+#ifndef MAIN_H
+#define MAIN_H
+
+#include "circuit.h"
+#include <vector>
 
 //---housekeeping
 // exception handling
@@ -41,9 +46,12 @@ void print_circuit_lib();
 //-----------------------------------------------------------------------------
 //---libs namespace to allow access to libraries from any function
 //-----------------------------------------------------------------------------
+
 namespace libs {
 // create polymorphic vector of base class pointers for component library
 vector<Component *> component_lib;
 // create vector of circuits for circuit library
 vector<Circuit *> circuit_lib;
 } // namespace libs
+
+#endif
