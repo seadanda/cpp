@@ -61,11 +61,11 @@ Complex Inductor::get_impedance(const double &freq) const {
   Complex result; // use complex class
   // Z = jwL
   result.set_real(0);
-  result.set_imaginary(freq * inductance);
+  result.set_imaginary(freq * inductance / 1e6);
   return result;
 }
 
-// calculate the magnitude of the impedence
+// calculate the magnitude of the impedance
 double Inductor::get_mag_impedance(const double &freq) const {
   return (get_impedance(freq)).modulus();
 }

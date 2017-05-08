@@ -45,7 +45,7 @@ Complex Capacitor::get_impedance(const double &freq) const {
   Complex result; // use complex class
   // Z = 1/jwC
   result.set_real(0);
-  result.set_imaginary(freq * capacitance);
+  result.set_imaginary(freq * capacitance / 1e6);
   return result.conjugate() / result.modulus();
 }
 

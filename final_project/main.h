@@ -27,18 +27,14 @@ template <class T> T take_input(initializer_list<T>);
 void main_menu();
 
 //---component menu
-// draw menu
-void comp_menu();
 // template function to add component
 template <class T> void add_component();
 // function to iterate through component library and and print the components
 void print_component_lib();
 
 //---circuit menu
-// draw menu
-void circ_menu();
 // function to create a circuit
-template <class T> void create_circuit();
+template <class T> void add_circuit();
 // function to iterate through circuit library and and print the impedance of
 // each circuit
 void print_circuit_lib();

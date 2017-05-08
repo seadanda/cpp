@@ -14,7 +14,7 @@
 #include "circuit.h"   // circuit class
 #include "component.h" // component base class
 #include "inductor.h"  // inductor class
-#include "main.h"      // libs namespace
+#include "main.h"      // functions and libs namespace
 #include "resistor.h"  // resistor class
 
 using namespace std;
@@ -23,6 +23,8 @@ using namespace std;
 //---main function
 //-----------------------------------------------------------------------------
 int main() {
+  cout << "AC Circuit Manipulator\n"
+       << "  Author: Dónal Murray\n\n";
   // call main menu function
   main_menu();
   // free up memory and clear vectors
@@ -56,15 +58,19 @@ template <class T> T take_input(initializer_list<T> allowed) {
   cin >> temp; // take input
   while (cin.fail() || [&]() {
     // lambda to check for disallowed inputs not caught by a fail flag
-    bool valid_input{true};
+    bool invalid_input{true};
     for (auto it : allowed) {
       // iterate through input parameters and check that the input is allowed
       if (temp == it) {
         // if the input is in the list, return false
-        valid_input = false;
+        invalid_input = false;
       }
     }
-    return valid_input;
+    if (allowed.size() == 0) {
+      // no range specified, if cin doesn't throw a fail flag it's valid
+      invalid_input = false;
+    }
+    return invalid_input;
   }()) {
     // clear fail bit and flush stream buffer
     cin.clear();
@@ -91,55 +97,27 @@ template <class T> void clean_up(vector<T *> &lib) {
 void main_menu() {
   int main_choice;
   bool quit_main{false};
+  bool valid_print;
   while (!quit_main) {
-    cout << "-----------Main Menu-----------\n"
-         << "Select an option:\n"
-         << "1     Component menu\n"
-         << "2     Circuit menu\n"
+    cout << "\nSelect an option:\n"
+         << "1     Add components to library\n"
+         << "2     Print component library\n"
+         << "3     Create series circuit\n"
+         << "4     Create parallel circuit\n"
+         << "5     Print circuit library\n"
+         << "6     Print a circuit\n"
          << "0     Quit\n"
-         << "-------------------------------\n"
+         << endl
          << "Option: ";
-    main_choice = take_input({0, 1, 2});
+    main_choice = take_input({0, 1, 2, 3, 4, 5, 6});
+    bool quit_add{false};
     switch (main_choice) {
     case 0:
       cout << "Exit\n";
       quit_main = true;
       break;
     case 1:
-      comp_menu();
-      break;
-    case 2:
-      circ_menu();
-      break;
-    }
-  }
-}
-
-void comp_menu() {
-  using namespace libs; // component and circuit libraries
-
-  // bools for menu loops
-  bool quit_comp{false};
-  bool quit_add;
-
-  int comp_choice;
-  while (!quit_comp) {
-    quit_add = false; // reset add component menu loop
-    cout << "--------Component menu--------\n"
-         << "Select an option:\n"
-         << "1     Add components to library\n"
-         << "2     Edit a component\n"
-         << "3     Print component library\n"
-         << "0     Back to main menu\n"
-         << "-------------------------------\n"
-         << "Option: ";
-    comp_choice = take_input({0, 1, 2, 3}); // 0, 1, 2, 3 only valid inputs
-    switch (comp_choice) {
-    case 0:
-      quit_comp = true;
-      break;
-    case 1:
-      cout << "Press q to stop adding components.\n";
+      cout << "\nEnter q to stop adding components.\n";
       while (!quit_add) {
         cout << "Add resistor(r), capacitor(c) or inductor(i)?: ";
         char add_choice;
@@ -164,10 +142,42 @@ void comp_menu() {
       }
       break;
     case 2:
+      // print component library
       print_component_lib();
       break;
     case 3:
-      print_component_lib();
+      // create series circuit
+      add_circuit<Series>();
+      break;
+    case 4:
+      // create parallel circuit
+      add_circuit<Parallel>();
+      break;
+    case 5:
+      // print circuit library
+      print_circuit_lib();
+      break;
+    case 6:
+      // print specific circuit
+      print_circuit_lib();
+      cout << "Select a circuit to print using its label: ";
+      string print_choice;
+      cin >> print_choice;
+      valid_print = false;
+      try {
+        for (auto it : libs::circuit_lib) {
+          if (it->get_label() == print_choice) {
+            // print choice is a valid circuit
+            valid_print = true;
+            it->print_circuit();
+          }
+        }
+        if (!valid_print) {
+          throw(2);
+        }
+      } catch (int &err) {
+        error(err);
+      }
       break;
     }
   }
@@ -191,83 +201,49 @@ template <class T> void add_component() {
   libs::component_lib.push_back(new T{temp_val});
 }
 
-// function to iterate through component library and and print the components
-void print_component_lib() {
-  using namespace libs;
-  cout << "-------Component Library-------\n"
-       << "| Label   Component  Value    |\n"
-       << "-------------------------------\n";
-  for (auto it = component_lib.begin(); it != component_lib.end(); it++) {
-    // print out each component's label, type and value
-    cout << **it << endl;
-  }
-}
-
-void circ_menu() {
-  bool quit_circ{false};
-  int circ_choice;
-  while (!quit_circ) {
-    cout << "--------Circuit menu--------\n"
-         << "Select an option:\n"
-         << "1     Create series circuit\n"
-         << "2     Create parallel circuit\n"
-         << "3     Print circuit library\n"
-         << "4     Print a circuit\n"
-         << "0     Back to main menu\n"
-         << "-------------------------------\n"
-         << "Option: ";
-    circ_choice = take_input({0, 1, 2, 3, 4});
-    switch (circ_choice) {
-    case 0:
-      quit_circ = true;
-      break;
-    case 1:
-      create_circuit<Series>();
-      break;
-    case 2:
-      create_circuit<Parallel>();
-      break;
-    case 3:
-      print_circuit_lib();
-      break;
-    case 4:
-      print_circuit_lib();
-      break;
-    }
-  }
-}
-
 // function to create a circuit - type - series or parallel
-template <class T> void create_circuit() {
+template <class T> void add_circuit() {
   using namespace libs;
   cout << "Enter the frequency of the circuit: ";
   double freq_add;
-  cin >> freq_add;
+  freq_add = take_input<double>({});
   if (is_same<T, Series>::value) {
+    cout << "\nSeries circuit with frequency " << freq_add << "Hz created\n\n";
     circuit_lib.push_back(new Series{freq_add});
   } else {
+    cout << "Parallel circuit with frequency " << freq_add << "Hz created\n\n";
     circuit_lib.push_back(new Parallel{freq_add});
   }
   print_component_lib();
+  print_circuit_lib();
   bool quit_create{false};
   string s_comp_to_add;
   cout << "Enter q to create circuit and return to previous menu.\n"
-       << "Enter components to add by entering their labels separated by "
+       << "Add components/subcircuits by entering their labels separated by "
           "spaces\n";
   while (!quit_create) {
     try {
       cin >> s_comp_to_add;
-
       if (s_comp_to_add[0] == 'q') {
+        // user wants to quit
         quit_create = true;
       } else {
-        // iterate through component list to find the component
+        // iterate through component list to see if the label is a component
         bool found{false};
         for (auto it : component_lib) {
           if (it->get_label() == s_comp_to_add) {
             // add this component to the circuit
             auto last = circuit_lib.end() - 1;
             (*last)->add_component(it);
+            found = true;
+          }
+        }
+        // iterate through circuit list to see if the label is a circuit
+        for (auto it : circuit_lib) {
+          if (it->get_label() == s_comp_to_add) {
+            // add this subcircuit to the circuit
+            auto last = circuit_lib.end() - 1;
+            (*last)->add_subcircuit(it);
             found = true;
           }
         }
@@ -281,12 +257,40 @@ template <class T> void create_circuit() {
   }
 }
 
-void print_circuit_lib() {
+// function to iterate through component library and and print the components
+void print_component_lib() {
   using namespace libs;
-  cout << "--------Circuit Library--------\n"
-       << "| Label   Impedence           |\n"
+  cout << "-------Component Library-------\n"
+       << "| Label   Component  Value    |\n"
        << "-------------------------------\n";
-  for (auto it = circuit_lib.begin(); it != circuit_lib.end(); it++) {
+  int i{0};
+  for (auto it = component_lib.begin(); it != component_lib.end(); it++) {
+    // print out each component's label, type and value
+    i++;
     cout << **it << endl;
   }
+  if (i < 1) {
+    cout << "Empty.\n";
+  }
+  cout << endl;
+}
+
+void print_circuit_lib() {
+  using namespace libs;
+  cout << "--------Circuit Library-------------------\n"
+       << "| Label  Freq  Impedence  Component list |\n"
+       << "------------------------------------------\n";
+  int i{0};
+  for (auto it = circuit_lib.begin(); it != circuit_lib.end(); it++) {
+    // print out each circuit's label, freq, impedence and components
+    if ((*it)->get_no_components() == 0) {
+    } else {
+      i++;
+      cout << **it << endl;
+    }
+  }
+  if (i < 1) {
+    cout << "Empty.\n";
+  }
+  cout << endl;
 }
