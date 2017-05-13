@@ -14,15 +14,6 @@
 
 int Capacitor::capacitor_count{0}; // define static data member
 
-// default constructor
-Capacitor::Capacitor() : Component(-90, 0, "C"), capacitance{0} {
-  capacitor_count++;
-  // add capacitor number to label
-  stringstream comp_label;
-  comp_label << label << capacitor_count;
-  label = comp_label.str();
-}
-
 // constructor
 Capacitor::Capacitor(const double &C) : Component(-90, C, "C"), capacitance{C} {
   // increment nr of capacitors

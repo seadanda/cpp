@@ -21,14 +21,8 @@ protected:
   string label;
 
 public:
-  // default constructor
-  Component();
-  // parametrised constructor (phase)
-  Component(const double &); // never use this one TODO
-  // parametrised constructor (phase, value)
-  Component(const double &, const double &, const string &);
   // parametrised constructor (phase, value, label)
-  Component(const double &, const double &, const double &, const string &);
+  Component(const double &, const double &, const string &);
   // destructor
   virtual ~Component() {}
 

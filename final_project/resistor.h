@@ -18,8 +18,6 @@ private:
   static int resistor_count;
 
 public:
-  // default constructor
-  Resistor();
   // parametrised constructor (resistance)
   Resistor(const double &);
   // destructor

@@ -18,8 +18,6 @@ private:
   static int inductor_count;
 
 public:
-  // default constructor
-  Inductor();
   // parametrised constructor (inductance)
   Inductor(const double &);
   // destructor

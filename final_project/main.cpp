@@ -116,6 +116,7 @@ void load_project() {
         // print the date and time of last save
         cout << "Loading project...\nLast saved: " << line.substr(10) << endl;
       }
+      file_check = true;
     } else if (line == "[Components]") {
       // go to state 1: read in components
       state++;

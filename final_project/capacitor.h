@@ -19,8 +19,6 @@ private:
   static int capacitor_count;
 
 public:
-  // default constructor
-  Capacitor();
   // parametrised constructor (capacitance in micro farads)
   Capacitor(const double &);
   // destructor

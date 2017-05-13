@@ -12,15 +12,6 @@
 
 int Resistor::resistor_count{0}; // initialise static data member
 
-// default constructor
-Resistor::Resistor() : Component(0, 0, "R"), resistance{0} {
-  resistor_count++;
-  // add resistor number to label
-  stringstream comp_label;
-  comp_label << label << resistor_count;
-  label = comp_label.str();
-}
-
 // parametrised constructor (resistance)
 Resistor::Resistor(const double &R) : Component(0, R, "R"), resistance{R} {
   resistor_count++;

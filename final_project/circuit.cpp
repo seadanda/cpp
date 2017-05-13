@@ -101,7 +101,7 @@ void Series::print_circuit() {
     cout << "|       |\n"
          << "|     .-+-.\n"
          << "|     |" << it->get_label() << " |\n"
-         << "|     '-+-' |Z|=" << get_mag_impedance() << "\u03A9\n";
+         << "|     '-+-' |Z|=" << it->get_mag_impedance() << "\u03A9\n";
   }
   for (auto it : components) {
     if (!(dynamic_cast<Resistor *>(it) == nullptr)) {

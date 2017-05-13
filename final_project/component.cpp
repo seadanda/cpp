@@ -11,9 +11,6 @@
 #include <iostream>
 #include <string>
 
-// default constructor
-Component::Component() : phase_difference{0}, value{0} {}
-
 // parametrised constructor (phase, value, label)
 Component::Component(const double &phase, const double &val, const string &lab)
     : phase_difference{phase}, value{val}, label{lab} {}

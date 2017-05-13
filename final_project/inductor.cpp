@@ -12,15 +12,6 @@
 
 int Inductor::inductor_count{0}; // initialise static data member
 
-// default constructor
-Inductor::Inductor() : Component(90, 0, "L"), inductance{0} {
-  inductor_count++;
-  // add inductor number to label
-  stringstream comp_label;
-  comp_label << label << inductor_count;
-  label = comp_label.str();
-}
-
 // parametrised constructor
 Inductor::Inductor(const double &L) : Component(90, L, "L"), inductance{L} {
   inductor_count++;
