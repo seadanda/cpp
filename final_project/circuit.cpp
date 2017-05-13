@@ -5,10 +5,9 @@
  *  Date:           29/03/17
  */
 
-#include <iostream>
-#include <sstream>
-#include <type_traits> // for is_same - function templates
-#include <vector>
+#include <iostream> // std io
+#include <sstream>  // stringstream
+#include <vector>   // vector type
 
 #include "circuit.h" // class interface
 
@@ -17,6 +16,10 @@
 #include "component.h" // component base class
 #include "inductor.h"  // inductor class
 #include "resistor.h"  // resistor class
+
+//-----------------------------------------------------------------------------
+//---base class
+//-----------------------------------------------------------------------------
 
 int Circuit::circuit_count{0}; // initialise static data member
 
@@ -88,7 +91,28 @@ int Circuit::get_no_components() const {
   return components.size() + subcircuits.size();
 }
 
-// subclass specific functions
+//-----------------------------------------------------------------------------
+//---friend functions
+//-----------------------------------------------------------------------------
+// overload ostream operator for circuits
+ostream &operator<<(ostream &os, const Circuit &circ) {
+  os << "  " << circ.label << "  " << circ.frequency << "Hz  "
+     << circ.get_mag_impedance() << "   ( ";
+  for (auto it : circ.components) {
+    os << it->get_label() << " ";
+  }
+  for (auto it : circ.subcircuits) {
+    os << it->label << " ";
+  }
+  os << ")";
+  return os;
+}
+
+//-----------------------------------------------------------------------------
+//---Series derived class
+//-----------------------------------------------------------------------------
+// constructor
+Series::Series(const double &freq) : Circuit(freq, "S") {}
 // print series circuit
 void Series::print_circuit() {
   // series circuit, just print in line
@@ -132,6 +156,23 @@ void Series::print_circuit() {
           "+-------+\n\n\n";
 }
 
+// calculate the impedence of the whole circuit
+Complex Series::get_impedance() const {
+  Complex temp{0};
+  for (auto it = components.begin(); it != components.end(); it++) {
+    temp = temp + (*it)->get_impedance(frequency);
+  }
+  for (auto it = subcircuits.begin(); it != subcircuits.end(); it++) {
+    temp = temp + (*it)->get_impedance();
+  }
+  return temp;
+}
+
+//-----------------------------------------------------------------------------
+//---Parallel derived class
+//-----------------------------------------------------------------------------
+// constructor;
+Parallel::Parallel(const double &freq) : Circuit(freq, "P") {}
 // print parallel circuit
 void Parallel::print_circuit() {
   // parallel circuit
@@ -178,22 +219,6 @@ void Parallel::print_circuit() {
           "+--------+\n\n\n";
 }
 
-//---Series
-Series::Series(const double &freq) : Circuit(freq, "S") {}
-// calculate the impedence of the whole circuit
-Complex Series::get_impedance() const {
-  Complex temp{0};
-  for (auto it = components.begin(); it != components.end(); it++) {
-    temp = temp + (*it)->get_impedance(frequency);
-  }
-  for (auto it = subcircuits.begin(); it != subcircuits.end(); it++) {
-    temp = temp + (*it)->get_impedance();
-  }
-  return temp;
-}
-
-//---Parallel
-Parallel::Parallel(const double &freq) : Circuit(freq, "P") {}
 // calculate the impedence of the whole circuit
 Complex Parallel::get_impedance() const {
   Complex temp{0, 0};
@@ -206,18 +231,4 @@ Complex Parallel::get_impedance() const {
                       ((*it)->get_impedance()).modulus();
   }
   return temp;
-}
-
-// overload ostream operator for circuits
-ostream &operator<<(ostream &os, const Circuit &circ) {
-  os << "  " << circ.label << "  " << circ.frequency << "Hz  "
-     << circ.get_mag_impedance() << "   ( ";
-  for (auto it : circ.components) {
-    os << it->get_label() << " ";
-  }
-  for (auto it : circ.subcircuits) {
-    os << it->label << " ";
-  }
-  os << ")";
-  return os;
 }

@@ -15,6 +15,9 @@
 Component::Component(const double &phase, const double &val, const string &lab)
     : phase_difference{phase}, value{val}, label{lab} {}
 
+// get resistance/capacitance/inductance
+double Component::get_value() const { return value; }
+
 // return phase difference of component
 double Component::get_phase_difference() const { return phase_difference; }
 

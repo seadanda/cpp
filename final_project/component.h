@@ -17,7 +17,6 @@ class Component {
 protected:
   double phase_difference; // phase difference
   double value;            // resistance/capacitance/inductance
-  Complex impedence;       // impedence of component
   string label;
 
 public:
@@ -27,6 +26,8 @@ public:
   virtual ~Component() {}
 
   // general functions
+  // get resistance/capacitance/inductance
+  double get_value() const;
   // return phase difference of component
   double get_phase_difference() const;
   // calculate the magnitude of the impedence
@@ -37,8 +38,6 @@ public:
   void set_label(const string &);
 
   // subclass specific functions
-  // get resistance/capacitance/inductance
-  virtual double get_value() const = 0;
   // calculate impedence of component
   virtual Complex get_impedance(const double &) const = 0;
 };

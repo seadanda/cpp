@@ -6,14 +6,13 @@
  *  Date:            29/03/17
  */
 
-//-----------------------------------------------------------------------------
-//---function prototypes
-//-----------------------------------------------------------------------------
 #ifndef MAIN_H
 #define MAIN_H
 
-#include "circuit.h"
 #include <vector>
+
+#include "circuit.h"
+#include "component.h"
 
 //-----------------------------------------------------------------------------
 //---function prototypes
@@ -25,10 +24,6 @@ void error(const int &);
 template <class T> void clean_up(vector<T *> &);
 // template function to take input
 template <class T> T take_input(initializer_list<T>);
-
-//---load and save
-void save_project();
-void load_project();
 
 //---menu
 void main_menu();
@@ -46,13 +41,17 @@ void print_component_lib();
 // each circuit
 void print_circuit_lib();
 
+//---load and save
+void save_project();
+void load_project();
+
 //-----------------------------------------------------------------------------
 //---libs namespace to allow access to libraries from any function
 //-----------------------------------------------------------------------------
 namespace libs {
 // create polymorphic vector of base class pointers for component library
 vector<Component *> component_lib;
-// create vector of circuits for circuit library
+// create polymorphic vector of base class pointers for circuit library
 vector<Circuit *> circuit_lib;
 } // namespace libs
 

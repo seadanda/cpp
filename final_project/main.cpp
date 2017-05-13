@@ -40,168 +40,6 @@ int main() {
 }
 
 //-----------------------------------------------------------------------------
-//---functions for load/save
-//-----------------------------------------------------------------------------
-// function to save components and circuits to file
-void save_project() {
-  using namespace libs;
-  // open file and check that it opened properly
-  cout << "Enter a filename to save to: ";
-  string user_filename;
-  cin >> user_filename;
-
-  // open file and make sure it opened correctly
-  ofstream save_file(user_filename.c_str());
-  if (!save_file.good()) {
-    // did not open correctly. throw an exception
-    throw(3);
-  } else {
-    cout << user_filename << " created successfully.\n";
-  }
-
-  // save project
-  save_file << "#SaveFile ";
-  auto now = chrono::system_clock::now();
-  auto in_time_t = chrono::system_clock::to_time_t(now);
-
-  save_file << put_time(localtime(&in_time_t), "%d-%m-%Y %X") << endl;
-
-  save_file << "[Components]\n";
-  for (auto it : component_lib) {
-    save_file << *it << endl;
-  }
-
-  save_file << "[Circuits]\n";
-  for (auto it : circuit_lib) {
-    save_file << *it << endl;
-  }
-
-  save_file << "[End]\n";
-
-  save_file.close();
-  cout << "Project saved succesfully";
-}
-
-// function to load a previous session
-void load_project() {
-  using namespace libs;
-  // open file and check that it opened properly
-  cout << "Enter a filename to load from: ";
-  string user_filename;
-  cin >> user_filename;
-
-  ifstream load_file(user_filename.c_str());
-  if (!load_file.good()) {
-    throw(3);
-  } else {
-    cout << user_filename << " opened successfully.\n";
-  }
-
-  // read project back out of the file using getline
-  string line; // current line of file
-  // define state machine:
-  //    0 initial state
-  //    1 read components
-  //    2 read circuits
-  //    3 exit
-  int state{0};
-  bool file_check{false}; // to check for invalid save files
-  while (getline(load_file, line)) {
-    if (!file_check) {
-      // first line, check if the file is actually a save file
-      if (line.substr(0, 9) != "#SaveFile") {
-        // not a valid save file
-        throw(4);
-      } else {
-        // print the date and time of last save
-        cout << "Loading project...\nLast saved: " << line.substr(10) << endl;
-      }
-      file_check = true;
-    } else if (line == "[Components]") {
-      // go to state 1: read in components
-      state++;
-    } else if (line == "[Circuits]") {
-      // go to state 2: read in circuits
-      state++;
-    } else if (line == "[End]") {
-      // go to state 3: do nothing til exit
-      state++;
-    } else if (state == 1) {
-      // check what type of component it is by first letter of label
-      switch (line[2]) {
-      case 'R':
-        // add a resistor with the correct value
-        component_lib.push_back(
-            new Resistor{stod(line.substr(16, line.length() - 17))});
-        break;
-      case 'C':
-        // add a capacitor with the correct value
-        component_lib.push_back(
-            new Capacitor{stod(line.substr(16, line.length() - 18))});
-        break;
-      case 'L':
-        // add an inductor with the correct value
-        component_lib.push_back(
-            new Inductor{stod(line.substr(16, line.length() - 18))});
-        break;
-      }
-      // set label to old label
-      (*(component_lib.end() - 1))->set_label(line.substr(2, 2));
-    } else if (state == 2) {
-      // find Hz position in the string to find the end of frequency
-      int hzpos;
-      hzpos = line.find("Hz");
-      // find position of brackets containing components
-      int bracpos_one{(int)(line.find_first_of("("))};
-      int bracpos_two{(int)(line.find_first_of(")"))};
-      // calculate number of components
-      int component_count{(bracpos_two - 1 - bracpos_one) / 3};
-      // check whether circuit is series of parallel
-      switch (line[2]) {
-      case 'S':
-        // add a series circuit with the correct freq
-        circuit_lib.push_back(new Series{stod(line.substr(6, hzpos - 5))});
-        break;
-      case 'P':
-        // add a parallel circuit with the correct freq
-        circuit_lib.push_back(new Parallel{stod(line.substr(6, hzpos - 5))});
-        break;
-      }
-      // make iterator for the current circuit
-      auto this_circuit{circuit_lib.end() - 1};
-      // set the label to the one from the file
-      (*this_circuit)->set_label(line.substr(2, 2));
-      string s_comp_to_add; // substrings of component/circuit labels to add
-      for (int i{0}; i < component_count; i++) {
-        // get the next component name from list
-        s_comp_to_add = line.substr(bracpos_one + 2 + (i * 3), 2);
-        // iterate through component list to see if the label is a component
-        for (auto it : component_lib) {
-          if (it->get_label() == s_comp_to_add) {
-            // add this component to the circuit
-            (*this_circuit)->add_component(it);
-          }
-        }
-        // iterate through circuit list to see if the label is a circuit
-        for (auto it : circuit_lib) {
-          if (it->get_label() == s_comp_to_add) {
-            // add this subcircuit to the circuit
-            (*this_circuit)->add_subcircuit(it);
-            // change the subcircuit's freq to match this circuit
-            it->set_frequency((*this_circuit)->get_frequency());
-            cout << "Frequency of subcircuit changed to match the new "
-                    "circuit.\n";
-          }
-        }
-      }
-    }
-  }
-  // close file and let the user know that the operation was successful
-  load_file.close();
-  cout << "Project loaded succesfully.\n\n";
-}
-
-//-----------------------------------------------------------------------------
 //---functions for housekeeping
 //-----------------------------------------------------------------------------
 // exception handling - error messages self explanatory
@@ -271,7 +109,7 @@ template <class T> void clean_up(vector<T *> &lib) {
 }
 
 //------------------------------------------------------------------------------
-//---functions for UI
+//---function for UI
 //------------------------------------------------------------------------------
 // main menu
 void main_menu() {
@@ -417,7 +255,7 @@ template <class T> void add_component() {
 template <class T> void add_circuit() {
   using namespace libs; // libs used many times
   // ask for the user to input the frequency
-  cout << "Enter the frequency of the circuit in Hz: ";
+  cout << "\nEnter the frequency of the circuit in Hz: ";
   double freq_add;
   freq_add = take_input<double>({});
   if (is_same<T, Series>::value) {
@@ -489,7 +327,7 @@ template <class T> void add_circuit() {
 // components
 void print_component_lib() {
   using namespace libs; // libs used many times
-  cout << "-------Component Library-------\n"
+  cout << "\n-------Component Library-------\n"
        << "| ID  Type       Value        |\n"
        << "-------------------------------\n";
   int i{0}; // to test for an empty library
@@ -512,7 +350,7 @@ void print_component_lib() {
 // function to iterate through circuit library and and print the components
 void print_circuit_lib() {
   using namespace libs;
-  cout << "--------Circuit Library-------------------\n"
+  cout << "\n--------Circuit Library-------------------\n"
        << "| ID  Freq  Impedence  Component list     |\n"
        << "------------------------------------------\n";
   int i{0}; // to test for an empty library
@@ -528,4 +366,166 @@ void print_circuit_lib() {
     cout << "Empty.\n";
   }
   cout << endl;
+}
+
+//-----------------------------------------------------------------------------
+//---functions for load/save
+//-----------------------------------------------------------------------------
+// function to save components and circuits to file
+void save_project() {
+  using namespace libs;
+  // open file and check that it opened properly
+  cout << "\nEnter a filename to save to: ";
+  string user_filename;
+  cin >> user_filename;
+
+  // open file and make sure it opened correctly
+  ofstream save_file(user_filename.c_str());
+  if (!save_file.good()) {
+    // did not open correctly. throw an exception
+    throw(3);
+  } else {
+    cout << user_filename << " created successfully.\n";
+  }
+
+  // save project
+  save_file << "#SaveFile ";
+  auto now = chrono::system_clock::now();
+  auto in_time_t = chrono::system_clock::to_time_t(now);
+
+  save_file << put_time(localtime(&in_time_t), "%d-%m-%Y %X") << endl;
+
+  save_file << "[Components]\n";
+  for (auto it : component_lib) {
+    save_file << *it << endl;
+  }
+
+  save_file << "[Circuits]\n";
+  for (auto it : circuit_lib) {
+    save_file << *it << endl;
+  }
+
+  save_file << "[End]\n";
+
+  save_file.close();
+  cout << "Project saved succesfully";
+}
+
+// function to load a previous session
+void load_project() {
+  using namespace libs;
+  // open file and check that it opened properly
+  cout << "\nEnter a filename to load from: ";
+  string user_filename;
+  cin >> user_filename;
+
+  ifstream load_file(user_filename.c_str());
+  if (!load_file.good()) {
+    throw(3);
+  } else {
+    cout << user_filename << " opened successfully.\n";
+  }
+
+  // read project back out of the file using getline
+  string line; // current line of file
+  // define state machine:
+  //    0 initial state
+  //    1 read components
+  //    2 read circuits
+  //    3 exit
+  int state{0};
+  bool file_check{false}; // to check for invalid save files
+  while (getline(load_file, line)) {
+    if (!file_check) {
+      // first line, check if the file is actually a save file
+      if (line.substr(0, 9) != "#SaveFile") {
+        // not a valid save file
+        throw(4);
+      } else {
+        // print the date and time of last save
+        cout << "Loading project...\nLast saved: " << line.substr(10) << endl;
+      }
+      file_check = true;
+    } else if (line == "[Components]") {
+      // go to state 1: read in components
+      state++;
+    } else if (line == "[Circuits]") {
+      // go to state 2: read in circuits
+      state++;
+    } else if (line == "[End]") {
+      // go to state 3: do nothing til exit
+      state++;
+    } else if (state == 1) {
+      // check what type of component it is by first letter of label
+      switch (line[2]) {
+      case 'R':
+        // add a resistor with the correct value
+        component_lib.push_back(
+            new Resistor{stod(line.substr(16, line.length() - 17))});
+        break;
+      case 'C':
+        // add a capacitor with the correct value
+        component_lib.push_back(
+            new Capacitor{stod(line.substr(16, line.length() - 18))});
+        break;
+      case 'L':
+        // add an inductor with the correct value
+        component_lib.push_back(
+            new Inductor{stod(line.substr(16, line.length() - 18))});
+        break;
+      }
+      // set label to old label
+      (*(component_lib.end() - 1))->set_label(line.substr(2, 2));
+    } else if (state == 2) {
+      // find Hz position in the string to find the end of frequency
+      int hzpos;
+      hzpos = line.find("Hz");
+      // find position of brackets containing components
+      int bracpos_one{(int)(line.find_first_of("("))};
+      int bracpos_two{(int)(line.find_first_of(")"))};
+      // calculate number of components
+      int component_count{(bracpos_two - 1 - bracpos_one) / 3};
+      // check whether circuit is series of parallel
+      switch (line[2]) {
+      case 'S':
+        // add a series circuit with the correct freq
+        circuit_lib.push_back(new Series{stod(line.substr(6, hzpos - 5))});
+        break;
+      case 'P':
+        // add a parallel circuit with the correct freq
+        circuit_lib.push_back(new Parallel{stod(line.substr(6, hzpos - 5))});
+        break;
+      }
+      // make iterator for the current circuit
+      auto this_circuit{circuit_lib.end() - 1};
+      // set the label to the one from the file
+      (*this_circuit)->set_label(line.substr(2, 2));
+      string s_comp_to_add; // substrings of component/circuit labels to add
+      for (int i{0}; i < component_count; i++) {
+        // get the next component name from list
+        s_comp_to_add = line.substr(bracpos_one + 2 + (i * 3), 2);
+        // iterate through component list to see if the label is a component
+        for (auto it : component_lib) {
+          if (it->get_label() == s_comp_to_add) {
+            // add this component to the circuit
+            (*this_circuit)->add_component(it);
+          }
+        }
+        // iterate through circuit list to see if the label is a circuit
+        for (auto it : circuit_lib) {
+          if (it->get_label() == s_comp_to_add) {
+            // add this subcircuit to the circuit
+            (*this_circuit)->add_subcircuit(it);
+            // change the subcircuit's freq to match this circuit
+            it->set_frequency((*this_circuit)->get_frequency());
+            cout << "Frequency of subcircuit changed to match the new "
+                    "circuit.\n";
+          }
+        }
+      }
+    }
+  }
+  // close file and let the user know that the operation was successful
+  load_file.close();
+  cout << "Project loaded succesfully.\n\n";
 }

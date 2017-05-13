@@ -14,7 +14,6 @@
 
 class Inductor : public Component {
 private:
-  double inductance;
   static int inductor_count;
 
 public:
@@ -25,8 +24,6 @@ public:
 
   // calculate impedence of component
   Complex get_impedance(const double &) const;
-  // get inductance
-  double get_value() const;
 };
 
 #endif

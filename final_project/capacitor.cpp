@@ -15,7 +15,7 @@
 int Capacitor::capacitor_count{0}; // define static data member
 
 // constructor
-Capacitor::Capacitor(const double &C) : Component(-90, C, "C"), capacitance{C} {
+Capacitor::Capacitor(const double &C) : Component(-90, C, "C") {
   // increment nr of capacitors
   capacitor_count++;
   // add capacitor number to label
@@ -33,9 +33,6 @@ Complex Capacitor::get_impedance(const double &freq) const {
   Complex result; // use complex class
   // Z = 1/jwC
   result.set_real(0);
-  result.set_imaginary(freq * capacitance / 1e6);
+  result.set_imaginary(freq * value / 1e6);
   return result.conjugate() / result.modulus();
 }
-
-// return the capacitance of the capacitor
-double Capacitor::get_value() const { return capacitance; }

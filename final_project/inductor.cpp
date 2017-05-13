@@ -13,7 +13,7 @@
 int Inductor::inductor_count{0}; // initialise static data member
 
 // parametrised constructor
-Inductor::Inductor(const double &L) : Component(90, L, "L"), inductance{L} {
+Inductor::Inductor(const double &L) : Component(90, L, "L") {
   inductor_count++;
   // add inductor number to label
   stringstream comp_label;
@@ -29,9 +29,6 @@ Complex Inductor::get_impedance(const double &freq) const {
   Complex result; // use complex class
   // Z = jwL
   result.set_real(0);
-  result.set_imaginary(freq * inductance / 1e6);
+  result.set_imaginary(freq * value / 1e6);
   return result;
 }
-
-// return inductance of inductor
-double Inductor::get_value() const { return inductance; }

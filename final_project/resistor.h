@@ -14,7 +14,6 @@
 
 class Resistor : public Component {
 private:
-  double resistance;
   static int resistor_count;
 
 public:
@@ -23,8 +22,6 @@ public:
   // destructor
   ~Resistor();
 
-  // return resistance of component
-  double get_value() const;
   // calculate impedence of component
   Complex get_impedance(const double &) const;
 };

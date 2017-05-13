@@ -15,7 +15,6 @@
 
 class Capacitor : public Component {
 private:
-  double capacitance;
   static int capacitor_count;
 
 public:
@@ -26,8 +25,6 @@ public:
 
   // calculate impedence of component
   Complex get_impedance(const double &) const;
-  // get capacitance
-  double get_value() const;
 };
 
 #endif

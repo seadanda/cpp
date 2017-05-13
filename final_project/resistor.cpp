@@ -13,7 +13,7 @@
 int Resistor::resistor_count{0}; // initialise static data member
 
 // parametrised constructor (resistance)
-Resistor::Resistor(const double &R) : Component(0, R, "R"), resistance{R} {
+Resistor::Resistor(const double &R) : Component(0, R, "R") {
   resistor_count++;
   // add resistor number to label
   stringstream comp_label;
@@ -24,14 +24,11 @@ Resistor::Resistor(const double &R) : Component(0, R, "R"), resistance{R} {
 // destructor
 Resistor::~Resistor() {}
 
-// return resistance of component
-double Resistor::get_value() const { return resistance; }
-
 // calculate impedence of component
 Complex Resistor::get_impedance(const double &freq) const {
   Complex result; // use complex class
   // Z = R
-  result.set_real(resistance);
+  result.set_real(value);
   result.set_imaginary(0);
   return result;
 }
