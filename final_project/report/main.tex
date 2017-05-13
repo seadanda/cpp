@@ -1,0 +1,83 @@
+%\pdfoutput=1
+% Uncomment line above if submitting to arXiv and using pdflatex
+
+% $Id: main.tex 97873 2016-09-08 18:28:41Z michaelt $
+% ============================================================================
+% Purpose: Template for LHCb documents
+% Authors: Tomasz Skwarnicki, Roger Forty, Ulrik Egede
+% Created on: 2010-09-24
+% ============================================================================
+\documentclass[12pt,a4paper]{article}
+%%\documentclass[12pt,letter]{article}
+% For two column text, add "twocolumn" as an option to the document
+% class. Also uncomment the two "onecolumn" and "twocolumn" lines
+% around the title page below.
+
+% Variables that controls behaviour
+\usepackage{ifthen} % for conditional statements
+\newboolean{pdflatex}
+\setboolean{pdflatex}{true} % False for eps figures
+
+\newboolean{articletitles}
+\setboolean{articletitles}{true} % False removes titles in references
+
+\newboolean{uprightparticles}
+\setboolean{uprightparticles}{false} %True for upright particle symbols
+
+\newboolean{inbibliography}
+\setboolean{inbibliography}{false} %True once you enter the bibliography
+
+\input{preamble}
+\usepackage{longtable} % only for template; not usually to be used in PAPERs
+
+\begin{document}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%% Title     %%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%
+\renewcommand{\thefootnote}{\fnsymbol{footnote}}
+\setcounter{footnote}{1}
+
+% %%%%%%% TITLE PAGE--------
+\input{a0titlepage}
+% %%%%%%%%%%%%% ---------
+
+\renewcommand{\thefootnote}{\arabic{footnote}}
+\setcounter{footnote}{0}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%  Table of Contents  %%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%% Uncomment next 2 lines if desired
+\tableofcontents
+\cleardoublepage
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%% Main text %%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\pagestyle{plain} % restore page numbers for the main text
+\setcounter{page}{1}
+\pagenumbering{arabic}
+
+%% Uncomment during review phase.
+%% Comment before a final submission.
+%\linenumbers
+
+\input{a1introduction}
+
+\input{a2code}
+
+\input{a3results}
+
+\input{a4discussion}
+
+\clearpage
+
+\addcontentsline{toc}{section}{References}
+\setboolean{inbibliography}{true}
+\bibliographystyle{LHCb}
+\bibliography{oop}
+
+\end{document}

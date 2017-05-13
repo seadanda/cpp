@@ -1,0 +1,49 @@
+This is BibTeX, Version 0.99d (TeX Live 2016/Arch Linux)
+Capacity: max_strings=35307, hash_size=35307, hash_prime=30011
+The top-level auxiliary file: main.aux
+The style file: LHCb.bst
+Database file #1: oop.bib
+Warning--I didn't find a database entry for "ref:3"
+Warning--I didn't find a database entry for "ref:4"
+You've used 1 entry,
+            2829 wiz_defined-function locations,
+            641 strings with 5068 characters,
+and the built_in function-call counts, 882 in all, are:
+= -- 86
+> -- 4
+< -- 0
++ -- 10
+- -- 1
+* -- 73
+:= -- 132
+add.period$ -- 1
+call.type$ -- 1
+change.case$ -- 1
+chr.to.int$ -- 0
+cite$ -- 1
+duplicate$ -- 34
+empty$ -- 84
+format.name$ -- 1
+if$ -- 176
+int.to.chr$ -- 0
+int.to.str$ -- 1
+missing$ -- 3
+newline$ -- 17
+num.names$ -- 1
+pop$ -- 9
+preamble$ -- 1
+purify$ -- 0
+quote$ -- 0
+skip$ -- 1
+stack$ -- 0
+substring$ -- 208
+swap$ -- 0
+text.length$ -- 2
+text.prefix$ -- 0
+top$ -- 0
+type$ -- 0
+warning$ -- 0
+while$ -- 11
+width$ -- 2
+write$ -- 21
+(There were 2 warnings)

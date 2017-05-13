@@ -1,0 +1,18 @@
+\ifx\mcitethebibliography\mciteundefinedmacro
+\PackageError{LHCb.bst}{mciteplus.sty has not been loaded}
+{This bibstyle requires the use of the mciteplus package.}\fi
+\providecommand{\href}[2]{#2}
+\begin{mcitethebibliography}{1}
+\mciteSetBstSublistMode{n}
+\mciteSetBstMaxWidthForm{subitem}{\alph{mcitesubitemcount})}
+\mciteSetBstSublistLabelBeginEnd{\mcitemaxwidthsubitemform\space}
+{\relax}{\relax}
+
+\bibitem{ref:example}
+R.~Lindner, \ifthenelse{\boolean{articletitles}}{\emph{{LHCb layout\_2. LHCb
+  schema\_2}}, }{}, LHCb Collection.\relax
+\mciteBstWouldAddEndPunctfalse
+\mciteSetBstMidEndSepPunct{\mcitedefaultmidpunct}
+{}{\mcitedefaultseppunct}\relax
+\EndOfBibitem
+\end{mcitethebibliography}

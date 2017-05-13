@@ -1,0 +1,61 @@
+\section{Code design and implementation}
+\label{sec:code}
+C++ allows for programs to be broken up into multiple files in a bid to reduce the number of lines per file and make the code more readable and more straightforward for the programmer to edit. Separating classes into a separate file allows for modularity; that is the ability to reuse the same classes for different programs.
+A further feature of this modularity is the ability to separate the interface and implementation of each class. The interface was  written in a header file (many conventions exist for the naming of C++ header files but this project exclusively uses the \verb!.h! extension) and consists of the class definition in which the member data are declared and the member functions are prototyped. Header files are included (with the \verb!#include "*.h"! preprocessor directive) but not compiled, whereas implementation files are compiled but not included. The implementation was contained in files with the \verb!.cpp! extension, but like header files, many naming conventions exist.
+In the design of this project, the functionality was broken into seven header files and seven implementation files which are listed in table~\ref{table:files} along with a short description of their contents.
+
+\begin{table}[h!]
+  %\begin{center}
+    \begin{tabular}{|c|c|}
+      \hline
+      Filename & Description \\
+      \hline
+      \hline
+      \verb!main.cpp! & Contains the \verb!main! function which is executed first and all of the program-specific functions which are not part of any class \\
+      \hline
+      \verb!main.h! & Defines the \verb!libs! namespace and contains prototypes for all functions for main.cpp \\
+      \hline
+      \verb!complex.h! & Custom class for storing and manipulating complex numbers \\
+      \hline
+      \verb!complex.cpp! & \\
+      \hline
+      \verb!component.h! & Base class from which capacitor, inductor and resistor inherit. Declares all shared member functions and member data. This serves as the base class for all polymorphic vectors of components\\
+      \hline
+      \verb!component.cpp! & The implementation of all member functions defined in \verb!component.h! and also the definition of the ostream operator (\verb!<<!) for objects of the Component class. \\
+      \hline
+      \verb!capacitor.h! & Class for capacitors which is derived from the Component class. Defines the \\
+      \hline
+      \verb!capacitor.cpp! & \\
+      \hline
+      \verb!inductor.h! & \\
+      \hline
+      \verb!resistor.h! & \\
+      \hline
+      \verb!inductor.cpp! & \\
+      \hline
+      \verb!resistor.cpp! & \\
+      \hline
+      \verb!circuit.h! & \\
+      \hline
+      \verb!circuit.cpp! & \\
+      \hline
+    \end{tabular}
+  %\end{center}
+  \caption{A list of the files and a brief description of their contents.}
+  \label{table:files}
+\end{table}
+
+
+
+multiple files\\
+headers\\
+
+classes\\
+prototyping functions\\
+
+vectors\\
+smart pointer\\
+lambdas\\
+namespaces and binary scope operator\\
+function template\\
+static data\\
