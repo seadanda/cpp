@@ -35,34 +35,7 @@ public:
   // destructor
   ~Circuit();
 
-  // set frequency of component (frequency)
-  virtual void set_frequency(const double &) = 0;
-  // return frequency of component
-  virtual double get_frequency() const = 0;
-  // add component (component)
-  virtual void add_component(Component *) = 0;
-  // add subcircuit (subcircuit)
-  virtual void add_subcircuit(Circuit *) = 0;
-  // calculate the impedence of the whole circuit
-  virtual Complex get_impedance() const = 0;
-  // calculate the magnitude of the impedance of the circuit
-  virtual double get_mag_impedance() const = 0;
-  // get label
-  virtual string get_label() const = 0;
-  // rename circuit
-  void set_label(const string &);
-  // print circuit graphically
-  virtual void print_circuit() = 0;
-  // print subcircuits graphically
-  virtual void print_subcircuit() = 0;
-  // get total number of components and subcircuits
-  virtual int get_no_components() const = 0;
-};
-
-class General_circ : public Circuit {
-public:
-  // constructor
-  General_circ(const double &, const string &);
+  // shared functions
   // set frequency of component (frequency)
   void set_frequency(const double &);
   // return frequency of component
@@ -71,15 +44,24 @@ public:
   void add_component(Component *);
   // add subcircuit (subcircuit)
   void add_subcircuit(Circuit *);
-  // calculate the magnitude of the impedance of the circuit
-  double get_mag_impedance() const;
   // get label
   string get_label() const;
+  // rename circuit
+  void set_label(const string &);
   // get total number of components and subcircuits
   int get_no_components() const;
+  // calculate the magnitude of the impedance of the circuit
+  double get_mag_impedance() const;
+
+  // subclass specific functions
+  // calculate the impedence of the whole circuit
+  virtual Complex get_impedance() const = 0;
+  // print circuit graphically
+  virtual void print_circuit() = 0;
 };
 
-class Series : public General_circ {
+// subclass series inherits from circuit
+class Series : public Circuit {
 public:
   // constructor
   Series(const double &);
@@ -87,10 +69,10 @@ public:
   Complex get_impedance() const;
   // print circuits graphically
   void print_circuit();
-  void print_subcircuit();
 };
 
-class Parallel : public General_circ {
+// subclass series inherits from circuit
+class Parallel : public Circuit {
 public:
   // constructor
   Parallel(const double &);
@@ -98,7 +80,6 @@ public:
   Complex get_impedance() const;
   // print circuits graphically
   void print_circuit();
-  void print_subcircuit();
 };
 
 #endif

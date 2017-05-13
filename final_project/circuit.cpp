@@ -49,16 +49,11 @@ Circuit::~Circuit() {
   subcircuits.clear();
 }
 
-// rename circuit
-void Circuit::set_label(const string &lab) { label = lab; }
-
-General_circ::General_circ(const double &freq, const string &lab)
-    : Circuit(freq, lab) {}
-
-double General_circ::get_frequency() const { return frequency; }
+// get the frequency
+double Circuit::get_frequency() const { return frequency; }
 
 // change the frequency
-void General_circ::set_frequency(const double &freq) {
+void Circuit::set_frequency(const double &freq) {
   // change frequency of circuit
   frequency = freq;
   // change frequency of all subcircuits
@@ -67,26 +62,34 @@ void General_circ::set_frequency(const double &freq) {
   }
 }
 
+// return label
+string Circuit::get_label() const { return label; }
+
+// rename circuit
+void Circuit::set_label(const string &lab) { label = lab; }
+
 // add component (component)
-void General_circ::add_component(Component *new_comp) {
+void Circuit::add_component(Component *new_comp) {
   components.push_back(new_comp);
 }
 
 // add subcircuit (subcircuit)
-void General_circ::add_subcircuit(Circuit *new_circ) {
+void Circuit::add_subcircuit(Circuit *new_circ) {
   subcircuits.push_back(new_circ);
 }
 
 // calculate the magnitude of the impedance of the circuit
-double General_circ::get_mag_impedance() const {
+double Circuit::get_mag_impedance() const {
   return (get_impedance()).modulus();
 }
 
 // get total number of components and subcircuits
-int General_circ::get_no_components() const {
+int Circuit::get_no_components() const {
   return components.size() + subcircuits.size();
 }
 
+// subclass specific functions
+// print series circuit
 void Series::print_circuit() {
   // series circuit, just print in line
   cout << "Printing circuit " << label
@@ -129,112 +132,54 @@ void Series::print_circuit() {
           "+-------+\n\n\n";
 }
 
-void Series::print_subcircuit() {
-  // series subcircuit, just print a placeholder
-  cout << "|       |\n"
-       << "|     .-+-.\n"
-       << "|     |" << label << " |\n"
-       << "|     '-+-' |Z|=" << get_mag_impedance() << "\u03A9\n";
-}
-
+// print parallel circuit
 void Parallel::print_circuit() {
   // parallel circuit
   cout << "Printing circuit " << label
        << " which has a total magnitude of impedence |Z| = "
        << get_mag_impedance() << "\u03A9\n\n\n"
-       << "+--(~)--+\n";
+       << "+--(~)---+\n";
   // draw placeholders for any subcircuits
   for (auto it : subcircuits) {
     // print subcircuits
-    cout << "|       |\n"
-         << "|     .-+-.\n"
-         << "|     |" << it->get_label() << " |\n"
-         << "|     '-+-' |Z|=" << get_mag_impedance() << "\u03A9\n";
+    cout << "|        |\n"
+         << "|  .--.  |\n"
+         << "+-+ " << it->get_label() << " +-+ |Z|=" << it->get_mag_impedance()
+         << "\u03A9\n"
+         << "|  '--'  |\n";
   }
 
-  // draw second line
-  cout << "|";
-  for (auto it : components) {
-    cout << "       |";
-  }
-  cout << endl;
-
-  // draw third line
-  cout << "| ";
   for (auto it : components) {
     if (!(dynamic_cast<Resistor *>(it) == nullptr)) {
       // the component is a resistor
-      cout << "     .+.";
+      cout << "|        |\n"
+           << "|  ____  |\n"
+           << "+-+____+-+ " << it->get_label() << endl
+           << "|        | |Z|=" << it->get_mag_impedance(frequency)
+           << "\u03A9\n";
     } else if (!(dynamic_cast<Capacitor *>(it) == nullptr)) {
       // the component is a resistor
-      cout << "      | ";
+      cout << "|        |\n"
+           << "|        |\n"
+           << "+---||---+ " << it->get_label() << endl
+           << "|        | |Z|=" << it->get_mag_impedance(frequency)
+           << "\u03A9\n";
     } else if (!(dynamic_cast<Inductor *>(it) == nullptr)) {
       // the component is an inductor
-      cout << "      $ ";
+      cout << "|        |\n"
+           << "|        |\n"
+           << "+-+/\\/\\+-+ " << it->get_label() << endl
+           << "|        | |Z|=" << it->get_mag_impedance(frequency)
+           << "\u03A9\n";
     }
   }
-  cout << endl;
-
-  // draw fourth line
-  cout << "|    ";
-  for (auto it : components) {
-    if (!(dynamic_cast<Resistor *>(it) == nullptr)) {
-      // the component is a resistor
-      cout << "  | | " << it->get_label();
-    } else if (!(dynamic_cast<Capacitor *>(it) == nullptr)) {
-      // the component is a resistor
-      cout << "  === " << it->get_label();
-    } else if (!(dynamic_cast<Inductor *>(it) == nullptr)) {
-      // the component is an inductor
-      cout << "   $  " << it->get_label();
-    }
-  }
-  cout << endl;
-
-  // draw fifth line
-  cout << "| ";
-  for (auto it : components) {
-    if (!(dynamic_cast<Resistor *>(it) == nullptr)) {
-      // the component is a resistor
-      cout << "     '+'";
-    } else if (!(dynamic_cast<Capacitor *>(it) == nullptr)) {
-      // the component is a resistor
-      cout << "      | ";
-    } else if (!(dynamic_cast<Inductor *>(it) == nullptr)) {
-      // the component is an inductor
-      cout << "      $ ";
-    }
-  }
-  cout << endl;
-
-  // draw sixth line
-  cout << "|";
-  for (auto it : components) {
-    cout << "       |";
-  }
-  cout << endl;
-
-  // draw last line
-  cout << "+";
-  for (auto it : components) {
-    cout << "-------+";
-  }
-  cout << endl;
+  // draw end line
+  cout << "|        |\n"
+          "+--------+\n\n\n";
 }
-
-void Parallel::print_subcircuit() {
-  // parallel subcircuit, just print a placeholder
-  cout << "|       |\n"
-       << "|     .-+-.\n"
-       << "|     |" << label << " |\n"
-       << "|     '-+-' |Z|=" << get_mag_impedance() << "\u03A9\n";
-}
-
-// get label
-string General_circ::get_label() const { return label; }
 
 //---Series
-Series::Series(const double &freq) : General_circ(freq, "S") {}
+Series::Series(const double &freq) : Circuit(freq, "S") {}
 // calculate the impedence of the whole circuit
 Complex Series::get_impedance() const {
   Complex temp{0};
@@ -248,7 +193,7 @@ Complex Series::get_impedance() const {
 }
 
 //---Parallel
-Parallel::Parallel(const double &freq) : General_circ(freq, "P") {}
+Parallel::Parallel(const double &freq) : Circuit(freq, "P") {}
 // calculate the impedence of the whole circuit
 Complex Parallel::get_impedance() const {
   Complex temp{0, 0};
