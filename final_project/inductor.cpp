@@ -33,9 +33,6 @@ Inductor::Inductor(const double &L) : Component(90, L, "L"), inductance{L} {
 // destructor
 Inductor::~Inductor() {}
 
-// return phase difference of component
-double Inductor::get_phase_difference() const { return phase_difference; }
-
 // calculate impedance of inductor
 Complex Inductor::get_impedance(const double &freq) const {
   Complex result; // use complex class
@@ -45,13 +42,5 @@ Complex Inductor::get_impedance(const double &freq) const {
   return result;
 }
 
-// calculate the magnitude of the impedance
-double Inductor::get_mag_impedance(const double &freq) const {
-  return (get_impedance(freq)).modulus();
-}
-
 // return inductance of inductor
 double Inductor::get_value() const { return inductance; }
-
-// return label
-string Inductor::get_label() const { return label; }

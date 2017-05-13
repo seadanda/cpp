@@ -1,4 +1,4 @@
-#SaveFile 13-05-2017 12:33:58
+#SaveFile 13-05-2017 13:24:15
 [Components]
   C1  Capacitor  234µF
   L1  Inductor   23µH
@@ -6,4 +6,5 @@
 [Circuits]
   S1  12Hz  234   ( C1 L1 R1 )
   P2  12Hz  468   ( C1 L1 R1 S1 )
+  S3  12Hz  936   ( C1 L1 R1 S1 P2 )
 [End]

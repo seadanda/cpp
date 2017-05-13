@@ -18,6 +18,16 @@ Component::Component() : phase_difference{0}, value{0} {}
 Component::Component(const double &phase, const double &val, const string &lab)
     : phase_difference{phase}, value{val}, label{lab} {}
 
+// return phase difference of component
+double Component::get_phase_difference() const { return phase_difference; }
+
+// calculate the magnitude of the impedance
+double Component::get_mag_impedance(const double &freq) const {
+  return (get_impedance(freq)).modulus();
+}
+// return label
+string Component::get_label() const { return label; }
+
 // rename component
 void Component::set_label(const string &lab) { label = lab; }
 

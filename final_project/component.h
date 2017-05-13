@@ -32,18 +32,21 @@ public:
   // destructor
   virtual ~Component() {}
 
-  // get resistance/capacitance/inductance
-  virtual double get_value() const = 0;
+  // general functions
   // return phase difference of component
-  virtual double get_phase_difference() const = 0;
-  // calculate impedence of component
-  virtual Complex get_impedance(const double &) const = 0;
+  double get_phase_difference() const;
   // calculate the magnitude of the impedence
-  virtual double get_mag_impedance(const double &) const = 0;
+  double get_mag_impedance(const double &) const;
   // get label
-  virtual string get_label() const = 0;
+  string get_label() const;
   // rename component
   void set_label(const string &);
+
+  // subclass specific functions
+  // get resistance/capacitance/inductance
+  virtual double get_value() const = 0;
+  // calculate impedence of component
+  virtual Complex get_impedance(const double &) const = 0;
 };
 
 #endif

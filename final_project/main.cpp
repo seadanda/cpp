@@ -105,9 +105,10 @@ void load_project() {
   //    2 read circuits
   //    3 exit
   int state{0};
+  bool file_check{false}; // to check for invalid save files
   while (getline(load_file, line)) {
-    if (line[0] == '#') {
-      // output time of save file
+    if (!file_check) {
+      // first line, check if the file is actually a save file
       if (line.substr(0, 9) != "#SaveFile") {
         // not a valid save file
         throw(4);
@@ -357,6 +358,8 @@ void main_menu() {
             // print_choice is a valid circuit
             valid_print = true;
             it->print_circuit(); // print it
+            // clear rest of stream in case there is anything else there
+            cin.ignore(numeric_limits<streamsize>::max(), '\n');
           }
         }
         if (!valid_print) {

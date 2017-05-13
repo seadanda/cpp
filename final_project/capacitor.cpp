@@ -37,9 +37,6 @@ Capacitor::Capacitor(const double &C) : Component(-90, C, "C"), capacitance{C} {
 Capacitor::~Capacitor() { // capacitor_count--;
 }
 
-// return phase difference of component
-double Capacitor::get_phase_difference() const { return phase_difference; }
-
 // calculate impedence of capacitor
 Complex Capacitor::get_impedance(const double &freq) const {
   Complex result; // use complex class
@@ -49,13 +46,5 @@ Complex Capacitor::get_impedance(const double &freq) const {
   return result.conjugate() / result.modulus();
 }
 
-// calculate the magnitude of the impedence
-double Capacitor::get_mag_impedance(const double &freq) const {
-  return (get_impedance(freq)).modulus();
-}
-
+// return the capacitance of the capacitor
 double Capacitor::get_value() const { return capacitance; }
-
-// return label
-string Capacitor::get_label() const { return label; }
-#

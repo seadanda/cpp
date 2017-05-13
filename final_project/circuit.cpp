@@ -92,9 +92,9 @@ int Circuit::get_no_components() const {
 // print series circuit
 void Series::print_circuit() {
   // series circuit, just print in line
-  cout << "Printing circuit " << label
+  cout << "\nPrinting circuit " << label
        << " which has a total magnitude of impedence |Z| = "
-       << get_mag_impedance() << "\u03A9\n\n\n"
+       << get_mag_impedance() << "\u03A9\n\n"
        << "+--(~)--+\n";
   for (auto it : subcircuits) {
     // the component is a subcircuit
@@ -135,9 +135,9 @@ void Series::print_circuit() {
 // print parallel circuit
 void Parallel::print_circuit() {
   // parallel circuit
-  cout << "Printing circuit " << label
+  cout << "\nPrinting circuit " << label
        << " which has a total magnitude of impedence |Z| = "
-       << get_mag_impedance() << "\u03A9\n\n\n"
+       << get_mag_impedance() << "\u03A9\n\n"
        << "+--(~)---+\n";
   // draw placeholders for any subcircuits
   for (auto it : subcircuits) {
