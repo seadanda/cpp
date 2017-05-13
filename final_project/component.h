@@ -42,6 +42,8 @@ public:
   virtual double get_mag_impedance(const double &) const = 0;
   // get label
   virtual string get_label() const = 0;
+  // rename component
+  void set_label(const string &);
 };
 
 #endif

@@ -49,6 +49,8 @@ public:
   virtual double get_mag_impedance() const = 0;
   // get label
   virtual string get_label() const = 0;
+  // rename circuit
+  void set_label(const string &);
   // print circuit graphically
   virtual void print_circuit() = 0;
   // print subcircuits graphically

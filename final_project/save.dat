@@ -1,0 +1,9 @@
+#SaveFile 13-05-2017 12:33:58
+[Components]
+  C1  Capacitor  234µF
+  L1  Inductor   23µH
+  R1  Resistor   234Ω
+[Circuits]
+  S1  12Hz  234   ( C1 L1 R1 )
+  P2  12Hz  468   ( C1 L1 R1 S1 )
+[End]

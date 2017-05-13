@@ -49,6 +49,9 @@ Circuit::~Circuit() {
   subcircuits.clear();
 }
 
+// rename circuit
+void Circuit::set_label(const string &lab) { label = lab; }
+
 General_circ::General_circ(const double &freq, const string &lab)
     : Circuit(freq, lab) {}
 
@@ -91,6 +94,7 @@ void Series::print_circuit() {
        << get_mag_impedance() << "\u03A9\n\n\n"
        << "+--(~)--+\n";
   for (auto it : subcircuits) {
+    // the component is a subcircuit
     cout << "|       |\n"
          << "|     .-+-.\n"
          << "|     |" << it->get_label() << " |\n"
@@ -120,6 +124,7 @@ void Series::print_circuit() {
            << "\u03A9\n";
     }
   }
+  // draw end line
   cout << "|       |\n"
           "+-------+\n\n\n";
 }
@@ -143,7 +148,7 @@ void Parallel::print_circuit() {
     // print subcircuits
     cout << "|       |\n"
          << "|     .-+-.\n"
-         << "|     |" << label << " |\n"
+         << "|     |" << it->get_label() << " |\n"
          << "|     '-+-' |Z|=" << get_mag_impedance() << "\u03A9\n";
   }
 

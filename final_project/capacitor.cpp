@@ -58,3 +58,4 @@ double Capacitor::get_value() const { return capacitance; }
 
 // return label
 string Capacitor::get_label() const { return label; }
+#

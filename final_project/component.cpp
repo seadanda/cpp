@@ -18,6 +18,9 @@ Component::Component() : phase_difference{0}, value{0} {}
 Component::Component(const double &phase, const double &val, const string &lab)
     : phase_difference{phase}, value{val}, label{lab} {}
 
+// rename component
+void Component::set_label(const string &lab) { label = lab; }
+
 // overload ostream operator for components
 ostream &operator<<(ostream &os, const Component &comp) {
   os << "  " << comp.label << "  ";
