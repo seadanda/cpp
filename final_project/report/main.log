@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.17 (TeX Live 2016/Arch Linux) (preloaded format=pdflatex 2017.4.24)  13 MAY 2017 15:23
+This is pdfTeX, Version 3.14159265-2.6-1.40.17 (TeX Live 2016/Arch Linux) (preloaded format=pdflatex 2017.4.24)  13 MAY 2017 23:55
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -238,6 +238,9 @@ Package upgreek Info: Using Euler Roman for upright Greek on input line 31.
 \symugrf@m=\mathgroup6
 LaTeX Font Info:    Overwriting symbol font `ugrf@m' in version `bold'
 (Font)                  U/eur/m/n --> U/eur/b/n on input line 38.
+)
+(/usr/share/texmf-dist/tex/latex/was/gensymb.sty
+Package: gensymb 2003/07/02 v1.0 (WaS)
 )
 (/usr/share/texmf-dist/tex/latex/hyperref/hyperref.sty
 Package: hyperref 2017/03/14 v6.85a Hypertext links for LaTeX
@@ -490,9 +493,20 @@ G,.JBIG2,.JB2,.eps]
 File: epstopdf-sys.cfg 2010/07/13 v1.3 Configuration of (r)epstopdf for TeX Liv
 e
 ))
+LaTeX Info: Redefining \celsius on input line 33.
+Package gensymb Info: Faking symbols for \degree and \celsius on input line 33.
+
+
+
+Package gensymb Warning: Not defining \perthousand.
+
+LaTeX Info: Redefining \ohm on input line 33.
+Package gensymb Info: Using \Omega for \ohm on input line 33.
+
+Package gensymb Warning: Not defining \micro.
+
 \AtBeginShipoutBox=\box34
 Package hyperref Info: Link coloring OFF on input line 33.
-
 (/usr/share/texmf-dist/tex/latex/hyperref/nameref.sty
 Package: nameref 2016/05/21 v2.44 Cross-referencing by name of section
 
@@ -530,47 +544,54 @@ File: mt-msb.cfg 2005/06/01 v1.0 microtype config. file: AMS symbols (b) (RS)
 File: mt-eur.cfg 2006/07/31 v1.1 microtype config. file: AMS Euler Roman (RS)
 ) [1
 
-{/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}] [2]) (./main.toc)
-\tf@toc=\write4
-\openout4 = `main.toc'.
-
- [3
-
-] (./a1introduction.tex
-
-LaTeX Warning: Citation `ref:3' on page 1 undefined on input line 14.
+{/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}] [2]) (./a1introduction.tex
 
 
-LaTeX Warning: Citation `ref:4' on page 1 undefined on input line 21.
+LaTeX Warning: Citation `ref:' on page 1 undefined on input line 6.
 
-) (./a2code.tex
+
+LaTeX Warning: Citation `ref:' on page 1 undefined on input line 6.
+
+[1
+
+]) (./a2code.tex
 Package microtype Info: Loading generic settings for font family
 (microtype)             `cmtt' (encoding: OT1).
 (microtype)             For optimal results, create family-specific settings.
 (microtype)             See the microtype manual for details.
+ <./figs/hierarchy.png, id=59, 409.53pt x 344.28625pt>
+File: ./figs/hierarchy.png Graphic file (type png)
 
-Overfull \hbox (12.01338pt too wide) in paragraph at lines 9--42
-[][] 
- []
+<use ./figs/hierarchy.png>
+Package pdftex.def Info: ./figs/hierarchy.png used on input line 13.
+(pdftex.def)             Requested size: 226.48395pt x 190.40344pt.
 
-
-LaTeX Warning: `!h' float specifier changed to `!ht'.
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 48--50
+Underfull \hbox (badness 10000) in paragraph at lines 28--29
 
  []
 
 )
-Underfull \hbox (badness 10000) in paragraph at lines 52--71
+Underfull \hbox (badness 10000) in paragraph at lines 30--71
 
  []
 
-[1
+[2] (./a3results.tex) (./a4discussion.tex
+LaTeX Font Info:    Try loading font information for OMS+cmr on input line 11.
 
-] (./a3results.tex) (./a4discussion.tex) [2] (./main.bbl)
+(/usr/share/texmf-dist/tex/latex/base/omscmr.fd
+File: omscmr.fd 2014/09/29 v2.5h Standard LaTeX font definitions
+)
+LaTeX Font Info:    Font shape `OMS/cmr/m/n' in size <12> not available
+(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 11.
+ [3 <./figs/hierarchy.png (PNG copy)>]) [4] (./main.bbl
+Underfull \hbox (badness 1189) in paragraph at lines 12--19
+[]\OT1/cmr/m/n/12 (+20) Maplin, \OT1/cmr/m/it/12 (+20) Maplin elec-tron-ics is 
+a com-pany reg-is-tered in eng-land no. 1264385\OT1/cmr/m/n/12 (+20) ,
+ []
+
+)
 Package atveryend Info: Empty hook `BeforeClearDocument' on input line 83.
- [3
+ [5
 
 ]
 Package atveryend Info: Empty hook `AfterLastShipout' on input line 83.
@@ -578,7 +599,7 @@ Package atveryend Info: Empty hook `AfterLastShipout' on input line 83.
 Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 83.
 Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 83.
 Package rerunfilecheck Info: File `main.out' has not changed.
-(rerunfilecheck)             Checksum: A7C503F4A55AEAEC63893CE9A023ECAA;260.
+(rerunfilecheck)             Checksum: CDB83D0964324F42293059E94D35A191;355.
 
 
 LaTeX Warning: There were undefined references.
@@ -586,24 +607,28 @@ LaTeX Warning: There were undefined references.
 Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 83.
  ) 
 Here is how much of TeX's memory you used:
- 10095 strings out of 493013
- 154260 string characters out of 6139317
- 283104 words of memory out of 5000000
- 13421 multiletter control sequences out of 15000+600000
- 13759 words of font info for 68 fonts, out of 8000000 for 9000
+ 10197 strings out of 493013
+ 155484 string characters out of 6139317
+ 283367 words of memory out of 5000000
+ 13480 multiletter control sequences out of 15000+600000
+ 14864 words of font info for 84 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 38i,10n,39p,805b,352s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 38i,10n,39p,740b,398s stack positions out of 5000i,500n,10000p,200000b,80000s
 </usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb></usr/share/
 texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb></usr/share/texmf-dist/fon
-ts/type1/public/amsfonts/cm/cmmi12.pfb></usr/share/texmf-dist/fonts/type1/publi
-c/amsfonts/cm/cmr10.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/c
-mr12.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmti10.pfb></usr
-/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmti12.pfb></usr/share/texmf-d
-ist/fonts/type1/public/amsfonts/cm/cmtt12.pfb>
-Output written on main.pdf (6 pages, 101782 bytes).
+ts/type1/public/amsfonts/cm/cmbx6.pfb></usr/share/texmf-dist/fonts/type1/public
+/amsfonts/cm/cmmi12.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/c
+mmi8.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/
+share/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr/share/texmf-dis
+t/fonts/type1/public/amsfonts/cm/cmr8.pfb></usr/share/texmf-dist/fonts/type1/pu
+blic/amsfonts/cm/cmsy10.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/
+cm/cmsy8.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmti10.pfb><
+/usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmti12.pfb></usr/share/tex
+mf-dist/fonts/type1/public/amsfonts/cm/cmtt12.pfb>
+Output written on main.pdf (7 pages, 174214 bytes).
 PDF statistics:
- 101 PDF objects out of 1000 (max. 8388607)
- 84 compressed objects within 1 object stream
- 17 named destinations out of 1000 (max. 500000)
- 16937 words of extra memory for PDF output out of 17280 (max. 10000000)
+ 138 PDF objects out of 1000 (max. 8388607)
+ 113 compressed objects within 2 object streams
+ 23 named destinations out of 1000 (max. 500000)
+ 17470 words of extra memory for PDF output out of 20736 (max. 10000000)
 

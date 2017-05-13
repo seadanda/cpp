@@ -8,11 +8,12 @@
 \mciteSetBstSublistLabelBeginEnd{\mcitemaxwidthsubitemform\space}
 {\relax}{\relax}
 
-\bibitem{ref:example}
-R.~Lindner, \ifthenelse{\boolean{articletitles}}{\emph{{LHCb layout\_2. LHCb
-  schema\_2}}, }{}, LHCb Collection.\relax
-\mciteBstWouldAddEndPunctfalse
+\bibitem{ref:maplin}
+Maplin, \ifthenelse{\boolean{articletitles}}{\emph{Maplin electronics is a
+  company registered in england no. 1264385}, }{}
+  \href{http://www.maplin.co.uk/} {http://www.maplin.co.uk/}\relax
+\mciteBstWouldAddEndPuncttrue
 \mciteSetBstMidEndSepPunct{\mcitedefaultmidpunct}
-{}{\mcitedefaultseppunct}\relax
+{\mcitedefaultendpunct}{\mcitedefaultseppunct}\relax
 \EndOfBibitem
 \end{mcitethebibliography}

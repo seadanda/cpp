@@ -1,21 +1,46 @@
 \section{Introduction}
 \label{sec:introduction}
-
-(brief description of the project you have chosen)
-\cite{ref:example}
-Most complicated electronics like computers and smartphones make use of direct current (DC) for their power as the voltage and current are both constant. This means that the components do not have to deal with the stresses and instability associated with an alternating current (AC) power source. AC power sources do not have a voltage which is constant in time; rather it varies periodically between a maximum positive voltage and minimum negative voltage, passing through zero volts along the way. This introduces some difficulties into the circuit theory, when compared with DC. The best way to deal with the mathematics of AC circuits is to use complex numbers. The magnitude of the complex numbers is then taken to find the actual values like resistance and capacitance.
-
-This report aims to outline the design and implementation of a program written in C++ to calculate the impedence of AC circuits consisting of ideal resistors, capacitors and inductors in any combination in series or parallel.
+This report aims to outline the design and implementation of a program written in \CC{} to calculate the impedence of AC circuits consisting of any number of ideal resistors, capacitors and inductors in series or parallel. The program attempts to make best use of the advanced idiomatic features of \CC.
 
 %C++ intro
-C++ is an object oriented programming language created by Bjarne Stroustrup in 1983
+\CC{} is an object oriented programming language that was created by Bjarne Stroustrup in 1983, initially with the aim to introduce object oriented programming into C~\cite{ref:} but which has since diverged to become a programming language in its own right and one of the most popular programming languages in the world~\cite{ref:}.
 
-%AC circuit intro
-  \cite{ref:3}
+Object oriented programming is centred around classes and their instantiations called objects which contain data and functions which can be either public, allowing the data or function to be accessed from outside of the class, or private, allowing access only within a specified scope. There is a third classification, protected, which will be discussed in section~\ref{sec:code}.
 
-\section*{AC circuit theory}
-  Ohm's law for AC circuits is
-  \begin{equation}\label{eqn:1}
-    E=\frac{I}{Z},
-  \end{equation}
-  where...\cite{ref:4}
+\subsection{AC circuit theory}
+In contrast with DC circuit theory, where the current through a circuit is opposed only by the resistance, $R$, of that circuit, in AC circuit theory the current through an AC circuit is opposed by a combination of both the resistance and reactance, X and their combination is called the impedance, Z. Whereas resistance is the opposition to the flow of current, the reactance is the opposition to the \textit{change} in flow of current. This is why the reactance of components is irrelevant with DC circuits, as the current through the circuit is not changing.
+
+\subsubsection*{Impedance}
+
+Mathematically when dealing with AC circuits, complex numbers are used for the impedance with the real part representing the resistance and the imaginary part representing the reactance such that
+
+\begin{equation}
+  Z=R+jX ,
+\end{equation}
+
+where, to agree with convention, $j = \sqrt{-1}$ is used in place of $i$ to avoid confusion with the current which is conventionally denoted $I$.
+The program is designed to make all of its calculations with ideal components, which means that a resistor only has resistance and zero reactance and that inductors and capacitors only have reactance and zero resistance. Therefore assuming ideal components, the impedance of a capacitor, inductor and resistor can be found using
+
+\begin{align}
+  Z_{C}&=\frac{1}{j\omega{}C},   &   Z_{L}&=j\omega{}L,   & \textnormal{and} & &   Z_{R}&=R
+\end{align}
+
+respectively, where $\omega$ is the angular frequency of the AC current and $C$ and $L$ are the capacitance and inductance respectively.
+
+With $n$ components connected in series, the total impedance can be found by taking the sum of the impedances of the constituent components with
+
+\begin{equation}
+  Z_{total} = Z_1 + Z_2 + \ldots + Z_n
+\end{equation}
+
+and with $n$ components connected in parallel, the inverse of the total impedance can be found by taking the sum of the inverse of the impedances of the constituent components with
+
+\begin{equation}
+  \frac{1}{Z_{total}} = \frac{1}{Z_1} + \frac{1}{Z_2} + \ldots + \frac{1}{Z_n}
+\end{equation}
+
+which requires the conjugate and modulus to be found for each of the complex impedances, which is discussed in section~\ref{sec:code}.
+
+\subsubsection*{Phase difference}
+%fact check this
+By plotting the impedance on the complex plane, the resulting plot is called a phasor diagram~\cite{} and can be used to determine the phase difference, which describes the offset between the voltage and the current. The phase difference is found by taking the argument of the impedance. Capacitors have a phase difference of $-90\degree$ which means that the voltage lags the current by $90\degree$ and inductors have a phase difference of $90\degree$ which means that the voltage leads the current by $90\degree$

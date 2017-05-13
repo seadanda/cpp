@@ -1,3 +1,15 @@
-\section{Discussion and Conclusions} % (3 pages)
+\section{Discussion}
 \label{sec:discussion}
-(include discussion of how code could be improved/extended beyond project)
+A possible extension of this project would be the ability to create circuits of non-ideal components, taking into consideration that real components have a combination of resistance and reactance and can have an arbitrary phase difference. Changing the circuit class to a class template would mean that circuits could be built using either ideal component objects or non-ideal component objects.
+
+Another possible extension would be a bill of materials calculator for the components that have been used to build the circuit. Using databases for a company like Maplin~\cite{ref:maplin}, a list of components with their product codes and an estimate of the total price could be generated to make it easy for the user to translate their plans to a real circuit.
+
+
+\section{Conclusion}
+The aim of the project was to produce a program which could calculate the impedence and phase difference for a parallel or series circuit consisting of any arbitrary number of capacitors, inductors and resistors. The program can not only perform these tasks but also has additional features including:
+\begin{itemize}
+  \item the ability to nest an arbitrary number of series or parallel subcircuits and then recursively calculate the impedence and phase difference of each of the constituent parts to give the total impedence and phase difference for the entire circuit;
+  \item the ability to print circuit diagrams of any complexity through the use of placeholders for the subcircuits;
+  \item the ability to save a project and load it at a later date, allowing for the same component library to be used repeatedly for different projects.
+\end{itemize}
+The program demonstrated the use of the \CC11 standard library, using many advanced features of object oriented programming in their proper context and using \verb!throw!/\verb!catch! exception handling to deal with errors that would occur at runtime.
