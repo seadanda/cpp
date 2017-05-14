@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.17 (TeX Live 2016/Arch Linux) (preloaded format=pdflatex 2017.4.24)  13 MAY 2017 23:55
+This is pdfTeX, Version 3.14159265-2.6-1.40.17 (TeX Live 2016/Arch Linux) (preloaded format=pdflatex 2017.4.24)  14 MAY 2017 01:41
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -554,28 +554,27 @@ LaTeX Warning: Citation `ref:' on page 1 undefined on input line 6.
 
 [1
 
-]) (./a2code.tex
+]) (./a2code.tex <./figs/hierarchy.png, id=59, 409.53pt x 344.28625pt>
+File: ./figs/hierarchy.png Graphic file (type png)
+
+<use ./figs/hierarchy.png>
+Package pdftex.def Info: ./figs/hierarchy.png used on input line 5.
+(pdftex.def)             Requested size: 226.48395pt x 190.40344pt.
 Package microtype Info: Loading generic settings for font family
 (microtype)             `cmtt' (encoding: OT1).
 (microtype)             For optimal results, create family-specific settings.
 (microtype)             See the microtype manual for details.
- <./figs/hierarchy.png, id=59, 409.53pt x 344.28625pt>
-File: ./figs/hierarchy.png Graphic file (type png)
-
-<use ./figs/hierarchy.png>
-Package pdftex.def Info: ./figs/hierarchy.png used on input line 13.
-(pdftex.def)             Requested size: 226.48395pt x 190.40344pt.
-
-Underfull \hbox (badness 10000) in paragraph at lines 28--29
+ [2 <./figs/hierarchy.png (PNG copy)>]
+Underfull \hbox (badness 10000) in paragraph at lines 37--38
 
  []
 
 )
-Underfull \hbox (badness 10000) in paragraph at lines 30--71
+Underfull \hbox (badness 10000) in paragraph at lines 39--71
 
  []
 
-[2] (./a3results.tex) (./a4discussion.tex
+[3] (./a3results.tex) (./a4discussion.tex
 LaTeX Font Info:    Try loading font information for OMS+cmr on input line 11.
 
 (/usr/share/texmf-dist/tex/latex/base/omscmr.fd
@@ -583,7 +582,7 @@ File: omscmr.fd 2014/09/29 v2.5h Standard LaTeX font definitions
 )
 LaTeX Font Info:    Font shape `OMS/cmr/m/n' in size <12> not available
 (Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 11.
- [3 <./figs/hierarchy.png (PNG copy)>]) [4] (./main.bbl
+) [4] (./main.bbl
 Underfull \hbox (badness 1189) in paragraph at lines 12--19
 []\OT1/cmr/m/n/12 (+20) Maplin, \OT1/cmr/m/it/12 (+20) Maplin elec-tron-ics is 
 a com-pany reg-is-tered in eng-land no. 1264385\OT1/cmr/m/n/12 (+20) ,
@@ -607,13 +606,13 @@ LaTeX Warning: There were undefined references.
 Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 83.
  ) 
 Here is how much of TeX's memory you used:
- 10197 strings out of 493013
- 155484 string characters out of 6139317
- 283367 words of memory out of 5000000
+ 10203 strings out of 493013
+ 155534 string characters out of 6139317
+ 282367 words of memory out of 5000000
  13480 multiletter control sequences out of 15000+600000
- 14864 words of font info for 84 fonts, out of 8000000 for 9000
+ 15011 words of font info for 87 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 38i,10n,39p,740b,398s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 38i,10n,39p,964b,352s stack positions out of 5000i,500n,10000p,200000b,80000s
 </usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb></usr/share/
 texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb></usr/share/texmf-dist/fon
 ts/type1/public/amsfonts/cm/cmbx6.pfb></usr/share/texmf-dist/fonts/type1/public
@@ -625,10 +624,10 @@ blic/amsfonts/cm/cmsy10.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/
 cm/cmsy8.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmti10.pfb><
 /usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmti12.pfb></usr/share/tex
 mf-dist/fonts/type1/public/amsfonts/cm/cmtt12.pfb>
-Output written on main.pdf (7 pages, 174214 bytes).
+Output written on main.pdf (7 pages, 176532 bytes).
 PDF statistics:
- 138 PDF objects out of 1000 (max. 8388607)
- 113 compressed objects within 2 object streams
+ 139 PDF objects out of 1000 (max. 8388607)
+ 114 compressed objects within 2 object streams
  23 named destinations out of 1000 (max. 500000)
  17470 words of extra memory for PDF output out of 20736 (max. 10000000)
 
