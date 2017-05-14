@@ -35,8 +35,15 @@ Capacitor::~Capacitor() { // capacitor_count--;
 Complex Capacitor::get_impedance(const double &freq) const {
   Complex result; // use complex class
   // Z = 1/jwC
-  Complex one{1, 0};
-  result.set_real(0);
-  result.set_imaginary(2 * M_PI * freq * value / 1e6);
-  return one / result;
+  if ((freq == 0) || (value == 0)) {
+    cerr << "Error: cannot divide by 0\n";
+    result.set_real(0);
+    result.set_imaginary(0);
+  } else {
+    Complex one{1, 0};
+    result.set_real(0);
+    result.set_imaginary(2 * M_PI * freq * value / 1e6);
+    result = one / result;
+  }
+  return result;
 }
