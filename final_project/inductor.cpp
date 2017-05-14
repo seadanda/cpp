@@ -5,10 +5,14 @@
  *  Date:           29/03/17
  */
 
-#include "inductor.h"  // Inductor class interface
+#include <sstream> // stringstream
+#include <string>  // label
+
+#define _USE_MATH_DEFINES // M_PI
+#include <math.h>         // M_PI
+
 #include "component.h" // component base class
-#include <sstream>     // stringstream
-#include <string>      // label
+#include "inductor.h"  // Inductor class interface
 
 int Inductor::inductor_count{0}; // initialise static data member
 
@@ -29,6 +33,6 @@ Complex Inductor::get_impedance(const double &freq) const {
   Complex result; // use complex class
   // Z = jwL
   result.set_real(0);
-  result.set_imaginary(freq * value / 1e6);
+  result.set_imaginary(2 * M_PI * freq * value / 1e6);
   return result;
 }

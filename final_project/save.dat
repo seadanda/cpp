@@ -1,9 +1,20 @@
-#SaveFile 13-05-2017 14:39:58
+#SaveFile 14-05-2017 08:28:43
 [Components]
   C1  Capacitor  10000µF
+  C2  Capacitor  10000µF
+  C3  Capacitor  10000µF
+  C4  Capacitor  20000µF
   L1  Inductor   200000µH
-  R1  Resistor   10Ω
+  L2  Inductor   50000µH
+  L3  Inductor   30000µH
+  R1  Resistor   30Ω
+  R2  Resistor   90Ω
 [Circuits]
-  S1  20Hz  10.6977   ( C1 L1 R1 )
-  P2  20Hz  20.3214   ( C1 R1 S1 )
+  S1  50Hz  69.6264   ( R1 L1 )
+  S2  50Hz  12.5664   ( C1 L2 )
+  P3  50Hz  81.1473   ( S1 S2 )
+  S4  50Hz  84.0744   ( C2 P3 )
+  P5  50Hz  3.14159   ( C4 L3 )
+  S6  50Hz  90.2191   ( R2 C3 P5 )
+  P7  50Hz  146.952   ( S6 S4 )
 [End]

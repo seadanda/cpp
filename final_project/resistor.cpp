@@ -5,10 +5,11 @@
  *  Date:           29/03/17
  */
 
-#include "resistor.h"  // resistor class interface
+#include <sstream> // stringstream
+#include <string>  // string for label
+
 #include "component.h" // component base class
-#include <sstream>     // stringstream
-#include <string>      // label
+#include "resistor.h"  // resistor class interface
 
 int Resistor::resistor_count{0}; // initialise static data member
 

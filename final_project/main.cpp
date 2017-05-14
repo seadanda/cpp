@@ -143,6 +143,7 @@ void main_menu() {
     case 1:
       // user wants to add components
       cout << "\nEnter q to stop adding components.\n";
+      quit_add = false;
       while (!quit_add) {
         cout << "Add resistor(r), capacitor(c) or inductor(l)?: ";
         char add_choice; // temp to store input

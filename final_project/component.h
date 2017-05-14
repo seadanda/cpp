@@ -8,8 +8,9 @@
 #ifndef COMPONENT_H
 #define COMPONENT_H
 
+#include <string> // string for label
+
 #include "complex.h"
-#include <string>
 
 class Component {
   friend ostream &operator<<(ostream &, const Component &);

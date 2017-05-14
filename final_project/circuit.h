@@ -52,6 +52,8 @@ public:
   int get_no_components() const;
   // calculate the magnitude of the impedance of the circuit
   double get_mag_impedance() const;
+  // calculate the total phase difference
+  double get_phase_difference() const;
 
   // subclass specific functions
   // calculate the impedence of the whole circuit

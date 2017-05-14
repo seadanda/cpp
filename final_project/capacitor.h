@@ -9,7 +9,6 @@
 #ifndef CAPACITOR_H
 #define CAPACITOR_H
 
-#include "circuit.h"
 #include "complex.h"
 #include "component.h"
 

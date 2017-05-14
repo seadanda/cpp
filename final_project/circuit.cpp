@@ -91,6 +91,10 @@ int Circuit::get_no_components() const {
   return components.size() + subcircuits.size();
 }
 
+double Circuit::get_phase_difference() const {
+  return (get_impedance()).argument();
+}
+
 //-----------------------------------------------------------------------------
 //---friend functions
 //-----------------------------------------------------------------------------
@@ -116,9 +120,10 @@ Series::Series(const double &freq) : Circuit(freq, "S") {}
 // print series circuit
 void Series::print_circuit() {
   // series circuit, just print in line
-  cout << "\nPrinting circuit " << label
-       << " which has a total magnitude of impedence |Z| = "
-       << get_mag_impedance() << "\u03A9\n\n"
+  cout << "\nPrinting circuit " << label << " which has a frequency "
+       << frequency << "Hz\ntotal impedance Z=" << get_impedance()
+       << "\nmagnitude of impedence |Z|=" << get_mag_impedance() << "\u03A9"
+       << "\nphase difference " << get_phase_difference() << "\n\n"
        << "+--(~)--+\n";
   for (auto it : subcircuits) {
     // the component is a subcircuit
@@ -176,59 +181,56 @@ Parallel::Parallel(const double &freq) : Circuit(freq, "P") {}
 // print parallel circuit
 void Parallel::print_circuit() {
   // parallel circuit
-  cout << "\nPrinting circuit " << label
-       << " which has a total magnitude of impedence |Z| = "
-       << get_mag_impedance() << "\u03A9\n\n"
+  cout << "\nPrinting circuit " << label << " which has a frequency "
+       << frequency << "Hz\ntotal impedance Z=" << get_impedance()
+       << "\nmagnitude of impedence |Z|=" << get_mag_impedance() << "\u03A9"
+       << "\nphase difference " << get_phase_difference() << "\n\n"
        << "+--(~)---+\n";
   // draw placeholders for any subcircuits
   for (auto it : subcircuits) {
     // print subcircuits
     cout << "|        |\n"
-         << "|  .--.  |\n"
-         << "+-+ " << it->get_label() << " +-+ |Z|=" << it->get_mag_impedance()
+         << "| +----+ |\n"
+         << "| | " << it->get_label() << " | | |Z|=" << it->get_mag_impedance()
          << "\u03A9\n"
-         << "|  '--'  |\n";
+         << "+-+----+-+\n";
   }
 
   for (auto it : components) {
     if (!(dynamic_cast<Resistor *>(it) == nullptr)) {
       // the component is a resistor
       cout << "|        |\n"
-           << "|  ____  |\n"
-           << "+-+____+-+ " << it->get_label() << endl
-           << "|        | |Z|=" << it->get_mag_impedance(frequency)
+           << "|        |\n"
+           << "|  ____  | " << it->get_label() << endl
+           << "+-+____+-+ |Z|=" << it->get_mag_impedance(frequency)
            << "\u03A9\n";
     } else if (!(dynamic_cast<Capacitor *>(it) == nullptr)) {
       // the component is a resistor
       cout << "|        |\n"
            << "|        |\n"
-           << "+---||---+ " << it->get_label() << endl
-           << "|        | |Z|=" << it->get_mag_impedance(frequency)
+           << "|        | " << it->get_label() << endl
+           << "+---||---+ |Z|=" << it->get_mag_impedance(frequency)
            << "\u03A9\n";
     } else if (!(dynamic_cast<Inductor *>(it) == nullptr)) {
       // the component is an inductor
       cout << "|        |\n"
            << "|        |\n"
-           << "+-+/\\/\\+-+ " << it->get_label() << endl
-           << "|        | |Z|=" << it->get_mag_impedance(frequency)
+           << "|        | " << it->get_label() << endl
+           << "+-+/\\/\\+-+ |Z|=" << it->get_mag_impedance(frequency)
            << "\u03A9\n";
     }
   }
-  // draw end line
-  cout << "|        |\n"
-          "+--------+\n\n\n";
 }
 
 // calculate the impedence of the whole circuit
 Complex Parallel::get_impedance() const {
   Complex temp{0, 0};
+  Complex one{1, 0};
   for (auto it = components.begin(); it != components.end(); it++) {
-    temp = temp + ((*it)->get_impedance(frequency)).conjugate() /
-                      ((*it)->get_impedance(frequency)).modulus();
+    temp = temp + one / ((*it)->get_impedance(frequency));
   }
   for (auto it = subcircuits.begin(); it != subcircuits.end(); it++) {
-    temp = temp + ((*it)->get_impedance()).conjugate() /
-                      ((*it)->get_impedance()).modulus();
+    temp = temp + one / ((*it)->get_impedance());
   }
-  return temp;
+  return one / temp;
 }
