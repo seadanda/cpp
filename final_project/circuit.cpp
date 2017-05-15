@@ -163,7 +163,7 @@ void Series::print_circuit() {
 
 // calculate the impedence of the whole circuit
 Complex Series::get_impedance() const {
-  Complex temp{0};
+  Complex temp{0, 0};
   for (auto it = components.begin(); it != components.end(); it++) {
     temp = temp + (*it)->get_impedance(frequency);
   }

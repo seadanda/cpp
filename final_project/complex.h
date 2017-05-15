@@ -27,14 +27,13 @@ public:
   // default constructor
   Complex();
   // parametrised constructors
-  Complex(double re);
-  Complex(double re, double im);
+  Complex(const double &, const double &);
   // destructor
   ~Complex();
 
   // modifiers
-  void set_real(const double re);
-  void set_imaginary(const double im);
+  void set_real(const double &);
+  void set_imaginary(const double &);
 
   // accessors
   double get_real() const;
@@ -46,10 +45,10 @@ public:
   Complex conjugate() const; // return conjugate
 
   // overload +-*/ operators
-  Complex operator+(const Complex &z2) const;
-  Complex operator-(const Complex &z2) const;
-  Complex operator*(const Complex &z2) const;
-  Complex operator/(const Complex &z2) const;
+  Complex operator+(const Complex &) const;
+  Complex operator-(const Complex &) const;
+  Complex operator*(const Complex &)const;
+  Complex operator/(const Complex &) const;
 };
 
 #endif

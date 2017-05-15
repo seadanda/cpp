@@ -1,12 +1,12 @@
 #SaveFile 14-05-2017 08:28:43
 [Components]
-  C1  Capacitor  10000µF
-  C2  Capacitor  10000µF
-  C3  Capacitor  10000µF
-  C4  Capacitor  20000µF
-  L1  Inductor   200000µH
-  L2  Inductor   50000µH
-  L3  Inductor   30000µH
+  C1  Capacitor  100µF
+  C2  Capacitor  100µF
+  C3  Capacitor  100µF
+  C4  Capacitor  200µF
+  L1  Inductor   200µH
+  L2  Inductor   500µH
+  L3  Inductor   300µH
   R1  Resistor   30Ω
   R2  Resistor   90Ω
 [Circuits]

@@ -15,15 +15,15 @@
 Complex::Complex() : real{0}, imaginary{0} {}
 
 // parametrised constructors
-Complex::Complex(double re) : real{re}, imaginary{0} {}
-Complex::Complex(double re, double im) : real{re}, imaginary{im} {}
+Complex::Complex(const double &re, const double &im)
+    : real{re}, imaginary{im} {}
 
 // destructor
 Complex::~Complex() {}
 
 // modifiers
-void Complex::set_real(const double re) { real = re; }
-void Complex::set_imaginary(const double im) { imaginary = im; }
+void Complex::set_real(const double &re) { real = re; }
+void Complex::set_imaginary(const double &im) { imaginary = im; }
 
 // accessors
 double Complex::get_real() const { return real; }
@@ -71,14 +71,13 @@ Complex Complex::operator*(const Complex &z2) const // return product
 }
 
 // define the quotient of two complex numbers
-Complex Complex::operator/(const Complex &z2) const // return quotient
-{
-  // x/y = x * conjugate(y) / modulus(y)
-  double denom{z2.modulus()}; // denominator
-  double re{(real * z2.real + imaginary * z2.imaginary) / denom};
-  double im{(imaginary * z2.real - real * z2.imaginary) / denom};
-  Complex temp{re, im};
-  return temp;
+Complex Complex::operator/(const Complex &z2) const {
+  Complex result(z2.get_real(), z2.get_imaginary());
+  result.real = ((real * z2.real) + (imaginary * z2.imaginary)) /
+                ((pow(z2.real, 2)) + (pow(z2.imaginary, 2)));
+  result.imaginary = ((imaginary * z2.real) - (real * z2.imaginary)) /
+                     ((pow(z2.real, 2)) + (pow(z2.imaginary, 2)));
+  return result;
 }
 
 // define how complex numbers are inserted into an ostream
