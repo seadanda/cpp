@@ -15,6 +15,31 @@ B.~Stroustrup, {\em The C++ Programming Language}, Addison-Wesley Longman
 \mciteSetBstMidEndSepPunct{\mcitedefaultmidpunct}
 {\mcitedefaultendpunct}{\mcitedefaultseppunct}\relax
 \EndOfBibitem
+\bibitem{ref:omalley}
+J.~O'Malley, {\em Schaum's outline of theory and problems of basic circuit
+  analysis}, McGraw-Hill, New York, NY, USA, 2nd~ed., 1992\relax
+\mciteBstWouldAddEndPuncttrue
+\mciteSetBstMidEndSepPunct{\mcitedefaultmidpunct}
+{\mcitedefaultendpunct}{\mcitedefaultseppunct}\relax
+\EndOfBibitem
+\bibitem{ref:cap}
+T.~R. Kuphaldt, \ifthenelse{\boolean{articletitles}}{\emph{Ac capacitor
+  circuits}, }{}
+  \url{https://www.allaboutcircuits.com/textbook/alternating-current/chpt-4/ac-capacitor-circuits/}.
+\newblock Accessed: 13/05/2017\relax
+\mciteBstWouldAddEndPuncttrue
+\mciteSetBstMidEndSepPunct{\mcitedefaultmidpunct}
+{\mcitedefaultendpunct}{\mcitedefaultseppunct}\relax
+\EndOfBibitem
+\bibitem{ref:ind}
+T.~R. Kuphaldt, \ifthenelse{\boolean{articletitles}}{\emph{Ac inductor
+  circuits}, }{}
+  \url{https://www.allaboutcircuits.com/textbook/alternating-current/chpt-3/ac-inductor-circuits/}.
+\newblock Accessed: 13/05/2017\relax
+\mciteBstWouldAddEndPuncttrue
+\mciteSetBstMidEndSepPunct{\mcitedefaultmidpunct}
+{\mcitedefaultendpunct}{\mcitedefaultseppunct}\relax
+\EndOfBibitem
 \bibitem{ref:maplin}
 Maplin, \ifthenelse{\boolean{articletitles}}{\emph{Maplin electronics is a
   company registered in england no. 1264385}, }{}
