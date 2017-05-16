@@ -8,6 +8,13 @@
 \mciteSetBstSublistLabelBeginEnd{\mcitemaxwidthsubitemform\space}
 {\relax}{\relax}
 
+\bibitem{Stroustrup:2000:CPL:518791}
+B.~Stroustrup, {\em The C++ Programming Language}, Addison-Wesley Longman
+  Publishing Co., Inc., Boston, MA, USA, 3rd~ed., 2000\relax
+\mciteBstWouldAddEndPuncttrue
+\mciteSetBstMidEndSepPunct{\mcitedefaultmidpunct}
+{\mcitedefaultendpunct}{\mcitedefaultseppunct}\relax
+\EndOfBibitem
 \bibitem{ref:maplin}
 Maplin, \ifthenelse{\boolean{articletitles}}{\emph{Maplin electronics is a
   company registered in england no. 1264385}, }{}
